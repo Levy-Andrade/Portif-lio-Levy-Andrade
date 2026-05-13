@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+
+    <!-- =========================================================
+         META TAGS
+    ========================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- =========================================================
+         TÍTULO DO SITE
+    ========================================================== -->
+    <title>Levy Andrade | Desenvolvedor Full Stack</title>
+
+    <!-- =========================================================
+         FONTES GOOGLE
+    ========================================================== -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- =========================================================
+         CSS PRINCIPAL
+    ========================================================== -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- =========================================================
+         ÍCONE DO SITE
+    ========================================================== -->
+    <link rel="icon" href="LICON.png" type="image/x-icon">
+
+</head>
+
+<body>
+
+    <!-- =========================================================
+         HEADER / MENU
+    ========================================================== -->
+    <header>
+
+        <!-- LOGO -->
+        <div class="logo">
+
+            <img
+                src="LICON.png"
+                alt="Logo Levy Andrade"
+                class="logo-img"
+            >
+
+            <h1>Levy Andrade</h1>
+
+        </div>
+
+        <!-- MENU -->
+        <nav>
+
+            <ul>
+
+                <li>
+                    <a href="#home">Home</a>
+                </li>
+
+                <li>
+                    <a href="#sobre">Sobre</a>
+                </li>
+
+                <li>
+                    <a href="#formacoes">Formação</a>
+                </li>
+
+                <li>
+                    <a href="#skills">Skills</a>
+                </li>
+
+                <li>
+                    <a href="#projetos">Projetos</a>
+                </li>
+
+                <li>
+                    <a href="#contato">Contato</a>
+                </li>
+
+            </ul>
+
+        </nav>
+
+        <!-- DARK MODE -->
+        <label class="switch">
+
+            <input
+                type="checkbox"
+                id="dark-mode-toggle"
+            >
+
+            <span class="slider"></span>
+
+        </label>
+
+    </header>
+
+    <!-- =========================================================
+         MAIN
+    ========================================================== -->
+    <main>
+
+        <!-- =====================================================
+             HERO SECTION / HOME
+        ====================================================== -->
+        <section id="home" class="hero">
+
+            <!-- CONTEÚDO -->
+            <div class="hero-content">
+
+                <!-- VÍDEO DE FUNDO -->
+                <video autoplay muted loop class="bg-video">
+
+                    <source
+                        src="fundo roxo geometrico.mp4"
+                        type="video/mp4"
+                    >
+
+                </video>
+
+                <!-- TEXTO -->
+                <h1>
+                    Olá, eu me chamo
+                    <span class="highlight">
+                        Levy de Andrade da Silva
+                    </span>
+                </h1>
+
+                <p class="subtitle">
+                    Desenvolvedor Full Stack |
+                    Java Script |
+                    React |
+                    Java |
+                    MySQL
+                </p>
+
+                <!-- BOTÕES -->
+                <div class="hero-buttons">
+
+                    <a
+                        href="Curriculo Levy.pdf"
+                        class="btn-cv"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Download Currículo
+                    </a>
+
+                    <a
+                        href="https://wa.me/5544984271446"
+                        class="btn-contact"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Entrar em contato
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- FOTO -->
+            <div class="hero-image">
+
+                <img
+                    src="foto de perfil levy z black.png"
+                    alt="Levy Andrade"
+                    class="profile-photo"
+                >
+
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+             SOBRE
+        ====================================================== -->
+        <section id="sobre" class="sobre-section">
+
+            <!-- TÍTULO -->
+            <h2 class="titulo-sobre">
+                Sobre Mim
+            </h2>
+
+            <!-- CONTEÚDO -->
+            <div class="sobre-conteudo-flex">
+
+                <!-- TEXTO -->
+                <div class="sobre-texto">
+
+                    <p>
+                        Sou um <strong class="highlight">desenvolvedor full stack</strong> apaixonado por tecnologia e focado em construir soluções reais. Formado em 
+                        <strong class="highlight">Análise e Desenvolvimento de Sistemas</strong> pela Universidade Unipar, uni minha experiência em organização de processos junto à paixão por criar aplicações robustas para ajudar o dia a dia das pessoas.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Atualmente, meu foco total está no desenvolvimento e aprendizado da <strong class="highlight">stack Java</strong> com <strong class="highlight">Spring Boot</strong> e <strong class="highlight">React</strong>. Acredito que o código é um meio para resolver problemas de negócio de forma inteligente e escalável.
+                    </p>
+
+                    <br>
+
+                    <p>
+                        Após iniciar a minha jornada na universidade, nasceu o sonho de construir uma <strong class="highlight">marca própria</strong> ao lado de amigos que partilham do mesmo propósito. 
+                    </p>
+
+                    <br>
+
+                    <p>
+                        A cada etapa, novos meios e oportunidades surgem para fazer este sonho crescer. Ao lado, podes ver o início de tudo <strong class="highlight">Zynk</strong>, o primeiro passo concreto deste longo e promissor caminho.
+                    </p>
+                </div>
+
+                <!-- IMAGEM -->
+                <div class="sobre-imagem">
+
+                    <img
+                        src="zynk.png"
+                        alt="Zynk mascote da Zyntek"
+                        class="zynk"
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+             FORMAÇÕES
+        ====================================================== -->
+
+            <section id="formacoes">
+        <div class="container">
+            <div class="sessao-titulo">
+                <h2>Educação e Cursos</h2>
+                <div class="linha-roxa"></div>
+            </div>
+
+            <div class="timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-icon">
+                            <i class="fas fa-graduation-cap"></i> 
+                        </div>
+                        <div class="timeline-content">
+                            <h3>Universidade Unipar em Cianorte</h3>
+                            <p class="institution">Análise e Desenvolvimento de Software</p>
+                            <span class="date">Iniciado em 2023 - Conclusão 2026</span> 
+                            <p class="description">
+                                Graduação focada no ciclo de vida completo do software. Durante o curso, desenvolvi uma base sólida em Estruturas de Dados, Algoritmos e Engenharia de Requisitos. Essa formação acadêmica, somada ao desenvolvimento de projetos full stack autorais, me capacitou a projetar sistemas escaláveis e eficientes, aplicando conceitos modernos de Arquitetura de Software e Clean Code.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Adicione mais itens se necessário aqui -->
+
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================================
+             SKILLS
+        ====================================================== -->
+        <section id="skills" class="skills-section">
+
+            <!-- TÍTULO -->
+            <h2 class="titulo-sobre">
+                Minhas Skills
+            </h2>
+
+            <!-- TEXTO -->
+            <div class="skills-texto-centralizado">
+
+                <p>
+                    Para mim, aprender uma nova tecnologia é como conquistar uma <strong class="highlight">insígnia</strong>: cada stack representa uma etapa importante na minha jornada e um novo recurso adicionado ao meu <strong class="highlight">arsenal técnico</strong>.
+                </p>
+                <br>
+                <p>
+                    Abaixo, apresento as medalhas que compõem meu perfil. Algumas delas já foram validadas na prática através de projetos full stack, enquanto outras estão em pleno processo de maestria, sendo aprimoradas em meus desafios atuais. <strong class="highlight">Sigo em constante evolução</strong>, focado em transformar cada aprendizado seja ele consolidado ou em desenvolvimento em soluções inteligentes.
+                </p>
+
+            </div>
+
+            <!-- CARDS -->
+            <div class="skills-container">
+
+                <!-- HTML -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo html.png"
+                        alt="HTML5"
+                    >
+
+                </div>
+
+                <!-- CSS -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo css.png"
+                        alt="CSS"
+                    >
+
+                </div>
+
+                <!-- JAVASCRIPT -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo javascript.png"
+                        alt="JavaScript"
+                    >
+
+                </div>
+
+                <!-- REACT -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo react.png"
+                        alt="React"
+                    >
+
+                </div>
+
+                <!-- JAVA -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo java.png"
+                        alt="Java"
+                    >
+
+                </div>
+
+                <!-- MYSQL -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo mysql.png"
+                        alt="MySQL"
+                    >
+
+                </div>
+
+                <!-- SPRING BOOT -->
+                <div class="skill-card">
+
+                    <img
+                        src="LOGO SPRING BOOT.png"
+                        alt="Spring Boot"
+                    >
+
+                </div>
+
+                <!-- TAILWIND CSS -->
+                <div class="skill-card">
+
+                    <img
+                        src="LOGO DA TAILWIND.png"
+                        alt="Tailwind CSS"
+                    >
+
+                </div>
+
+                <!-- VITE -->
+                <div class="skill-card">
+
+                    <img
+                        src="LOGO VITE.png"
+                        alt="Vite"
+                     >
+
+                </div>
+
+                <!-- SAAS -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo saas.png"
+                        alt="SaaS"
+                     >
+
+                </div>
+
+                <!-- GITHUB -->
+                <div class="skill-card">
+
+                    <img
+                        src="logo github v1.png"
+                        alt="GitHub"
+                     >
+
+                </div>
+                
+            </div>
+
+        </section>
+
+        <!-- =====================================================
+     PROJETOS
+===================================================== -->
+<section id="projetos">
+
+    <!-- TÍTULO -->
+    <div class="sessao-titulo">
+
+        <h2>Todos os Projetos</h2>
+
+        <div class="linha-roxa"></div>
+
+    </div>
+
+    <!-- GRID DOS PROJETOS -->
+    <div class="todos-projetos">
+
+        <!-- =================================================
+             CARD POKEMON
+        ================================================== -->
+        <div
+            class="projeto-card"
+            onclick="abrirModal('modalPokemon')"
+        >
+
+            <div class="card-media">
+
+                <img
+                    src="arena de batalha.png"
+                    alt="Pokémon Battle Arena"
+                >
+
+                <!-- TECNOLOGIAS -->
+                <div class="overlay-skills">
+
+                    <img src="logo java.png" alt="Java">
+                    <img src="LOGO SPRING BOOT.png" alt="Spring Boot">
+                    <img src="logo react.png" alt="React">
+                    <img src="LOGO VITE.png" alt="Vite">
+                    <img src="logo javascript.png" alt="JavaScript">
+                    <img src="logo css.png" alt="CSS">
+                    <img src="logo html.png" alt="HTML">
+
+                </div>
+
+                <!-- HOVER -->
+                <div class="overlay-hover">
+
+                    <span class="projeto-data">
+                        06 de Maio de 2026
+                    </span>
+
+                    <button class="btn-ver-mais">
+                        Ver mais
+                    </button>
+
+                </div>
+
+            </div>
+
+            <h3 class="projeto-titulo">
+                Pokémon Battle Arena
+            </h3>
+
+        </div>
+
+        <!-- =================================================
+             CARD DASHBOARD
+        ================================================== -->
+        <div
+            class="projeto-card"
+            onclick="abrirModal('modalDashboard')"
+        >
+
+            <div class="card-media">
+
+                <img
+                    src="zynk-finance-dashboard.png"
+                    alt="Zynk Finance Dashboard"
+                >
+
+                <!-- TECNOLOGIAS -->
+                <div class="overlay-skills">
+
+                    <img src="logo saas.png" alt="SaaS">
+                    <img src="logo react.png" alt="React">
+                    <img src="LOGO VITE.png" alt="Vite">
+                    <img src="LOGO DA TAILWIND.png" alt="Tailwind CSS">
+                    <img src="logo javascript.png" alt="JavaScript">
+                    <img src="logo css.png" alt="CSS">
+
+                </div>
+
+                <!-- HOVER -->
+                <div class="overlay-hover">
+
+                    <span class="projeto-data">
+                        08 de Maio de 2026
+                    </span>
+
+                    <button class="btn-ver-mais">
+                        Ver mais
+                    </button>
+
+                </div>
+
+            </div>
+
+            <h3 class="projeto-titulo">
+                Zynk Finance Dashboard
+            </h3>
+
+        </div>
+
+        <!-- =================================================
+             CARD PORTFÓLIO PUBLICITÁRIA
+        ================================================== -->
+        <div
+            class="projeto-card"
+            onclick="abrirModal('modalPortfolio')"
+        >
+
+            <div class="card-media">
+
+                <img
+                    src="portifolio publicitaria.png"
+                    alt="Portfólio Publicitária"
+                >
+
+                <!-- TECNOLOGIAS -->
+                <div class="overlay-skills">
+
+                    <img src="logo html.png" alt="HTML">
+                    <img src="logo css.png" alt="CSS">
+                    <img src="logo javascript.png" alt="JavaScript">
+
+                </div>
+
+                <!-- HOVER -->
+                <div class="overlay-hover">
+
+                    <span class="projeto-data">
+                        11 de Maio de 2026
+                    </span>
+
+                    <button class="btn-ver-mais">
+                        Ver mais
+                    </button>
+
+                </div>
+
+            </div>
+
+            <h3 class="projeto-titulo">
+                Portfólio Publicitária
+            </h3>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================================
+     MODAL POKEMON
+========================================================= -->
+<div id="modalPokemon" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="fecharModal('modalPokemon')"
+        >
+            &times;
+        </span>
+
+        <div class="modal-body">
+
+            <div class="modal-images">
+
+                <video
+                    controls
+                    autoplay
+                    muted
+                    loop
+                    class="modal-video"
+                >
+
+                    <source
+                        src="Arena pokemon.mp4"
+                        type="video/mp4"
+                    >
+
+                </video>
+
+            </div>
+
+            <div class="modal-texto">
+
+                <h2>Pokémon Battle Arena</h2>
+
+                <p>
+                Desenvolver um simulador de batalhas de alta performance que exige sincronização perfeita entre a lógica de combate e o feedback visual imediato para o usuário.
+                Este projeto foi o campo de testes ideal para validarmos a integração entre front e backend de nível empresarial. O resultado é uma base de código pronta para ser escalada para soluções de mercado que exijam alta disponibilidade e zero erro de processamento.
+                </p>
+
+                <div class="modal-links">
+
+                    <a href="https://batalha-pok-mon-vers-o-1.vercel.app/" class="btn-link"  target="_blank" rel="noopener noreferrer">
+                        Acessar 
+                    </a>
+
+                    <a href="https://github.com/Levy-Andrade/Batalha-Pok-mon-vers-o-1-" class="btn-link secondary"  target="_blank" rel="noopener noreferrer">
+                        Repositório
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     MODAL DASHBOARD
+========================================================= -->
+<div id="modalDashboard" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="fecharModal('modalDashboard')"
+        >
+            &times;
+        </span>
+
+        <div class="modal-body">
+
+            <div class="modal-images">
+
+                <video
+                    controls
+                    autoplay
+                    muted
+                    loop
+                    class="modal-video"
+                >
+
+                    <source
+                        src="DASHBOARD.mp4"
+                        type="video/mp4"
+                    >
+
+                </video>
+
+            </div>
+
+            <div class="modal-texto">
+
+                <h2>Zynk Finance Dashboard</h2>
+
+                <p>
+               Projetar uma interface de gestão financeira que não apenas exiba números, mas transforme dados brutos em decisões estratégicas em tempo real. 
+               O foco central foi o desenvolvimento de uma experiência SaaS (Software as a Service) de alta fidelidade, onde a fluidez da navegação e a clareza visual foram milimetricamente calculadas para eliminar a complexidade operacional, permitindo que o usuário final foque no que realmente importa: o crescimento do negócio.
+                </p>
+
+                <div class="modal-links">
+
+                    <a href="https://zynk-finance-dashboard.vercel.app/" class="btn-link"  target="_blank" rel="noopener noreferrer">
+                        Acessar
+                    </a>
+
+                    <a href="https://github.com/Levy-Andrade/zynk-finance-dashboard" class="btn-link secondary"  target="_blank" rel="noopener noreferrer">
+                        Repositório
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- =========================================================
+     MODAL PORTFÓLIO
+========================================================= -->
+<div id="modalPortfolio" class="modal">
+
+    <div class="modal-content">
+
+        <span
+            class="close"
+            onclick="fecharModal('modalPortfolio')"
+        >
+            &times;
+        </span>
+
+        <div class="modal-body">
+
+            <div class="modal-images">
+
+                <video
+                    controls
+                    autoplay
+                    muted
+                    loop
+                    class="modal-video"
+                >
+
+                    <source
+                        src="portifolio publicitaria v1.mp4"
+                        type="video/mp4"
+                    >
+
+                </video>
+
+            </div>
+
+            <div class="modal-texto">
+
+                <h2>Portfólio Publicitária</h2>
+
+                <p>
+                    Desenvolver uma landing page de alto impacto visual que não apenas apresente um portfólio, mas que atue como uma ferramenta ativa de conversão. 
+                    O desafio central foi equilibrar uma carga estética densa (branding e marketing digital) com uma performance de carregamento excepcional, garantindo que a identidade visual da marca seja transmitida sem fricção ao usuário.
+                </p>
+
+                <div class="modal-links">
+
+                    <a href="https://portfolio-lorraini-keiq.vercel.app/" class="btn-link" target="_blank" rel="noopener noreferrer">
+                        Acessar 
+                    </a>
+
+                    <a href="https://github.com/Levy-Andrade/Portfolio-Lorraini" class="btn-link secondary"  target="_blank" rel="noopener noreferrer">
+                        Repositório
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+    <!-- =========================================================
+         FOOTER / CONTATOS
+    ========================================================== -->
+    <section id="contato"></section>
+    <footer id="contato">
+
+        <!-- TÍTULO -->
+        <h2 class="titulo-sobre">
+            Contatos
+        </h2>
+
+        <!-- CONTATOS -->
+        <div class="contatos-container">
+
+            <!-- EMAIL -->
+            <div class="contato-item">
+            <a href="mailto:levyandrade2109@gmail.com" class="contato-link">
+                <div class="icon-circle">
+                    <img 
+                        src="logo e-mail.png" 
+                        alt="E-mail" 
+                        class="icon-img"
+                    >
+                </div>
+
+                <h3>E-mail</h3>
+
+                <p>
+                    levyandrade2109
+                </p>
+            </a>
+        </div>
+
+            <!-- LINKEDIN -->
+            <a
+                href="https://www.linkedin.com/in/levy-andrade/"
+                target="_blank"
+                class="contato-item"
+            >
+
+                <div class="icon-circle">
+
+                    <img
+                        src="logo linkedin.png"
+                        alt="Linkedin"
+                        class="icon-img"
+                    >
+
+                </div>
+
+                <h3>Linkedin</h3>
+
+                <p>
+                    Levy Andrade
+                </p>
+
+            </a>
+
+            <!-- WHATSAPP -->
+            <a
+                href="https://wa.me/5544984271446"
+                target="_blank"
+                class="contato-item"
+            >
+
+                <div class="icon-circle">
+
+                    <img
+                        src="logo whatsapp.png"
+                        alt="Whatsapp"
+                        class="icon-img"
+                    >
+
+                </div>
+
+                <h3>Whatsapp</h3>
+
+                <p>
+                    Levy Andrade
+                </p>
+
+            </a>
+
+            <!-- GITHUB -->
+            <a
+                href="https://github.com/Levy-Andrade"
+                target="_blank"
+                class="contato-item"
+            >
+
+                <div class="icon-circle">
+
+                    <img
+                        src="logo github.png"
+                        alt="Github"
+                        class="icon-img"
+                    >
+
+                </div>
+
+                <h3>Github</h3>
+
+                <p>
+                    @Levy-Andrade
+                </p>
+
+            </a>
+
+            <!-- INSTAGRAM -->
+            <a
+                href="https://www.instagram.com/levy.andrade.393"
+                target="_blank"
+                class="contato-item"
+            >
+
+                <div class="icon-circle">
+
+                    <img
+                        src="logo do insta.png"
+                        alt="Instagram"
+                        class="icon-img"
+                    >
+
+                </div>
+
+                <h3>Instagram</h3>
+
+                <p>
+                    levy.andrade.393
+                </p>
+
+            </a>
+
+        </div>
+
+         <!-- MASCOTE ZYNK -->
+            <div class="zynk-mascote-container">
+            <p class="zynk-frase">Dúvidas ou projetos? Vamos conversar!<br>
+                "Não importa o quão difícil seja, nunca perca de vista o seu objetivo."
+            </p>
+            <img src="zynk final page.png" alt="Mascote Zynk" class="zynk-img">
+            </div>
+
+
+        <!-- COPYRIGHT -->
+        <div class="footer-copy">
+
+            <p>
+                &copy; 2026 - Levy Andrade. Todos os direitos reservados.
+            </p>
+
+        </div>
+
+    </footer>
+
+    <!-- =========================================================
+         JAVASCRIPT
+    ========================================================== -->
+    <script src="script.js"></script>
+
+</body>
+
+</html>

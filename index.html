@@ -174,7 +174,10 @@
         </div>
       </div>
 
-      <!-- Menu mobile (fullscreen) -->
+      <!-- Backdrop escuro atrás do drawer mobile -->
+      <div id="mobileMenuBackdrop" class="mobile-menu-backdrop" aria-hidden="true"></div>
+
+      <!-- Menu mobile (Drawer lateral da direita) -->
       <nav id="mobileMenu" class="mobile-menu" aria-label="Menu mobile" aria-hidden="true">
 
         <!-- Vídeo de fundo do menu mobile -->
@@ -184,6 +187,13 @@
           </video>
           <div class="mobile-menu-overlay"></div>
         </div>
+
+        <!-- Botão de fechar (X) — fixo no topo direito do drawer -->
+        <button id="mobileMenuClose"
+                class="mobile-menu-close"
+                aria-label="Fechar menu de navegação">
+          <i class="ri-close-line" aria-hidden="true"></i>
+        </button>
 
         <div class="mobile-menu-scroll">
 
@@ -1491,5 +1501,55 @@
   </main><!-- /#app -->
 
   <script src="script.js"></script>
+
+  <!-- ============================================================
+       SCRIPT: DRAWER MOBILE — ABERTURA / FECHAMENTO / SCROLL LOCK
+  ============================================================= -->
+  <script>
+    // Drawer mobile — só registra se script.js ainda não inicializou o menu
+    (function () {
+      if (window.__mobileMenuReady) return;
+      window.__mobileMenuReady = true;
+
+      var menuBtn      = document.getElementById('mobileMenuBtn');
+      var menu         = document.getElementById('mobileMenu');
+      var closeBtn     = document.getElementById('mobileMenuClose');
+      var backdrop     = document.getElementById('mobileMenuBackdrop');
+      var mobileLinks  = menu ? menu.querySelectorAll('.mobile-link, .mobile-cta') : [];
+
+      function openMenu() {
+        if (!menu) return;
+        menu.classList.add('open');
+        menu.setAttribute('aria-hidden', 'false');
+        if (backdrop) backdrop.classList.add('open');
+        if (menuBtn)  menuBtn.setAttribute('aria-expanded', 'true');
+        document.body.classList.add('mobile-menu-active');
+      }
+
+      function closeMenu() {
+        if (!menu) return;
+        menu.classList.remove('open');
+        menu.setAttribute('aria-hidden', 'true');
+        if (backdrop) backdrop.classList.remove('open');
+        if (menuBtn)  menuBtn.setAttribute('aria-expanded', 'false');
+        document.body.classList.remove('mobile-menu-active');
+      }
+
+      if (menuBtn)  menuBtn.addEventListener('click', openMenu);
+      if (closeBtn) closeBtn.addEventListener('click', closeMenu);
+      if (backdrop) backdrop.addEventListener('click', closeMenu);
+
+      mobileLinks.forEach(function (link) {
+        link.addEventListener('click', closeMenu);
+      });
+
+      // Fechar com tecla ESC
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && menu && menu.classList.contains('open')) {
+          closeMenu();
+        }
+      });
+    })();
+  </script>
 </body>
 </html>

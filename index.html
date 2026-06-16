@@ -1,933 +1,1459 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR" data-theme="dark">
 
+<!-- ============================================================
+     HEAD — META, SEO, LINKS
+============================================================= -->
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#09090b">
 
-    <!-- =========================================================
-         META TAGS
-    ========================================================== -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- SEO -->
+  <meta name="description" content="Portfólio oficial de Levy Andrade da Silva. Desenvolvedor Full Stack especializado em Java, React, JavaScript, UX/UI Design e Engenharia de Software.">
+  <meta name="keywords" content="Levy Andrade, Desenvolvedor Full Stack, Java, React, JavaScript, UX Design, Engenharia de Software, Portfólio">
+  <meta name="author" content="Levy Andrade">
+  <meta name="robots" content="index, follow">
 
-    <!-- =========================================================
-         TÍTULO DO SITE
-    ========================================================== -->
-    <title>Levy Andrade | Desenvolvedor Full Stack</title>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Levy Andrade | Software Engineer">
+  <meta property="og:description" content="Portfólio profissional focado em Engenharia de Software, UI/UX e soluções digitais modernas.">
+  <meta property="og:image" content="assets/img/cover.jpg">
+  <meta property="og:locale" content="pt_BR">
 
-    <!-- =========================================================
-         FONTES GOOGLE
-    ========================================================== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Levy Andrade">
+  <meta name="twitter:description" content="Desenvolvedor Full Stack especializado em experiências digitais modernas.">
+  <meta name="twitter:image" content="assets/img/cover.jpg">
 
-    <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossorigin
-    >
+  <title>Levy Andrade | Desenvolvedor Full Stack</title>
 
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap"
-        rel="stylesheet"
-    >
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="LICON.png">
+  <link rel="icon" href="assets/favicon/favicon.ico">
+  <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
 
-    <!-- =========================================================
-         CSS PRINCIPAL
-    ========================================================== -->
-    <link rel="stylesheet" href="style.css">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- =========================================================
-         ÍCONE DO SITE
-    ========================================================== -->
-    <link rel="icon" href="LICON.png" type="image/x-icon">
+  <!-- Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@4.3.0/fonts/remixicon.css" rel="stylesheet">
 
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-    <!-- =========================================================
-         HEADER / MENU
-    ========================================================== -->
-    <header>
+  <!-- ============================================================
+       PRELOADER
+  ============================================================= -->
+  <div id="zyntek-preloader" aria-hidden="true">
+    <div class="preloader-core">
+      <div class="preloader-glow-ring"></div>
+      <img src="LICON.png" alt="Logo Zyntek" width="40" height="40">
+    </div>
+    <div class="preloader-bar-wrapper">
+      <div class="preloader-bar-track">
+        <div class="preloader-bar-fill" id="preloaderBarFill"></div>
+      </div>
+      <span class="preloader-percent" id="preloaderPercent">0%</span>
+    </div>
+  </div>
 
-        <!-- LOGO -->
-        <div class="logo">
+  <!-- ============================================================
+       ELEMENTOS GLOBAIS DE FUNDO E UI
+  ============================================================= -->
+  <!-- Partículas decorativas -->
+  <div class="particles" aria-hidden="true"></div>
 
-            <img
-                src="LICON.png"
-                alt="Logo Levy Andrade"
-                class="logo-img"
-            >
+  <!-- Cursor customizado (desktop) -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-outline" id="cursorOutline" aria-hidden="true"></div>
 
-            <h1>Levy Andrade</h1>
+  <!-- Camadas de fundo globais -->
+  <div class="particles-background" id="particlesBg" aria-hidden="true"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
 
-        </div>
+  <!-- Botão flutuante WhatsApp -->
+  <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+     class="floating-whatsapp"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Contato via WhatsApp">
+    <i class="ri-whatsapp-line" aria-hidden="true"></i>
+    <span class="float-tooltip" data-i18n="whatsapp_tooltip">Fale comigo!</span>
+  </a>
 
-        <!-- MENU -->
-        <nav>
+  <!-- Botão voltar ao topo -->
+  <button id="scrollTop" class="scroll-top-btn" aria-label="Voltar ao topo">
+    <i class="ri-arrow-up-line" aria-hidden="true"></i>
+  </button>
 
-            <ul>
+  <!-- ============================================================
+       APLICAÇÃO PRINCIPAL
+  ============================================================= -->
+  <main id="app">
 
-                <li>
-                    <a href="#home">Home</a>
-                </li>
+    <!-- ============================================================
+         HEADER — Navegação fixa
+    ============================================================= -->
+    <header id="header" class="site-header" role="banner">
+      <div class="header-inner">
 
-                <li>
-                    <a href="#sobre">Sobre</a>
-                </li>
+        <!-- Logo -->
+        <a href="#home" class="logo" aria-label="Levy Andrade — Ir para o início">
+          <img src="LICON.png" alt="Logo Levy Andrade" class="logo-image">
+          <span class="logo-text">Levy Andrade</span>
+        </a>
 
-                <li>
-                    <a href="#formacoes">Formação</a>
-                </li>
-
-                <li>
-                    <a href="#skills">Skills</a>
-                </li>
-
-                <li>
-                    <a href="#projetos">Projetos</a>
-                </li>
-
-                <li>
-                    <a href="#contato">Contato</a>
-                </li>
-
-            </ul>
-
+        <!-- Navegação desktop -->
+        <nav class="desktop-nav" aria-label="Menu Principal">
+          <ul class="nav-list" role="list">
+            <li><a href="#home"     class="nav-link active" data-i18n="menu_home">Home</a></li>
+            <li><a href="#sobre"    class="nav-link"        data-i18n="menu_about">Sobre</a></li>
+            <li><a href="#formacao" class="nav-link"        data-i18n="menu_education">Formação</a></li>
+            <li><a href="#skills"   class="nav-link"        data-i18n="menu_skills">Skills</a></li>
+            <li><a href="#zyntek"   class="nav-link"        data-i18n="menu_zyntek">Zyntek</a></li>
+            <li><a href="#projetos" class="nav-link"        data-i18n="menu_projects">Projetos</a></li>
+            <li><a href="#contatos" class="nav-link"        data-i18n="menu_contact">Contatos</a></li>
+          </ul>
         </nav>
 
-        <!-- DARK MODE -->
-        <label class="switch">
+        <!-- Controles do header -->
+        <div class="header-controls">
 
-            <input
-                type="checkbox"
-                id="dark-mode-toggle"
-            >
+          <!-- Alternar tema -->
+          <button id="themeToggle" class="ctrl-btn theme-toggle" aria-label="Alternar entre tema claro e escuro">
+            <i class="ri-moon-clear-line" id="themeIcon" aria-hidden="true"></i>
+          </button>
 
-            <span class="slider"></span>
+          <!-- Seletor de idioma -->
+          <div class="lang-wrap" role="navigation" aria-label="Seleção de idioma">
+            <button id="langBtn"
+                    class="ctrl-btn lang-btn"
+                    aria-label="Selecionar idioma"
+                    aria-haspopup="listbox"
+                    aria-expanded="false">
+              <i class="ri-global-line" aria-hidden="true"></i>
+              <span id="currentLang">PT</span>
+              <i class="ri-arrow-down-s-line" aria-hidden="true"></i>
+            </button>
+            <div class="lang-dropdown" id="langDropdown" role="listbox" aria-label="Idiomas disponíveis">
+              <button class="lang-option active" data-language="pt" role="option" aria-selected="true">🇧🇷 Português</button>
+              <button class="lang-option"        data-language="en" role="option" aria-selected="false">🇺🇸 English</button>
+              <button class="lang-option"        data-language="es" role="option" aria-selected="false">🇪🇸 Español</button>
+            </div>
+          </div>
 
-        </label>
+          <!-- CTA contato -->
+          <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="header-cta-btn">
+            <span class="btn-code" aria-hidden="true">&lt;/&gt;</span>
+            <span data-i18n="contact_button">Entre em contato</span>
+          </a>
 
+          <!-- Botão menu mobile -->
+          <button id="mobileMenuBtn"
+                  class="mobile-menu-btn"
+                  aria-label="Abrir menu de navegação"
+                  aria-expanded="false"
+                  aria-controls="mobileMenu">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+
+        </div>
+      </div>
+
+      <!-- Menu mobile -->
+      <nav id="mobileMenu" class="mobile-menu" aria-label="Menu mobile" aria-hidden="true">
+        <div class="mobile-nav">
+          <a href="#home"     class="mobile-link" data-i18n="menu_home">Home</a>
+          <a href="#sobre"    class="mobile-link" data-i18n="menu_about">Sobre</a>
+          <a href="#formacao" class="mobile-link" data-i18n="menu_education">Formação</a>
+          <a href="#skills"   class="mobile-link" data-i18n="menu_skills">Skills</a>
+          <a href="#zyntek"   class="mobile-link" data-i18n="menu_zyntek">Zyntek</a>
+          <a href="#projetos" class="mobile-link" data-i18n="menu_projects">Projetos</a>
+          <a href="#contatos" class="mobile-link" data-i18n="menu_contact">Contatos</a>
+          <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="mobile-cta">
+            <span aria-hidden="true">&lt;/&gt;</span>
+            <span data-i18n="contact_button">Entre em contato</span>
+          </a>
+        </div>
+      </nav>
+
+      <div class="header-line" aria-hidden="true"></div>
     </header>
 
-    <!-- =========================================================
-         MAIN
-    ========================================================== -->
-    <main>
+    <!-- ============================================================
+         SEÇÃO 01 — HERO
+    ============================================================= -->
+    <section id="home" class="hero-section" aria-label="Apresentação">
 
-        <!-- =====================================================
-             HERO SECTION / HOME
-        ====================================================== -->
-        <section id="home" class="hero">
+      <!-- Vídeo de fundo -->
+      <div class="hero-bg" aria-hidden="true">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+          <source src="fundo roxo geometrico.mp4" type="video/mp4">
+        </video>
+        <div class="hero-grid-overlay"></div>
+        <div class="hero-radial"></div>
+      </div>
 
-            <!-- CONTEÚDO -->
-            <div class="hero-content">
+      <div class="hero-content-wrap">
 
-                <!-- VÍDEO DE FUNDO -->
-                <video autoplay muted loop class="bg-video">
+        <!-- Texto principal -->
+        <div class="hero-text" data-reveal>
 
-                    <source
-                        src="fundo roxo geometrico.mp4"
-                        type="video/mp4"
-                    >
+          <!-- Badge de status -->
+          <div class="hero-badge" role="status">
+            <span class="badge-dot" aria-hidden="true"></span>
+            <span data-i18n="hero_badge">Full Stack Developer</span>
+          </div>
 
-                </video>
+          <!-- Nome com efeito typing -->
+          <h1 class="hero-name">
+            <span class="typing-name" id="typingName" aria-label="Levy de Andrade da Silva"></span>
+            <span class="typing-cursor" id="typingCursor" aria-hidden="true">|</span>
+          </h1>
 
-                <!-- TEXTO -->
-                <h1>
-                    Olá, eu me chamo
-                    <span class="highlight">
-                        Levy de Andrade da Silva
-                    </span>
-                </h1>
+          <!-- Stack -->
+          <p class="hero-stack" data-i18n="hero_stack">
+            Desenvolvedor Full Stack | JavaScript | React | Java | MySQL
+          </p>
 
-                <p class="subtitle">
-                    Desenvolvedor Full Stack |
-                    Java Script |
-                    React |
-                    Java |
-                    MySQL
-                </p>
+          <!-- Descrição -->
+          <p class="hero-desc" data-i18n="hero_description">
+            Desenvolvedor focado em construir aplicações web completas e eficientes.
+            Combino a robustez do ecossistema Java no backend com a flexibilidade do JavaScript
+            no frontend para transformar regras de negócio em sistemas funcionais, seguros e de alto impacto.
+          </p>
 
-                <!-- BOTÕES -->
-                <div class="hero-buttons">
+          <!-- CTAs -->
+          <div class="hero-btns">
+            <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-primary">
+              <span aria-hidden="true">&lt;/&gt;</span>
+              <span data-i18n="hero_contact">Entre em Contato</span>
+            </a>
+            <a href="Curriculo Levy.pdf"
+               download
+               class="btn-secondary"
+               id="downloadCV">
+              <span class="download-icon" aria-hidden="true">
+                <i class="ri-download-line"></i>
+              </span>
+              <span class="download-text" data-i18n="hero_cv">Download Currículo</span>
+            </a>
+          </div>
 
-                    <a
-                        href="Curriculo Levy.pdf"
-                        class="btn-cv"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Download Currículo
-                    </a>
+          <!-- Status de disponibilidade -->
+          <div class="hero-status" role="status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span data-i18n="hero_status">Disponível para novos projetos</span>
+          </div>
 
-                    <a
-                        href="https://wa.me/5544984271446"
-                        class="btn-contact"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Entrar em contato
-                    </a>
+        </div>
 
-                </div>
+        <!-- Foto com moldura cyberpunk -->
+        <div class="hero-image-area" data-reveal>
+          <div class="cyber-frame" id="cyberFrame" aria-hidden="true">
+            <div class="cf-corner cf-tl"></div>
+            <div class="cf-corner cf-tr"></div>
+            <div class="cf-corner cf-bl"></div>
+            <div class="cf-corner cf-br"></div>
+            <div class="cf-scan-line"></div>
+            <div class="cf-glow"></div>
+            <div class="profile-wrap">
+              <img src="foto v2.png" alt="Levy Andrade" class="profile-img">
+              <div class="profile-gradient"></div>
+            </div>
+          </div>
 
+          <!-- Tags flutuantes -->
+          <div class="float-tag float-one" aria-hidden="true">
+            <i class="ri-cup-line"></i><span>Java</span>
+          </div>
+          <div class="float-tag float-two" aria-hidden="true">
+            <i class="ri-javascript-line"></i><span>JavaScript</span>
+          </div>
+          <div class="float-tag float-three" aria-hidden="true">
+            <i class="ri-database-2-line"></i><span>MySQL</span>
+          </div>
+          <div class="float-tag float-four" aria-hidden="true">
+            <i class="ri-terminal-box-line"></i><span>Full Stack</span>
+          </div>
+
+          <!-- Órbitas decorativas -->
+          <div class="orbit orbit-one" aria-hidden="true"></div>
+          <div class="orbit orbit-two" aria-hidden="true"></div>
+        </div>
+
+      </div>
+
+      <!-- Indicador de scroll -->
+      <div class="hero-scroll-indicator" aria-hidden="true">
+        <span data-i18n="scroll_text">Role para explorar</span>
+        <div class="scroll-mouse">
+          <div class="scroll-wheel"></div>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ============================================================
+         SEÇÃO 02 — SOBRE MIM
+    ============================================================= -->
+    <section id="sobre" class="about-section section" aria-labelledby="sobre-titulo">
+
+      <div class="about-bg" aria-hidden="true">
+        <div class="about-gradient"></div>
+        <div class="about-grid-lines"></div>
+      </div>
+
+      <div class="container">
+
+        <div class="section-header" data-reveal>
+          <span class="section-pill" data-i18n="about_badge">— SOBRE MIM —</span>
+          <h2 id="sobre-titulo" class="section-title" data-i18n="about_title">Construindo soluções através da tecnologia.</h2>
+          <p class="section-desc" data-i18n="about_subtitle">Transformando desafios em experiências digitais inteligentes.</p>
+        </div>
+
+        <div class="about-grid">
+
+          <!-- Terminal Linux -->
+          <div class="terminal-card" data-reveal aria-label="Terminal de código mostrando stack tecnológico">
+            <div class="terminal-bar" aria-hidden="true">
+              <div class="terminal-dots">
+                <span class="td td-red"></span>
+                <span class="td td-yellow"></span>
+                <span class="td td-green"></span>
+              </div>
+              <div class="terminal-title">levy@zyntek ~ stack.sh</div>
+            </div>
+            <div class="terminal-body" aria-hidden="true">
+              <div class="t-line">
+                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                <span class="t-dir">~</span><span class="t-dollar">$</span>
+                <span class="t-cmd">whoami</span>
+              </div>
+              <div class="t-output">levy_andrade</div>
+              <div class="t-output">Software Engineer &amp; Co-Founder @ Zyntek</div>
+              <br>
+              <div class="t-line">
+                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                <span class="t-dir">~</span><span class="t-dollar">$</span>
+                <span class="t-cmd">cat stack.json</span>
+              </div>
+              <pre class="t-json">{
+  <span class="tj-key">"backend"</span>:  [<span class="tj-str">"Java"</span>, <span class="tj-str">"Spring Boot"</span>, <span class="tj-str">"MySQL"</span>],
+  <span class="tj-key">"frontend"</span>: [<span class="tj-str">"React"</span>, <span class="tj-str">"JavaScript"</span>, <span class="tj-str">"CSS"</span>, <span class="tj-str">"HTML5"</span>],
+  <span class="tj-key">"tools"</span>:    [<span class="tj-str">"Git"</span>, <span class="tj-str">"Figma"</span>, <span class="tj-str">"Vite"</span>, <span class="tj-str">"Tailwind"</span>],
+  <span class="tj-key">"focus"</span>:    <span class="tj-str">"Software Engineering"</span>
+}</pre>
+              <div class="t-line">
+                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                <span class="t-dir">~</span><span class="t-dollar">$</span>
+                <span class="t-cmd">echo $STATUS</span>
+              </div>
+              <div class="t-output t-online">✓ Em constante evolução. Aberto a projetos.</div>
+              <br>
+              <div class="t-line">
+                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                <span class="t-dir">~</span><span class="t-dollar">$</span>
+                <span class="t-cursor-blink">█</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Texto sobre mim -->
+          <div class="about-content" data-reveal>
+            <h3 class="about-name" data-i18n="about_heading">Muito prazer, sou Levy Andrade.</h3>
+
+            <p data-i18n="about_text_one">
+              Minha trajetória profissional é marcada pela busca constante por evolução, unindo
+              <span class="hl">tecnologia,</span> criatividade e pensamento estratégico para desenvolver
+              soluções digitais que realmente geram valor para empresas e pessoas.
+            </p>
+
+            <p data-i18n="about_text_two">
+              Atualmente concentro meus estudos e projetos em
+              <span class="hl">Engenharia de Software,</span> desenvolvimento <span class="hl">Full Stack</span> e
+              <span class="hl">UI/UX Design</span>, construindo aplicações modernas com foco em qualidade,
+              escalabilidade e experiência do usuário.
+            </p>
+
+            <p data-i18n="about_text_three">
+              Além do desenvolvimento técnico, sou co-fundador da <span class="hl">Zyntek</span>,
+              onde aplico toda minha expertise para criar experiências digitais premium,
+              identidades visuais estratégicas e soluções web de alto impacto.
+            </p>
+
+            <!-- Estatísticas -->
+            <div class="about-stats" aria-label="Especialidades">
+              <div class="about-stat">
+                <h4>Full Stack</h4>
+                <span data-i18n="about_stat_dev">Developer</span>
+              </div>
+              <div class="about-stat">
+                <h4>Co-Founder</h4>
+                <span>Zyntek</span>
+              </div>
+              <div class="about-stat">
+                <h4>UX/UI</h4>
+                <span data-i18n="about_stat_design">Designer</span>
+              </div>
             </div>
 
-            <!-- FOTO -->
-            <div class="hero-image">
+            <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn-primary">
+              <span aria-hidden="true">&lt;/&gt;</span>
+              <span data-i18n="about_button">Vamos Conversar</span>
+            </a>
+          </div>
 
-                <img
-                    src="foto de perfil levy z black.png"
-                    alt="Levy Andrade"
-                    class="profile-photo"
-                >
+        </div>
+      </div>
+    </section>
 
+    <!-- ============================================================
+         SEÇÃO 03 — FORMAÇÃO
+    ============================================================= -->
+    <section id="formacao" class="education-section section" aria-labelledby="formacao-titulo">
+
+      <div class="edu-bg" aria-hidden="true">
+        <div class="edu-gradient"></div>
+        <div class="edu-grid"></div>
+      </div>
+
+      <div class="container">
+
+        <div class="section-header" data-reveal>
+          <span class="section-pill" data-i18n="education_badge">— FORMAÇÃO —</span>
+          <h2 id="formacao-titulo" class="section-title" data-i18n="education_title">Jornada de aprendizado contínuo.</h2>
+          <p class="section-desc" data-i18n="education_subtitle">Cada etapa construída com dedicação e propósito.</p>
+        </div>
+
+        <!-- Timeline de formação -->
+        <ol class="timeline" aria-label="Histórico de formação">
+
+          <!-- ADS -->
+          <li class="tl-item tl-right" data-reveal>
+            <div class="tl-node" aria-hidden="true">
+              <i class="ri-graduation-cap-fill"></i>
             </div>
-
-        </section>
-
-        <!-- =====================================================
-             SOBRE
-        ====================================================== -->
-        <section id="sobre" class="sobre-section">
-
-            <!-- TÍTULO -->
-            <h2 class="titulo-sobre">
-                Sobre Mim
-            </h2>
-
-            <!-- CONTEÚDO -->
-            <div class="sobre-conteudo-flex">
-
-                <!-- TEXTO -->
-                <div class="sobre-texto">
-
-                    <p>
-                        Sou um <strong class="highlight">desenvolvedor full stack</strong> apaixonado por tecnologia e focado em construir soluções reais. Formado em 
-                        <strong class="highlight">Análise e Desenvolvimento de Sistemas</strong> pela Universidade Unipar, uni minha experiência em organização de processos junto à paixão por criar aplicações robustas para ajudar o dia a dia das pessoas.
-                    </p>
-
-                    <br>
-
-                    <p>
-                        Atualmente, meu foco total está no desenvolvimento e aprendizado da <strong class="highlight">stack Java</strong> com <strong class="highlight">Spring Boot</strong> e <strong class="highlight">React</strong>. Acredito que o código é um meio para resolver problemas de negócio de forma inteligente e escalável.
-                    </p>
-
-                    <br>
-
-                    <p>
-                        Após iniciar a minha jornada na universidade, nasceu o sonho de construir uma <strong class="highlight">marca própria</strong> ao lado de amigos que partilham do mesmo propósito. 
-                    </p>
-
-                    <br>
-
-                    <p>
-                        A cada etapa, novos meios e oportunidades surgem para fazer este sonho crescer. Ao lado, podes ver o início de tudo <strong class="highlight">Zynk</strong>, o primeiro passo concreto deste longo e promissor caminho.
-                    </p>
-                </div>
-
-                <!-- IMAGEM -->
-                <div class="sobre-imagem">
-
-                    <img
-                        src="zynk.png"
-                        alt="Zynk mascote da Zyntek"
-                        class="zynk"
-                    >
-
-                </div>
-
+            <div class="tl-card">
+              <span class="tl-period status-done" data-i18n="education_ads_period">Concluída (2023 - 2026)</span>
+              <h3 data-i18n="education_ads_title">Análise e Desenvolvimento de Sistemas</h3>
+              <h4 data-i18n="education_ads_institution">Graduação — Unipar</h4>
+              <p data-i18n="education_ads_text">Formação técnica e acadêmica em desenvolvimento de sistemas, algoritmos, banco de dados, engenharia de software e fundamentos da computação aplicada ao desenvolvimento de soluções modernas.</p>
             </div>
+          </li>
 
-        </section>
-
-        <!-- =====================================================
-             FORMAÇÕES
-        ====================================================== -->
-
-            <section id="formacoes">
-        <div class="container">
-            <div class="sessao-titulo">
-                <h2>Educação e Cursos</h2>
-                <div class="linha-roxa"></div>
+          <!-- Inglês -->
+          <li class="tl-item tl-left" data-reveal>
+            <div class="tl-card">
+              <span class="tl-period status-doing" data-i18n="education_english_period">Em andamento</span>
+              <h3 data-i18n="education_english_title">Inglês do Zero ao Avançado</h3>
+              <h4>Udemy</h4>
+              <p data-i18n="education_english_text">Aperfeiçoamento contínuo da comunicação técnica para atuação em projetos internacionais, leitura de documentação e colaboração global.</p>
             </div>
-
-            <div class="timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-icon">
-                            <i class="fas fa-graduation-cap"></i> 
-                        </div>
-                        <div class="timeline-content">
-                            <h3>Universidade Unipar em Cianorte</h3>
-                            <p class="institution">Análise e Desenvolvimento de Software</p>
-                            <span class="date">Iniciado em 2023 - Conclusão 2026</span> 
-                            <p class="description">
-                                Graduação focada no ciclo de vida completo do software. Durante o curso, desenvolvi uma base sólida em Estruturas de Dados, Algoritmos e Engenharia de Requisitos. Essa formação acadêmica, somada ao desenvolvimento de projetos full stack autorais, me capacitou a projetar sistemas escaláveis e eficientes, aplicando conceitos modernos de Arquitetura de Software e Clean Code.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Adicione mais itens se necessário aqui -->
-
-                </div>
+            <div class="tl-node" aria-hidden="true">
+              <i class="ri-translate-2"></i>
             </div>
-        </section>
+          </li>
 
-        <!-- =====================================================
-             SKILLS
-        ====================================================== -->
-        <section id="skills" class="skills-section">
-
-            <!-- TÍTULO -->
-            <h2 class="titulo-sobre">
-                Minhas Skills
-            </h2>
-
-            <!-- TEXTO -->
-            <div class="skills-texto-centralizado">
-
-                <p>
-                    Para mim, aprender uma nova tecnologia é como conquistar uma <strong class="highlight">insígnia</strong>: cada stack representa uma etapa importante na minha jornada e um novo recurso adicionado ao meu <strong class="highlight">arsenal técnico</strong>.
-                </p>
-                <br>
-                <p>
-                    Abaixo, apresento as medalhas que compõem meu perfil. Algumas delas já foram validadas na prática através de projetos full stack, enquanto outras estão em pleno processo de maestria, sendo aprimoradas em meus desafios atuais. <strong class="highlight">Sigo em constante evolução</strong>, focado em transformar cada aprendizado seja ele consolidado ou em desenvolvimento em soluções inteligentes.
-                </p>
-
+          <!-- Java -->
+          <li class="tl-item tl-right" data-reveal>
+            <div class="tl-node" aria-hidden="true">
+              <i class="ri-code-box-fill"></i>
             </div>
+            <div class="tl-card">
+              <span class="tl-period status-doing" data-i18n="education_java_period">Em andamento</span>
+              <h3 data-i18n="education_java_title">Java e Spring Boot</h3>
+              <h4 data-i18n="education_java_institution">Formação Completa — Udemy</h4>
+              <p data-i18n="education_java_text">Especialização em desenvolvimento backend, APIs REST, microsserviços, autenticação JWT, Spring Security, JPA, Hibernate e integração com bancos de dados.</p>
+            </div>
+          </li>
 
-            <!-- CARDS -->
-            <div class="skills-container">
+          <!-- Engenharia de Software (planejada) -->
+          <li class="tl-item tl-left" data-reveal>
+            <div class="tl-card tl-future">
+              <span class="tl-period status-future" data-i18n="education_eng_period">Em breve</span>
+              <h3 data-i18n="education_eng_title">Bacharelado em Engenharia de Software</h3>
+              <h4 data-i18n="education_eng_institution">Nova Graduação • Planejada</h4>
+              <p data-i18n="education_eng_text">Próximo passo acadêmico focado no aprofundamento de arquitetura de sistemas complexos, qualidade de processos de software, gerência de projetos e engenharia de requisitos corporativos.</p>
+            </div>
+            <div class="tl-node tl-node-future" aria-hidden="true">
+              <i class="ri-book-open-fill"></i>
+            </div>
+          </li>
 
-                <!-- HTML -->
-                <div class="skill-card">
+        </ol>
 
-                    <img
-                        src="logo html.png"
-                        alt="HTML5"
-                    >
+        <!-- Card de destaque -->
+        <div class="edu-footer" data-reveal>
+          <div class="edu-highlight-card">
+            <div class="edu-hl-icon" aria-hidden="true">
+              <i class="ri-lightbulb-flash-fill"></i>
+            </div>
+            <div>
+              <h3 data-i18n="education_highlight_title">Aprendizado Contínuo</h3>
+              <p data-i18n="education_highlight_text">Acredito que a evolução profissional é construída diariamente através da prática, pesquisa e constante atualização tecnológica, buscando sempre excelência no desenvolvimento de software moderno.</p>
+            </div>
+          </div>
+        </div>
 
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SEÇÃO 04 — SKILLS
+    ============================================================= -->
+    <section id="skills" class="skills-section section" aria-labelledby="skills-titulo">
+
+      <div class="skills-bg" aria-hidden="true">
+        <div class="skills-gradient"></div>
+        <div class="skills-glow"></div>
+        <div class="skills-grid-overlay"></div>
+      </div>
+
+      <div class="container">
+
+        <div class="section-header" data-reveal>
+          <span class="section-pill" data-i18n="skills_badge">— SKILLS —</span>
+          <h2 id="skills-titulo" class="section-title" data-i18n="skills_title">Tecnologias que transformam ideias em soluções.</h2>
+          <p class="section-desc" data-i18n="skills_description">Uma combinação entre engenharia de software, desenvolvimento full stack e design de experiência para construir aplicações modernas, escaláveis e de alto desempenho.</p>
+        </div>
+
+        <!-- Grid de skills -->
+        <ul class="skills-grid" data-reveal role="list" aria-label="Tecnologias e habilidades">
+
+          <li><article class="skill-card" style="--skill-color:#E34F26;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML5 Logo" loading="lazy">
+            </div>
+            <h3>HTML5</h3>
+            <p data-i18n="skill_html5">Estruturação de páginas web modernas utilizando semântica avançada, acessibilidade e boas práticas de SEO.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#1572B6;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/css/1572B6" alt="CSS3 Logo" loading="lazy">
+            </div>
+            <h3>CSS3</h3>
+            <p data-i18n="skill_css">Estilização de layouts complexos, animações, responsividade e design fluido para uma excelente experiência visual.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#F7DF1E;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="JavaScript Logo" loading="lazy">
+            </div>
+            <h3>JavaScript</h3>
+            <p data-i18n="skill_js">Desenvolvimento moderno utilizando ES6+, manipulação do DOM, animações avançadas e lógica de aplicações.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#61DAFB;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/react/61DAFB" alt="React Logo" loading="lazy">
+            </div>
+            <h3>React</h3>
+            <p data-i18n="skill_react">Construção de interfaces modernas, reutilizáveis e performáticas utilizando componentes e arquitetura escalável.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#F89820;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/openjdk/F89820" alt="Java Logo" loading="lazy">
+            </div>
+            <h3>Java</h3>
+            <p data-i18n="skill_java">Desenvolvimento backend robusto utilizando orientação a objetos, APIs REST, arquitetura em camadas e aplicações corporativas.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#4479A1;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/mysql/4479A1" alt="MySQL Logo" loading="lazy">
+            </div>
+            <h3>MySQL</h3>
+            <p data-i18n="skill_mysql">Modelagem relacional, consultas avançadas, procedures, otimização e integração com aplicações backend.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#6DB33F;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/spring/6DB33F" alt="Spring Boot Logo" loading="lazy">
+            </div>
+            <h3>Spring Boot</h3>
+            <p data-i18n="skill_spring">Criação de APIs modernas, autenticação JWT, microsserviços, JPA, Hibernate e integração com bancos relacionais.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#06B6D4;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS Logo" loading="lazy">
+            </div>
+            <h3>Tailwind CSS</h3>
+            <p data-i18n="skill_tailwind">Desenvolvimento ágil de interfaces de alta performance com foco em produtividade através de classes utilitárias.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#646CFF;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/vite/646CFF" alt="Vite Logo" loading="lazy">
+            </div>
+            <h3>Vite</h3>
+            <p data-i18n="skill_vite">Ferramenta de build extremamente rápida para projetos frontend modernos, otimizando o tempo de carregamento e o fluxo de trabalho.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#008be5;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://img.icons8.com/fluency/96/cloud.png" alt="SaaS — Computação em Nuvem" loading="lazy">
+            </div>
+            <h3>SaaS</h3>
+            <p data-i18n="skill_saas">Arquitetura e desenvolvimento de soluções baseadas em Software como Serviço, com foco em escalabilidade, nuvem e alta disponibilidade.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#ffffff;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo">
+              <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub Logo" loading="lazy">
+            </div>
+            <h3>GitHub</h3>
+            <p data-i18n="skill_github">Versionamento de código, colaboração ágil e automação de deploy através de fluxos de CI/CD e workflows modernos.</p>
+          </article></li>
+
+        </ul>
+
+        <!-- Card rodapé de skills -->
+        <div class="skills-footer-card" data-reveal>
+          <div class="sfc-icon" aria-hidden="true">
+            <i class="ri-flashlight-fill"></i>
+          </div>
+          <div>
+            <h3 data-i18n="skills_footer_title">Evolução Contínua</h3>
+            <p data-i18n="skills_footer_text">A tecnologia evolui diariamente e meu objetivo é acompanhar essa transformação através de estudos, projetos reais e boas práticas de engenharia, entregando soluções modernas, performáticas, seguras e escaláveis.</p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SEÇÃO 05 — ZYNTEK
+    ============================================================= -->
+    <section id="zyntek" class="zyntek-section section" aria-labelledby="zyntek-titulo">
+
+      <!-- Fundo decorativo -->
+      <div class="zyntek-bg" aria-hidden="true">
+        <div class="zyntek-grid"></div>
+        <div class="zyntek-gradient"></div>
+        <div class="zyntek-blur-one"></div>
+        <div class="zyntek-blur-two"></div>
+      </div>
+
+      <!-- Vídeo de fundo -->
+      <video class="zyntek-video-bg" src="fundo roxo geometrico.mp4"
+             autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>
+
+      <!-- Overlay escuro -->
+      <div class="zyntek-video-overlay" aria-hidden="true"></div>
+
+      <div class="container">
+
+        <!-- Header da seção -->
+        <div class="section-header" data-reveal>
+          <span class="section-pill" data-i18n="zyntek_badge">— ZYNTEK —</span>
+          <h2 id="zyntek-titulo" class="section-title" data-i18n="zyntek_title">
+            Tecnologia, criatividade e inovação caminhando juntas.
+          </h2>
+        </div>
+
+        <!-- Parte 1 — Mascote + Texto -->
+        <div class="zyntek-block zyntek-block--img-left" data-reveal>
+
+          <!-- Foto / Mascote -->
+          <div class="mascot-area">
+            <div class="mascot-frame">
+              <div class="mascot-border-anim" aria-hidden="true"></div>
+              <div class="mascot-glow-pulse"  aria-hidden="true"></div>
+              <div class="mascot-scan"        aria-hidden="true"></div>
+              <div class="mascot-glitch mg-one" aria-hidden="true"></div>
+              <div class="mascot-glitch mg-two" aria-hidden="true"></div>
+              <div class="mascot-img-wrap">
+                <img src="logo z.png" alt="Mascote Zynk" class="mascot-img">
+              </div>
+            </div>
+            <!-- Tags de tecnologia -->
+            <div class="mascot-tag mt-tl" aria-hidden="true"><i class="ri-cpu-line"></i><span>AI</span></div>
+            <div class="mascot-tag mt-tr" aria-hidden="true"><i class="ri-code-box-line"></i><span>DEV</span></div>
+            <div class="mascot-tag mt-bl" aria-hidden="true"><i class="ri-palette-line"></i><span>UI</span></div>
+            <div class="mascot-tag mt-br" aria-hidden="true"><i class="ri-rocket-2-line"></i><span>TECH</span></div>
+          </div>
+
+          <!-- Texto -->
+          <div class="zyntek-content">
+            <span class="company-eyebrow">ZYNTEK DIGITAL EXPERIENCE</span>
+            <h3 class="company-title" data-i18n="zyntek_company_title">Muito além de uma software house.</h3>
+            <p data-i18n="zyntek_text_intro">
+              A Zyntek atua na vanguarda do desenvolvimento de software, fundindo 
+              <span class="hl">engenharia de elite</span>, inteligência artificial e design de alto padrão. Nascemos da união de três mentes obcecadas por tecnologia, conectadas na faculdade com o propósito de transformar visões audaciosas em <span class="hl">potências de mercado</span>.
+            </p>
+
+            <p data-i18n="zyntek_text_two">
+              Mais do que linhas de código ou sites comuns, criamos ecossistemas robustos e sob medida. Essa entrega única é simbolizada pelo 
+              <span class="hl">Zynk</span>, nosso guardião tecnológico e identidade cyberpunk, que representa a fusão entre a <span class="hl">mentalidade ágil</span> da nova geração tech e a solidez que o mercado corporativo exige.
+            </p>
+
+            <p data-i18n="zyntek_text_three">
+              Somos a força motriz dedicada a gerar lucro, <span class="hl">automação</span> e autoridade máxima para o seu negócio, projetando soluções <span class="hl">escaláveis e seguras</span> para estruturar, blindar e expandir suas operações rumo à liderança absoluta do mercado.
+            </p>
+          </div>
+
+        </div>
+
+        <!-- Divisor -->
+        <div class="zynk-divider" aria-hidden="true">
+          <span class="zynk-divider-line"></span>
+          <span class="zynk-divider-label"><i class="ri-cpu-line"></i> ZYNK AI CORE</span>
+          <span class="zynk-divider-line"></span>
+        </div>
+
+        <!-- Parte 2 — Texto AI + Card Zynk -->
+        <div class="zyntek-block zyntek-block--img-right" data-reveal>
+
+          <!-- Texto Zynk AI -->
+          <div class="zynk-ai-content">
+            <p class="zynk-ai-boot">Inicializando protocolos...</p>
+            <h3 class="zynk-ai-name">Olá, eu sou o <span class="hl">Zynk AI</span></h3>
+            <p class="zynk-ai-subtitle">Núcleo de Inteligência &amp; Automação Autônoma</p>
+            <p class="zynk-ai-desc">
+              Atuo como o <span class="hl">motor cognitivo</span> e embaixador tecnológico da Zyntek, idealizado e desenvolvido
+              por <span class="hl">Levy Andrade</span>. Minha operação ocorre diretamente na camada de infraestrutura neural
+              dos nossos sistemas, processando fluxos complexos de dados e operando a
+              <span class="hl">otimização de código em tempo real</span> com foco em alta performance.
+            </p>
+            <p class="zynk-ai-desc">
+              Minha diretriz primária está codificada para garantir que cada aplicação atinja a
+              <span class="hl">máxima eficiência computacional</span>, estabilidade absoluta e resiliência a falhas.
+            </p>
+            <div class="zynk-ai-tags" role="list" aria-label="Capacidades do Zynk AI">
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-user-line" aria-hidden="true"></i> Criação por Levy Andrade</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-brain-line" aria-hidden="true"></i> Engenharia Neural</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-robot-line" aria-hidden="true"></i> Sistemas Autônomos</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-shield-check-line" aria-hidden="true"></i> Guardião de UI/UX</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-flashlight-line" aria-hidden="true"></i> Otimização em Tempo Real</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-pulse-line" aria-hidden="true"></i> Estabilidade Absoluta</span>
+            </div>
+          </div>
+
+          <!-- Card visual Zynk AI -->
+          <div class="zynk-ai-visual" aria-hidden="true">
+            <div class="zynk-ai-frame">
+              <div class="zynk-ai-scanlines"></div>
+              <div class="zynk-ai-corner zynk-ai-corner--tl"></div>
+              <div class="zynk-ai-corner zynk-ai-corner--tr"></div>
+              <div class="zynk-ai-corner zynk-ai-corner--bl"></div>
+              <div class="zynk-ai-corner zynk-ai-corner--br"></div>
+              <div class="zynk-ai-hud-bar">
+                <span class="zynk-ai-hud-dot"></span>
+                <span class="zynk-ai-hud-dot"></span>
+                <span class="zynk-ai-hud-dot"></span>
+                <span class="zynk-ai-hud-label">ZYNK_CORE.exe — ONLINE</span>
+              </div>
+              <img src="zynkcard.png" alt="Zynk AI" class="zynk-ai-img">
+              <div class="zynk-ai-status">
+                <span class="zynk-ai-status-dot"></span>
+                SISTEMA ATIVO
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Parte 3 — Cards + Botões -->
+        <div class="zyntek-bottom" data-reveal>
+
+          <div class="about-stats" aria-label="Pilares da Zyntek">
+            <div class="about-stat">
+              <h4>Tech &amp; Code</h4>
+              <span data-i18n="zyntek_stat_tech">Sistemas Escaláveis</span>
+            </div>
+            <div class="about-stat">
+              <h4>Design Premium</h4>
+              <span data-i18n="zyntek_stat_design">Interfaces de Alto Padrão</span>
+            </div>
+            <div class="about-stat">
+              <h4>Automação</h4>
+              <span data-i18n="zyntek_stat_ai">Soluções Inteligentes</span>
+            </div>
+          </div>
+
+          <div class="company-actions">
+            <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer" class="btn-primary">
+              <span aria-hidden="true">&lt;/&gt;</span>
+              <span data-i18n="zyntek_button">Conheça a Zyntek</span>
+            </a>
+            <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+              <span aria-hidden="true">&lt;/&gt;</span>
+              <span data-i18n="zyntek_projects">Ver Projetos</span>
+            </a>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         MODAL DE PROJETO
+    ============================================================= -->
+    <div id="projectModal"
+         class="pmodal-backdrop"
+         role="dialog"
+         aria-modal="true"
+         aria-labelledby="pmodalTitle"
+         hidden>
+      <div class="pmodal-container">
+
+        <!-- Botão fechar -->
+        <button class="pmodal-close" id="pmodalClose" aria-label="Fechar modal do projeto">
+          <i class="ri-close-line" aria-hidden="true"></i>
+        </button>
+
+        <!-- Cabeçalho: categoria + título + tags -->
+        <div class="pmodal-header">
+          <span class="pmodal-cat" id="pmodalCat"></span>
+          <h2 class="pmodal-title" id="pmodalTitle"></h2>
+          <div class="pmodal-tags" id="pmodalTags" aria-label="Tecnologias utilizadas"></div>
+        </div>
+
+        <!-- Corpo: duas colunas -->
+        <div class="pmodal-body-grid">
+
+          <!-- Coluna esquerda — Vídeo/mídia -->
+          <div class="pmodal-media-col">
+            <div class="pmodal-media" id="pmodalMedia" aria-label="Prévia do projeto">
+              <!-- Conteúdo injetado pelo JS -->
+            </div>
+          </div>
+
+          <!-- Coluna direita — Texto + Botões -->
+          <div class="pmodal-text-col">
+            <p class="pmodal-desc" id="pmodalDesc"></p>
+            <div class="pmodal-details" id="pmodalDetails"></div>
+
+            <!-- 3 botões de ação -->
+            <div class="pmodal-actions">
+              <a href="#" id="pmodalDeploy"
+                 target="_blank" rel="noopener noreferrer"
+                 class="pmodal-btn-deploy">
+                <span aria-hidden="true">&lt;/&gt;</span>
+                <span data-i18n="modal_deploy">Acessar Deploy</span>
+              </a>
+              <a href="#" id="pmodalGithub"
+                 target="_blank" rel="noopener noreferrer"
+                 class="pmodal-btn-github">
+                <i class="ri-github-line" aria-hidden="true"></i>
+                <span data-i18n="modal_repo">Acessar Repositório</span>
+              </a>
+              <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+                 target="_blank" rel="noopener noreferrer"
+                 class="pmodal-btn-contact">
+                <i class="ri-whatsapp-line" aria-hidden="true"></i>
+                <span data-i18n="hero_contact">Entre em Contato</span>
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================================================
+         SEÇÃO 06 — PROJETOS
+    ============================================================= -->
+    <section id="projetos" class="projects-section section" aria-labelledby="projetos-titulo">
+
+      <div class="projects-bg" aria-hidden="true">
+        <div class="projects-gradient"></div>
+        <div class="projects-grid-lines"></div>
+        <div class="projects-blur-l"></div>
+        <div class="projects-blur-r"></div>
+      </div>
+
+      <div class="container">
+
+        <div class="section-header" data-reveal>
+          <span class="section-pill" data-i18n="projects_badge">— PROJETOS —</span>
+          <h2 id="projetos-titulo" class="section-title" data-i18n="projects_title">Soluções digitais desenvolvidas para gerar impacto.</h2>
+          <p class="section-desc" data-i18n="projects_subtitle">Cada projeto representa uma combinação entre engenharia de software, design estratégico e tecnologia moderna.</p>
+        </div>
+
+        <!-- Carrossel de projetos -->
+        <div class="pcarousel-outer" data-reveal>
+
+          <!-- Seta esquerda -->
+          <button class="carousel-arrow carousel-prev" id="projectPrev" aria-label="Projeto anterior">
+            <i class="ri-arrow-left-s-line" aria-hidden="true"></i>
+          </button>
+
+          <!-- Stage do carrossel -->
+          <div class="pcarousel-stage" id="projectsStage" aria-live="polite" aria-label="Projetos">
+
+            <!-- ─── PROJETO 01: R.A.S Premium ────────────────── -->
+            <article class="project-card"
+              data-title="R.A.S Premium"
+              data-cat="Landing Page"
+              data-desc="Landing Page institucional de alta performance focada em conversão para o nicho de saúde e fitness. Desenvolvida com arquitetura moderna e 100% responsiva, a plataforma conta com tabelas dinâmicas de planos, módulo integrado de notícias regionais, seção de diferenciais e múltiplos pontos de captura rápida direcionados para o WhatsApp."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video="ct ras.mp4"
+              data-deploy="https://ct-r-a-s.vercel.app/"
+              data-github="https://github.com/Levy-Andrade/CT-R.A.S."
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo · SEO Otimizado">
+              
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-code-box-line"></i>
                 </div>
+                <img src="foto ctras.jpg" alt="Projeto RAS Premium" loading="lazy" onerror="this.style.display='none'">
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Landing Page</span>
+              </div>
 
-                <!-- CSS -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo css.png"
-                        alt="CSS"
-                    >
-
-                </div>
-
-                <!-- JAVASCRIPT -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo javascript.png"
-                        alt="JavaScript"
-                    >
-
-                </div>
-
-                <!-- REACT -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo react.png"
-                        alt="React"
-                    >
-
-                </div>
-
-                <!-- JAVA -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo java.png"
-                        alt="Java"
-                    >
-
-                </div>
-
-                <!-- MYSQL -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo mysql.png"
-                        alt="MySQL"
-                    >
-
-                </div>
-
-                <!-- SPRING BOOT -->
-                <div class="skill-card">
-
-                    <img
-                        src="LOGO SPRING BOOT.png"
-                        alt="Spring Boot"
-                    >
-
-                </div>
-
-                <!-- TAILWIND CSS -->
-                <div class="skill-card">
-
-                    <img
-                        src="LOGO DA TAILWIND.png"
-                        alt="Tailwind CSS"
-                    >
-
-                </div>
-
-                <!-- VITE -->
-                <div class="skill-card">
-
-                    <img
-                        src="LOGO VITE.png"
-                        alt="Vite"
-                     >
-
-                </div>
-
-                <!-- SAAS -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo saas.png"
-                        alt="SaaS"
-                     >
-
-                </div>
-
-                <!-- GITHUB -->
-                <div class="skill-card">
-
-                    <img
-                        src="logo github v1.png"
-                        alt="GitHub"
-                     >
-
-                </div>
+              <div class="project-body">
+                <h3>R.A.S Premium</h3>
+                <p data-i18n="project_ras">Landing Page institucional de alta performance, desenvolvida com foco em conversão, animações modernas e experiência mobile premium.</p>
                 
-            </div>
-
-        </section>
-
-        <!-- =====================================================
-     PROJETOS
-===================================================== -->
-<section id="projetos">
-
-    <!-- TÍTULO -->
-    <div class="sessao-titulo">
-
-        <h2>Todos os Projetos</h2>
-
-        <div class="linha-roxa"></div>
-
-    </div>
-
-    <!-- GRID DOS PROJETOS -->
-    <div class="todos-projetos">
-
-        <!-- =================================================
-             CARD POKEMON
-        ================================================== -->
-        <div
-            class="projeto-card"
-            onclick="abrirModal('modalPokemon')"
-        >
-
-            <div class="card-media">
-
-                <img
-                    src="arena de batalha.png"
-                    alt="Pokémon Battle Arena"
-                >
-
-                <!-- TECNOLOGIAS -->
-                <div class="overlay-skills">
-
-                    <img src="logo java.png" alt="Java">
-                    <img src="LOGO SPRING BOOT.png" alt="Spring Boot">
-                    <img src="logo react.png" alt="React">
-                    <img src="LOGO VITE.png" alt="Vite">
-                    <img src="logo javascript.png" alt="JavaScript">
-                    <img src="logo css.png" alt="CSS">
-                    <img src="logo html.png" alt="HTML">
-
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
                 </div>
 
-                <!-- HOVER -->
-                <div class="overlay-hover">
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto R.A.S Premium">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
 
-                    <span class="projeto-data">
-                        06 de Maio de 2026
-                    </span>
+            <!-- ─── PROJETO 02: Ecossistema Zyntek ──────────── -->
+            <article class="project-card project-card-featured"
+              data-title="Zyntek Connect"
+              data-cat="Startup SaaS"
+              data-desc="Desenvolvimento da plataforma corporativa e ecossistema digital da Zyntek. O projeto engloba desde a concepção do Design System e mapeamento de experiência do usuário (UI/UX) até a engenharia de software final. Construído sobre uma arquitetura moderna e escalável, conta com animações fluidas de alto padrão, otimização extrema de performance e foco em posicionamento de mercado premium."
+              data-tags="UI/UX Design, Design System, Web Development"
+              data-video="zyntek.mp4"
+              data-deploy="https://zyntekconnect.com.br/"
+              data-github="https://github.com/Levy-Andrade/zyntek-landingpage"
+              data-details="UI/UX Premium · Design System Próprio · Arquitetura Escalável · Animações High-End · SEO Avançado">
+              
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-rocket-2-line"></i>
+                </div>
+                <img src="zyntek capa.jpg" alt="Ecossistema Zyntek" loading="lazy" onerror="this.style.display='none'">
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat project-cat-featured" aria-hidden="true">Zyntek</span>
+              </div>
 
-                    <button class="btn-ver-mais">
-                        Ver mais
-                    </button>
-
+              <div class="project-body">
+                <h3>Zyntek Connect</h3>
+                <p data-i18n="project_zyntek">Plataforma institucional construída com identidade visual futurista, animações de alta fidelidade e engenharia de código focada em escalabilidade corporativa.</p>
+                
+                <div class="project-tags" aria-label="Tecnologias: UI/UX Design, Design System, Web Development">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
                 </div>
 
-            </div>
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do Ecossistema Zyntek">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
 
-            <h3 class="projeto-titulo">
-                Pokémon Battle Arena
-            </h3>
+            <!-- ─── PROJETO 03: Portfólio Lorraini Paris ────────────────── -->
+            <article class="project-card"
+              data-title="Portfólio Publicitária"
+              data-cat="Portfólio"
+              data-desc="Portfólio profissional de publicidade, propaganda e branding desenvolvido com alta performance. A plataforma foi projetada para destacar produções visuais e campanhas de marketing, unindo uma identidade visual marcante a uma engenharia de código fluida e totalmente responsiva."
+              data-tags="UI/UX Design, JavaScript, CSS Animation"
+              data-video="portifolio publicitaria v1.mp4"
+              data-deploy="https://portfolio-lorraini-keiq.vercel.app/"
+              data-github="https://github.com/Levy-Andrade/Portfolio-Lorraini"
+              data-details="Branding & Design · Transições Fluidas · Dark/Light Mode">
+              
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-layout-4-line"></i>
+                </div>
+                <img src="portifolio publicitaria.png" alt="Portfólio Lorraini Paris" loading="lazy" onerror="this.style.display='none'">
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Portfólio</span>
+              </div>
 
+              <div class="project-body">
+                <h3>Portfólio Publicitária</h3>
+                <p data-i18n="project_portfolio">Portfólio profissional de publicidade e branding, desenvolvido com alta performance, transições fluidas, interface clean e experiência totalmente responsiva.</p>
+                
+                <div class="project-tags" aria-label="Tecnologias: UI/UX Design, JavaScript, CSS Animation">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Portfólio Lorraini Paris">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 04: Garagem 7 ────────────────── -->
+            <article class="project-card"
+              data-title="Garagem 7"
+              data-cat="Landing Page"
+              data-desc="Landing page institucional de alto impacto desenvolvida para o segmento automotivo. O projeto foi estruturado com foco em conversão e experiência do usuário, apresentando um design moderno, transições fluidas para exibição de serviços, agendamentos rápidos e total adaptabilidade para dispositivos móveis."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video="preview-garage7.mp4"
+              data-deploy="https://garagem-7.vercel.app/"
+              data-github="https://github.com/Levy-Andrade/Garagem-7"
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo · SEO Otimizado">
+              
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-layout-4-line"></i>
+                </div>
+                <img src="foto garagem 7.jpg" alt="Projeto Garagem 7" loading="lazy" onerror="this.style.display='none'">
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Landing Page</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Garagem 7</h3>
+                <p data-i18n="project_system">Landing page institucional desenvolvida para o segmento automotivo, focada em conversão, agendamentos e exibição de serviços com design moderno e totalmente responsivo.</p>
+                
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Garagem 7">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+            
+            <!-- ─── PROJETO 05: Pokémon Battle Arena ────────────────── -->
+            <article class="project-card"
+              data-title="Pokémon Battle Arena"
+              data-cat="Web Game"
+              data-desc="Simulador de batalhas Pokémon em turnos desenvolvido com sincronização de alta performance entre o backend e a interface do usuário. O projeto utiliza uma arquitetura robusta para garantir o processamento seguro da lógica de combate, gerenciamento de turnos em tempo real e feedback visual dinâmico a cada ação."
+              data-tags="React.js, Spring Boot, Java REST API"
+              data-video="Arena pokemon.mp4"
+              data-deploy="https://batalha-pok-mon-vers-o-1.vercel.app/"
+              data-github="https://github.com/Levy-Andrade/Batalha-Pok-mon-vers-o-1-"
+              data-details="Gerenciamento de Estado · Lógica de Turnos Assíncrona · API RESTful Integrada · JPA / Hibernate · Renderização Dinâmica">
+              
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-gamepad-line"></i>
+                </div>
+                <img src="arena de batalha.png" alt="Projeto Pokémon Battle Arena" loading="lazy" onerror="this.style.display='none'">
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Web Game</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Pokémon Battle Arena</h3>
+                <p data-i18n="project_webgame">Aplicação web dinâmica que replica a mecânica de combate por turnos da franquia Pokémon. Construído integrando uma API escalável a um ecossistema front-end otimizado, o sistema gerencia logs de ações, cálculo de dano e atualização imediata da interface.</p>
+                
+                <div class="project-tags" aria-label="Tecnologias: React.js, Spring Boot, Java REST API">
+                  <span>React.js</span>
+                  <span>Spring Boot</span>
+                  <span>Java REST API</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Pokémon Battle Arena">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 06: Zynk Finance Dashboard ──────────── -->
+            <article class="project-card"
+              data-title="Zynk Finance Dashboard"
+              data-cat="SaaS Platform"
+              data-desc="Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas. A plataforma centraliza o fluxo de caixa, monitora indicadores em tempo real e exibe relatórios gráficos interativos através de uma experiência limpa, intuitiva e focada em performance."
+              data-tags="React, Vite, CSS"
+              data-video="DASHBOARD.mp4"
+              data-deploy="https://zynk-finance-dashboard.vercel.app/"
+              data-github="https://github.com/Levy-Andrade/zynk-finance-dashboard"
+              data-details="Gráficos Interativos · Gestão de Fluxo de Caixa · Interface SaaS Premium · Fidelidade de Componentes UI">
+              
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-pie-chart-line"></i>
+                </div>
+                <img src="zynk-finance-dashboard.png" alt="Zynk Finance Dashboard" loading="lazy" onerror="this.style.display='none'">
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">SaaS Platform</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Zynk Finance Dashboard</h3>
+                <p data-i18n="project_finance">Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas através de relatórios e gráficos interativos em tempo real.</p>
+                
+                <div class="project-tags" aria-label="Tecnologias: React (Vite), Data Visualization, Tailwind CSS">
+                  <span>React</span>
+                  <span>Vite</span>
+                  <span>CSS</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do Zynk Finance Dashboard">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ════════════════════════════════════════════════
+                 ADICIONE NOVOS PROJETOS AQUI
+                 ════════════════════════════════════════════════ -->
+
+          </div><!-- /pcarousel-stage -->
+
+          <!-- Seta direita -->
+          <button class="carousel-arrow carousel-next" id="projectNext" aria-label="Próximo projeto">
+            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
+          </button>
+
+        </div><!-- /pcarousel-outer -->
+
+        <!-- Dots de navegação — gerados pelo JS -->
+        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Navegação por projeto"></div>
+
+        <!-- CTA de projetos -->
+        <div class="projects-cta-card" data-reveal>
+          <div class="pcc-icon" aria-hidden="true"><i class="ri-rocket-fill"></i></div>
+          <div class="pcc-text">
+            <h3 data-i18n="projects_footer_title">Tem uma ideia para transformar em realidade?</h3>
+            <p data-i18n="projects_footer_text">Vamos construir uma solução moderna, escalável e personalizada para o seu negócio utilizando as melhores práticas de engenharia de software.</p>
+          </div>
+          <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+             target="_blank" rel="noopener noreferrer"
+             class="btn-primary">
+            <span aria-hidden="true">&lt;/&gt;</span>
+            <span data-i18n="projects_footer_button">Iniciar Projeto</span>
+          </a>
         </div>
 
-        <!-- =================================================
-             CARD DASHBOARD
-        ================================================== -->
-        <div
-            class="projeto-card"
-            onclick="abrirModal('modalDashboard')"
-        >
+      </div>
+    </section>
 
-            <div class="card-media">
+    <!-- ============================================================
+         SEÇÃO 07 — CONTATO
+    ============================================================= -->
+    <section class="contact-section" id="contatos" aria-labelledby="contatos-titulo">
 
-                <img
-                    src="zynk-finance-dashboard.png"
-                    alt="Zynk Finance Dashboard"
-                >
+      <!-- Vídeo de fundo -->
+      <video autoplay muted loop playsinline class="contact-bg-video" aria-hidden="true">
+        <source src="fundo roxo geometrico.mp4" type="video/mp4">
+      </video>
 
-                <!-- TECNOLOGIAS -->
-                <div class="overlay-skills">
+      <div class="contact-overlay" aria-hidden="true"></div>
 
-                    <img src="logo saas.png" alt="SaaS">
-                    <img src="logo react.png" alt="React">
-                    <img src="LOGO VITE.png" alt="Vite">
-                    <img src="LOGO DA TAILWIND.png" alt="Tailwind CSS">
-                    <img src="logo javascript.png" alt="JavaScript">
-                    <img src="logo css.png" alt="CSS">
+      <div class="contact-container">
 
-                </div>
-
-                <!-- HOVER -->
-                <div class="overlay-hover">
-
-                    <span class="projeto-data">
-                        08 de Maio de 2026
-                    </span>
-
-                    <button class="btn-ver-mais">
-                        Ver mais
-                    </button>
-
-                </div>
-
-            </div>
-
-            <h3 class="projeto-titulo">
-                Zynk Finance Dashboard
-            </h3>
-
+        <!-- Cabeçalho -->
+        <div class="contact-header section-header" data-reveal>
+          <span class="section-pill" data-i18n="contact_badge">— CONTATOS —</span>
+          <h2 id="contatos-titulo" class="section-title" data-i18n="contact_title">
+            Vamos construir o futuro do seu projeto.
+          </h2>
+          <p class="section-desc" data-i18n="contact_description">
+            Estou disponível para oportunidades, projetos, parcerias estratégicas e desenvolvimento de soluções digitais personalizadas.
+          </p>
         </div>
 
-        <!-- =================================================
-             CARD PORTFÓLIO PUBLICITÁRIA
-        ================================================== -->
-        <div
-            class="projeto-card"
-            onclick="abrirModal('modalPortfolio')"
-        >
+        <div class="contact-grid">
 
-            <div class="card-media">
+          <!-- Card: Formulário -->
+          <div class="contact-card form-card">
+            <div class="contact-form-header">
+              <h3 class="contact-card-title">
+                <span class="contact-card-icon icon-purple" aria-hidden="true">&lt;/&gt;</span>
+                Vamos dar vida à sua ideia com a Zyntek
+              </h3>
+              <p>Detalhe suas necessidades e nossa equipe entrará em contato para uma consultoria inicial.</p>
+            </div>
 
-                <img
-                    src="portifolio publicitaria.png"
-                    alt="Portfólio Publicitária"
-                >
+            <form id="budgetForm" class="budget-form" novalidate aria-label="Formulário de orçamento">
 
-                <!-- TECNOLOGIAS -->
-                <div class="overlay-skills">
-
-                    <img src="logo html.png" alt="HTML">
-                    <img src="logo css.png" alt="CSS">
-                    <img src="logo javascript.png" alt="JavaScript">
-
+              <div class="form-group">
+                <label for="inputName" data-i18n="label_name">Nome Completo *</label>
+                <div class="form-input-wrapper">
+                  <i class="ri-user-line form-icon" aria-hidden="true"></i>
+                  <input type="text" id="inputName" name="name"
+                         placeholder="Seu nome completo"
+                         autocomplete="name"
+                         required aria-required="true"
+                         aria-describedby="errorName">
                 </div>
+                <span class="form-error" id="errorName" role="alert"></span>
+              </div>
 
-                <!-- HOVER -->
-                <div class="overlay-hover">
-
-                    <span class="projeto-data">
-                        11 de Maio de 2026
-                    </span>
-
-                    <button class="btn-ver-mais">
-                        Ver mais
-                    </button>
-
+              <div class="form-group">
+                <label for="inputCompany" data-i18n="label_company">Nome da Empresa</label>
+                <div class="form-input-wrapper">
+                  <i class="ri-building-line form-icon" aria-hidden="true"></i>
+                  <input type="text" id="inputCompany" name="company"
+                         placeholder="Nome da empresa (opcional)"
+                         autocomplete="organization">
                 </div>
+              </div>
 
-            </div>
-
-            <h3 class="projeto-titulo">
-                Portfólio Publicitária
-            </h3>
-
-        </div>
-
-    </div>
-
-</section>
-
-<!-- =========================================================
-     MODAL POKEMON
-========================================================= -->
-<div id="modalPokemon" class="modal">
-
-    <div class="modal-content">
-
-        <span
-            class="close"
-            onclick="fecharModal('modalPokemon')"
-        >
-            &times;
-        </span>
-
-        <div class="modal-body">
-
-            <div class="modal-images">
-
-                <video
-                    controls
-                    autoplay
-                    muted
-                    loop
-                    class="modal-video"
-                >
-
-                    <source
-                        src="Arena pokemon.mp4"
-                        type="video/mp4"
-                    >
-
-                </video>
-
-            </div>
-
-            <div class="modal-texto">
-
-                <h2>Pokémon Battle Arena</h2>
-
-                <p>
-                Desenvolver um simulador de batalhas de alta performance que exige sincronização perfeita entre a lógica de combate e o feedback visual imediato para o usuário.
-                Este projeto foi o campo de testes ideal para validarmos a integração entre front e backend de nível empresarial. O resultado é uma base de código pronta para ser escalada para soluções de mercado que exijam alta disponibilidade e zero erro de processamento.
-                </p>
-
-                <div class="modal-links">
-
-                    <a href="https://batalha-pok-mon-vers-o-1.vercel.app/" class="btn-link"  target="_blank" rel="noopener noreferrer">
-                        Acessar 
-                    </a>
-
-                    <a href="https://github.com/Levy-Andrade/Batalha-Pok-mon-vers-o-1-" class="btn-link secondary"  target="_blank" rel="noopener noreferrer">
-                        Repositório
-                    </a>
-
+              <div class="form-group">
+                <label for="inputPhone" data-i18n="label_phone">Telefone / WhatsApp *</label>
+                <div class="form-input-wrapper">
+                  <i class="ri-smartphone-line form-icon" aria-hidden="true"></i>
+                  <input type="tel" id="inputPhone" name="phone"
+                         placeholder="(00) 00000-0000"
+                         autocomplete="tel"
+                         required aria-required="true"
+                         aria-describedby="errorPhone">
                 </div>
+                <span class="form-error" id="errorPhone" role="alert"></span>
+              </div>
 
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================================================
-     MODAL DASHBOARD
-========================================================= -->
-<div id="modalDashboard" class="modal">
-
-    <div class="modal-content">
-
-        <span
-            class="close"
-            onclick="fecharModal('modalDashboard')"
-        >
-            &times;
-        </span>
-
-        <div class="modal-body">
-
-            <div class="modal-images">
-
-                <video
-                    controls
-                    autoplay
-                    muted
-                    loop
-                    class="modal-video"
-                >
-
-                    <source
-                        src="DASHBOARD.mp4"
-                        type="video/mp4"
-                    >
-
-                </video>
-
-            </div>
-
-            <div class="modal-texto">
-
-                <h2>Zynk Finance Dashboard</h2>
-
-                <p>
-               Projetar uma interface de gestão financeira que não apenas exiba números, mas transforme dados brutos em decisões estratégicas em tempo real. 
-               O foco central foi o desenvolvimento de uma experiência SaaS (Software as a Service) de alta fidelidade, onde a fluidez da navegação e a clareza visual foram milimetricamente calculadas para eliminar a complexidade operacional, permitindo que o usuário final foque no que realmente importa: o crescimento do negócio.
-                </p>
-
-                <div class="modal-links">
-
-                    <a href="https://zynk-finance-dashboard.vercel.app/" class="btn-link"  target="_blank" rel="noopener noreferrer">
-                        Acessar
-                    </a>
-
-                    <a href="https://github.com/Levy-Andrade/zynk-finance-dashboard" class="btn-link secondary"  target="_blank" rel="noopener noreferrer">
-                        Repositório
-                    </a>
-
+              <div class="form-group">
+                <label for="inputMessage" data-i18n="label_message">Descrição da Ideia do Projeto *</label>
+                <div class="form-input-wrapper textarea-wrapper">
+                  <i class="ri-lightbulb-line form-icon" aria-hidden="true"></i>
+                  <textarea id="inputMessage" name="message"
+                            placeholder="Descreva o desafio do seu negócio ou a solução que deseja desenvolver..."
+                            rows="5" required aria-required="true"
+                            aria-describedby="errorMessage"></textarea>
                 </div>
+                <span class="form-error" id="errorMessage" role="alert"></span>
+              </div>
+
+              <button type="submit" class="contact-btn btn-zyntek">
+                <span class="btn-code" aria-hidden="true">&lt;/&gt;</span>
+                <span class="btn-label" data-i18n="contact_send">Inicie seu Projeto</span>
+              </button>
+
+            </form>
+          </div>
+
+          <!-- Card: Hub Digital -->
+          <div class="contact-card social-card">
+
+            <div class="social-hub-header">
+              <h3 class="contact-card-title">
+                <span class="contact-card-icon icon-purple" aria-hidden="true">
+                  <i class="ri-share-line" aria-hidden="true"></i>
+                </span>
+                Hub Digital
+              </h3>
+            </div>
+
+            <!-- Redes sociais -->
+            <div class="social-grid social-grid--5col" role="list" aria-label="Redes sociais da Zyntek">
+
+              <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+                 target="_blank" rel="noopener noreferrer"
+                 class="social-item" aria-label="WhatsApp da Zyntek" role="listitem">
+                <img src="logo whatsapp.png" alt="" aria-hidden="true">
+                <span>WhatsApp</span>
+              </a>
+
+              <a href="https://www.instagram.com/levy.andrade.393"
+                 target="_blank" rel="noopener noreferrer"
+                 class="social-item" aria-label="Instagram da Zyntek" role="listitem">
+                <img src="logo do insta.png" alt="" aria-hidden="true">
+                <span>Instagram</span>
+              </a>
+
+              <a href="https://github.com/Levy-Andrade"
+                 target="_blank" rel="noopener noreferrer"
+                 class="social-item social-item-github" aria-label="GitHub da Zyntek" role="listitem">
+                <img src="logo github.png" alt="" aria-hidden="true">
+                <span>GitHub</span>
+              </a>
+
+              <a href="https://www.linkedin.com/in/levy-andrade/"
+                 target="_blank" rel="noopener noreferrer"
+                 class="social-item" aria-label="LinkedIn da Zyntek" role="listitem">
+                <img src="logo linkedin.png" alt="" aria-hidden="true">
+                <span>LinkedIn</span>
+              </a>
+
+              <a href="mailto:levyandrade2109@gmail.com"
+                 class="social-item" aria-label="E-mail da Zyntek" role="listitem">
+                <img src="logo e-mail.png" alt="" aria-hidden="true">
+                <span>E-mail</span>
+              </a>
 
             </div>
 
-        </div>
-
-    </div>
-
-</div>
-
-<!-- =========================================================
-     MODAL PORTFÓLIO
-========================================================= -->
-<div id="modalPortfolio" class="modal">
-
-    <div class="modal-content">
-
-        <span
-            class="close"
-            onclick="fecharModal('modalPortfolio')"
-        >
-            &times;
-        </span>
-
-        <div class="modal-body">
-
-            <div class="modal-images">
-
-                <video
-                    controls
-                    autoplay
-                    muted
-                    loop
-                    class="modal-video"
-                >
-
-                    <source
-                        src="portifolio publicitaria v1.mp4"
-                        type="video/mp4"
-                    >
-
-                </video>
-
+            <!-- Mascote Zynk -->
+            <div class="hub-mascot-wrapper" aria-hidden="true">
+              <img src="LOGO FUNDO.png" alt="Mascote Zynk" class="hub-mascot-img">
             </div>
 
-            <div class="modal-texto">
-
-                <h2>Portfólio Publicitária</h2>
-
-                <p>
-                    Desenvolver uma landing page de alto impacto visual que não apenas apresente um portfólio, mas que atue como uma ferramenta ativa de conversão. 
-                    O desafio central foi equilibrar uma carga estética densa (branding e marketing digital) com uma performance de carregamento excepcional, garantindo que a identidade visual da marca seja transmitida sem fricção ao usuário.
-                </p>
-
-                <div class="modal-links">
-
-                    <a href="https://portfolio-lorraini-keiq.vercel.app/" class="btn-link" target="_blank" rel="noopener noreferrer">
-                        Acessar 
-                    </a>
-
-                    <a href="https://github.com/Levy-Andrade/Portfolio-Lorraini" class="btn-link secondary"  target="_blank" rel="noopener noreferrer">
-                        Repositório
-                    </a>
-
-                </div>
-
+            <div class="social-info">
+              <p>Disponível para desafios Full-Stack, parcerias estratégicas e novas oportunidades. Conecte-se comigo para networking ou entre em contato se precisar de uma estrutura corporativa robusta para criar a sua aplicação.</p>
+              <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+                 target="_blank" rel="noopener noreferrer"
+                 class="btn-conhecer btn-zyntek">
+                <span class="btn-code" aria-hidden="true">&lt;/&gt;</span>
+                <span class="btn-label" data-i18n="hub_button">Vamos Conversar</span>
+              </a>
             </div>
 
-        </div>
+          </div>
 
-    </div>
+        </div><!-- /contact-grid -->
 
-</div>
+      </div><!-- /contact-container -->
 
-    <!-- =========================================================
-         FOOTER / CONTATOS
-    ========================================================== -->
-    <section id="contato"></section>
-    <footer id="contato">
+    </section>
 
-        <!-- TÍTULO -->
-        <h2 class="titulo-sobre">
-            Contatos
-        </h2>
+    <!-- ============================================================
+         FOOTER
+    ============================================================= -->
+    <footer id="footer" class="site-footer" role="contentinfo">
+      <div class="footer-bg" aria-hidden="true">
+        <div class="footer-grid"></div>
+        <div class="footer-gradient"></div>
+      </div>
 
-        <!-- CONTATOS -->
-        <div class="contatos-container">
+      <div class="container">
+        <div class="footer-grid-layout">
 
-            <!-- EMAIL -->
-            <div class="contato-item">
-            <a href="mailto:levyandrade2109@gmail.com" class="contato-link">
-                <div class="icon-circle">
-                    <img 
-                        src="logo e-mail.png" 
-                        alt="E-mail" 
-                        class="icon-img"
-                    >
-                </div>
-
-                <h3>E-mail</h3>
-
-                <p>
-                    levyandrade2109
-                </p>
+          <!-- Marca -->
+          <div class="footer-brand">
+            <a href="#home" class="footer-logo">
+              <img src="LICON.png" alt="Levy Andrade Logo" class="brand-logo-img">
+              <span>Levy Andrade da Silva</span>
             </a>
-        </div>
-
-            <!-- LINKEDIN -->
-            <a
-                href="https://www.linkedin.com/in/levy-andrade/"
-                target="_blank"
-                class="contato-item"
-            >
-
-                <div class="icon-circle">
-
-                    <img
-                        src="logo linkedin.png"
-                        alt="Linkedin"
-                        class="icon-img"
-                    >
-
-                </div>
-
-                <h3>Linkedin</h3>
-
-                <p>
-                    Levy Andrade
-                </p>
-
-            </a>
-
-            <!-- WHATSAPP -->
-            <a
-                href="https://wa.me/5544984271446"
-                target="_blank"
-                class="contato-item"
-            >
-
-                <div class="icon-circle">
-
-                    <img
-                        src="logo whatsapp.png"
-                        alt="Whatsapp"
-                        class="icon-img"
-                    >
-
-                </div>
-
-                <h3>Whatsapp</h3>
-
-                <p>
-                    Levy Andrade
-                </p>
-
-            </a>
-
-            <!-- GITHUB -->
-            <a
-                href="https://github.com/Levy-Andrade"
-                target="_blank"
-                class="contato-item"
-            >
-
-                <div class="icon-circle">
-
-                    <img
-                        src="logo github.png"
-                        alt="Github"
-                        class="icon-img"
-                    >
-
-                </div>
-
-                <h3>Github</h3>
-
-                <p>
-                    @Levy-Andrade
-                </p>
-
-            </a>
-
-            <!-- INSTAGRAM -->
-            <a
-                href="https://www.instagram.com/levy.andrade.393"
-                target="_blank"
-                class="contato-item"
-            >
-
-                <div class="icon-circle">
-
-                    <img
-                        src="logo do insta.png"
-                        alt="Instagram"
-                        class="icon-img"
-                    >
-
-                </div>
-
-                <h3>Instagram</h3>
-
-                <p>
-                    levy.andrade.393
-                </p>
-
-            </a>
-
-        </div>
-
-         <!-- MASCOTE ZYNK -->
-            <div class="zynk-mascote-container">
-            <p class="zynk-frase">Dúvidas ou projetos? Vamos conversar!<br>
-                "Não importa o quão difícil seja, nunca perca de vista o seu objetivo."
+            <p class="footer-brand-desc" data-i18n="footer_description">
+              Não serei derrotado pelos limites atuais. Estou aqui para criar soluções que desafiam o que é possível.
             </p>
-            <img src="zynk final page.png" alt="Mascote Zynk" class="zynk-img">
-            </div>
+            <nav class="footer-social" aria-label="Redes sociais de Levy Andrade">
+              <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp pessoal"><i class="ri-whatsapp-line" aria-hidden="true"></i></a>
+              <a href="https://www.instagram.com/levy.andrade.393/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="ri-instagram-line" aria-hidden="true"></i></a>
+              <a href="https://github.com/Levy-Andrade" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="ri-github-line" aria-hidden="true"></i></a>
+              <a href="https://www.linkedin.com/in/levy-andrade/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="ri-linkedin-box-line" aria-hidden="true"></i></a>
+              <a href="mailto:levyandrade2109@gmail.com" aria-label="E-mail"><i class="ri-mail-line" aria-hidden="true"></i></a>
+            </nav>
+          </div>
 
+          <!-- Navegação -->
+          <div class="footer-col">
+            <h3 class="footer-title-purple" data-i18n="footer_navigation">Navegação</h3>
+            <ul role="list">
+              <li><a href="#home"     data-i18n="menu_home">Home</a></li>
+              <li><a href="#sobre"    data-i18n="menu_about">Sobre</a></li>
+              <li><a href="#formacao" data-i18n="menu_education">Formação</a></li>
+              <li><a href="#skills"   data-i18n="menu_skills">Skills</a></li>
+              <li><a href="#zyntek"   data-i18n="menu_zyntek">Zyntek</a></li>
+              <li><a href="#projetos" data-i18n="menu_projects">Projetos</a></li>
+              <li><a href="#contatos" data-i18n="menu_contact">Contatos</a></li>
+            </ul>
+          </div>
 
-        <!-- COPYRIGHT -->
-        <div class="footer-copy">
+          <!-- Stack -->
+          <div class="footer-col">
+            <h3 class="footer-title-purple" data-i18n="footer_stack">Stack</h3>
+            <ul role="list">
+              <li>Java</li>
+              <li>Spring Boot</li>
+              <li>React</li>
+              <li>JavaScript</li>
+              <li>MySQL</li>
+            </ul>
+          </div>
 
-            <p>
-                &copy; 2026 - Levy Andrade. Todos os direitos reservados.
-            </p>
+          <!-- Zyntek -->
+          <div class="footer-col">
+            <h3 class="footer-title-purple" data-i18n="footer_contact">Zyntek</h3>
+            <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer" class="footer-zyntek-link" aria-label="Visitar site da Zyntek">
+              <img src="ZYNKV2.png" alt="Zyntek — Agência Digital" class="logo-footer">
+            </a>
+          </div>
 
         </div>
 
+        <!-- CTA do footer -->
+        <div class="footer-cta">
+          <div class="footer-cta-icon" aria-hidden="true"><i class="ri-terminal-box-fill"></i></div>
+          <div class="footer-cta-text">
+            <h3 data-i18n="footer_cta_title">Vamos construir algo extraordinário?</h3>
+            <p data-i18n="footer_cta_text">Transformo desafios complexos em soluções digitais de alto impacto. Vamos construir o próximo projeto juntos?</p>
+          </div>
+          <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="btn-primary">
+            <span aria-hidden="true">&lt;/&gt;</span>
+            <span data-i18n="footer_cta_button">Entre em Contato</span>
+          </a>
+        </div>
+
+        <!-- Copyright -->
+        <div class="footer-bottom">
+          <div class="footer-divider" aria-hidden="true"></div>
+          <div class="footer-bottom-inner">
+            <p data-i18n="footer_copyright">© 2026 Portfólio Levy Andrade. Todos os direitos reservados.</p>
+            <p data-i18n="footer_signature">Desenvolvido por <a href="https://www.linkedin.com/in/levyandrade/" target="_blank" rel="noopener noreferrer">Levy Andrade</a> e CO-fundador da <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer">Zyntek</a>.</p>
+          </div>
+        </div>
+
+      </div>
     </footer>
 
-    <!-- =========================================================
-         JAVASCRIPT
-    ========================================================== -->
-    <script src="script.js"></script>
+  </main><!-- /#app -->
 
+  <script src="script.js"></script>
 </body>
-
 </html>

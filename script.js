@@ -90,6 +90,8 @@ const DOM = Object.freeze({
   /* Tema */
   themeToggle:      document.getElementById("themeToggle"),
   themeIcon:        document.getElementById("themeIcon"),
+  mobileThemeToggle: document.getElementById("mobileThemeToggle"),
+  mobileThemeIcon:   document.getElementById("mobileThemeIcon"),
 
   /* Idioma */
   langBtn:          document.getElementById("langBtn"),
@@ -437,6 +439,18 @@ function closeMobileMenu() {
   btn.classList.remove("open");
   btn.setAttribute("aria-expanded", "false");
   btn.setAttribute("aria-label", "Abrir menu de navegação");
+  document.body.classList.remove("mobile-menu-active");
+}
+
+function openMobileMenu() {
+  const { mobileMenu: menu, mobileMenuBtn: btn } = DOM;
+  if (!menu || !btn) return;
+  menu.classList.add("open");
+  menu.setAttribute("aria-hidden", "false");
+  btn.classList.add("open");
+  btn.setAttribute("aria-expanded", "true");
+  btn.setAttribute("aria-label", "Fechar menu de navegação");
+  document.body.classList.add("mobile-menu-active");
 }
 
 function initMobileMenu() {
@@ -449,11 +463,7 @@ function initMobileMenu() {
     if (isOpen) {
       closeMobileMenu();
     } else {
-      menu.classList.add("open");
-      menu.setAttribute("aria-hidden", "false");
-      btn.classList.add("open");
-      btn.setAttribute("aria-expanded", "true");
-      btn.setAttribute("aria-label", "Fechar menu de navegação");
+      openMobileMenu();
     }
   });
 
@@ -471,6 +481,18 @@ function initMobileMenu() {
       closeMobileMenu();
     }
   });
+
+  /* Fecha ao clicar em um link de navegação dentro do menu */
+  menu.querySelectorAll(".mobile-link, .mobile-cta").forEach((link) => {
+    link.addEventListener("click", () => closeMobileMenu());
+  });
+
+  /* Fecha automaticamente se a tela voltar a tamanho desktop */
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 768 && menu.classList.contains("open")) {
+      closeMobileMenu();
+    }
+  });
 }
 
 
@@ -481,7 +503,7 @@ function initMobileMenu() {
    — Inicializado antes do DOMContentLoaded para evitar FOUC.
    ══════════════════════════════════════════════════════════════════════ */
 function initTheme() {
-  const { themeToggle, themeIcon } = DOM;
+  const { themeToggle, themeIcon, mobileThemeToggle, mobileThemeIcon } = DOM;
   const metaThemeColor = document.querySelector('meta[name="theme-color"]');
 
   /** Aplica o tema e persiste no localStorage. */
@@ -489,9 +511,10 @@ function initTheme() {
     document.documentElement.setAttribute("data-theme", theme);
     localStorage.setItem(CONFIG.STORAGE_THEME, theme);
 
-    if (themeIcon) {
-      themeIcon.className = theme === "dark" ? "ri-moon-clear-line" : "ri-sun-line";
-    }
+    const iconClass = theme === "dark" ? "ri-moon-clear-line" : "ri-sun-line";
+    if (themeIcon) themeIcon.className = iconClass;
+    if (mobileThemeIcon) mobileThemeIcon.className = iconClass;
+
     if (metaThemeColor) {
       metaThemeColor.content = theme === "dark" ? "#09090b" : "#ffffff";
     }
@@ -501,12 +524,13 @@ function initTheme() {
   const savedTheme = localStorage.getItem(CONFIG.STORAGE_THEME) || "dark";
   applyTheme(savedTheme);
 
-  if (themeToggle) {
-    themeToggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      applyTheme(current === "dark" ? "light" : "dark");
-    });
+  function handleToggleClick() {
+    const current = document.documentElement.getAttribute("data-theme");
+    applyTheme(current === "dark" ? "light" : "dark");
   }
+
+  if (themeToggle) themeToggle.addEventListener("click", handleToggleClick);
+  if (mobileThemeToggle) mobileThemeToggle.addEventListener("click", handleToggleClick);
 }
 
 

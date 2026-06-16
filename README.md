@@ -7,7 +7,7 @@ O portfólio foi desenhado com uma estética **Cyberpunk/Dark Mode**, focado em 
 
 ## ✨ Preview do Projeto
 
-![Preview do Projeto](assets/capa-projeto.png)
+![Preview do Projeto](assets/capa-projeto.jpg)
 
 ---
 

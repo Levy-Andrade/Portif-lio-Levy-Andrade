@@ -454,43 +454,67 @@ function openMobileMenu() {
 }
 
 function initMobileMenu() {
+  /* Evita dupla inicialização com o script inline do HTML */
+  if (window.__mobileMenuReady) return;
+  window.__mobileMenuReady = true;
+
   const { mobileMenuBtn: btn, mobileMenu: menu } = DOM;
   if (!btn || !menu) return;
 
-  /* Alterna abertura/fechamento */
-  btn.addEventListener("click", () => {
-    const isOpen = menu.classList.contains("open");
-    if (isOpen) {
-      closeMobileMenu();
-    } else {
-      openMobileMenu();
-    }
+  const backdrop = document.getElementById("mobileMenuBackdrop");
+  const closeBtn = document.getElementById("mobileMenuClose");
+
+  /** Abre o menu e o backdrop */
+  function open() {
+    menu.classList.add("open");
+    menu.setAttribute("aria-hidden", "false");
+    btn.classList.add("open");
+    btn.setAttribute("aria-expanded", "true");
+    btn.setAttribute("aria-label", "Fechar menu de navegação");
+    if (backdrop) backdrop.classList.add("open");
+    document.body.classList.add("mobile-menu-active");
+  }
+
+  /** Fecha o menu e o backdrop */
+  function close() {
+    menu.classList.remove("open");
+    menu.setAttribute("aria-hidden", "true");
+    btn.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    btn.setAttribute("aria-label", "Abrir menu de navegação");
+    if (backdrop) backdrop.classList.remove("open");
+    document.body.classList.remove("mobile-menu-active");
+  }
+
+  /* Botão hambúrguer — abre/fecha */
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menu.classList.contains("open") ? close() : open();
   });
+
+  /* Botão X interno do drawer */
+  if (closeBtn) closeBtn.addEventListener("click", close);
+
+  /* Backdrop escuro — fecha ao clicar fora */
+  if (backdrop) backdrop.addEventListener("click", close);
 
   /* Fecha ao pressionar Escape */
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape" && menu.classList.contains("open")) {
-      closeMobileMenu();
+      close();
       btn.focus();
-    }
-  });
-
-  /* Fecha ao clicar fora do menu */
-  document.addEventListener("click", (e) => {
-    if (!menu.contains(e.target) && !btn.contains(e.target)) {
-      closeMobileMenu();
     }
   });
 
   /* Fecha ao clicar em um link de navegação dentro do menu */
   menu.querySelectorAll(".mobile-link, .mobile-cta").forEach((link) => {
-    link.addEventListener("click", () => closeMobileMenu());
+    link.addEventListener("click", close);
   });
 
   /* Fecha automaticamente se a tela voltar a tamanho desktop */
   window.addEventListener("resize", () => {
     if (window.innerWidth > 768 && menu.classList.contains("open")) {
-      closeMobileMenu();
+      close();
     }
   });
 }
@@ -1222,6 +1246,9 @@ function initProjectCarousel() {
 
   /** Re-renderiza o carrossel completo. */
   function render() {
+    /* Aguarda o stage ter largura real (evita cardW=0 no primeiro render mobile) */
+    if (stage.offsetWidth === 0) { requestAnimationFrame(render); return; }
+
     const visible = getVisibleCount();
     const cardW   = calcCardWidth(visible);
 
@@ -1235,13 +1262,14 @@ function initProjectCarousel() {
     });
 
     if (visible === 1) {
-      /* Mobile: apenas o card central */
+      /* Mobile: card central ocupa toda a largura do stage */
       const center = cards[Utils.mod(centerIndex, cards.length)];
       center.style.left          = "0px";
+      center.style.width         = "100%";
       center.style.opacity       = "1";
       center.style.pointerEvents = "auto";
       center.classList.add("pc-center");
-      stage.style.minHeight      = center.offsetHeight + "px";
+      requestAnimationFrame(() => { stage.style.minHeight = center.offsetHeight + "px"; });
     } else {
       /* Desktop: esquerdo + central + direito */
       const idxLeft   = Utils.mod(centerIndex - 1, cards.length);

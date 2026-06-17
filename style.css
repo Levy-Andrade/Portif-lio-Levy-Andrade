@@ -90,6 +90,97 @@ hr{border:none;}
   --shadow-lg:0 20px 60px rgba(0,0,0,.15);
 }
 
+/* ─── LIGHT MODE — Correções de contraste em textos hardcoded ───── */
+
+/* Skill cards: h3 e p usam color:#fff fixo — precisa escurecer */
+[data-theme="light"] .skill-card h3 {
+  color: #111116;
+}
+[data-theme="light"] .skill-card p {
+  color: #374151;
+}
+
+/* Skills: card rodapé ("Evolução Contínua") */
+[data-theme="light"] .skills-footer-card h3 {
+  color: #111116;
+}
+[data-theme="light"] .skills-footer-card p {
+  color: #374151;
+}
+
+/* About-stat (seção Sobre e Zyntek): h4 usa color:#fff fixo */
+[data-theme="light"] .about-stat h4 {
+  color: #111116;
+}
+
+/* Formação — highlight card */
+[data-theme="light"] .edu-highlight-card h3 {
+  color: #111116;
+}
+
+/* Contato — título do card e formulário */
+[data-theme="light"] .contact-card-title {
+  color: #111116;
+}
+[data-theme="light"] .form-group label {
+  color: #374151;
+}
+[data-theme="light"] .form-input-wrapper input,
+[data-theme="light"] .form-input-wrapper textarea {
+  color: #111116;
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(139, 92, 246, 0.35);
+}
+[data-theme="light"] .form-input-wrapper input::placeholder,
+[data-theme="light"] .form-input-wrapper textarea::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+/* Hub digital — cabeçalho e ícone GitHub */
+[data-theme="light"] .social-hub-header h3 {
+  color: #111116;
+}
+[data-theme="light"] .social-icon-github {
+  color: #111116;
+}
+
+/* Botão secundário: fundo semitransparente escuro vira quase branco em light */
+[data-theme="light"] .btn-secondary {
+  background: rgba(139, 92, 246, 0.08);
+  color: var(--primary-dark);
+  border-color: rgba(139, 92, 246, 0.45);
+}
+[data-theme="light"] .btn-secondary:hover {
+  background: var(--gradient-primary);
+  color: #fff;
+  border-color: transparent;
+}
+
+/* Terminal JSON (seção Sobre): color:#fff no pre */
+[data-theme="light"] .t-json {
+  color: #111116;
+}
+[data-theme="light"] .tj-key {
+  color: #6d28d9;
+}
+[data-theme="light"] .tj-str {
+  color: #16a34a;
+}
+[data-theme="light"] .t-output {
+  color: #374151;
+}
+[data-theme="light"] .t-online {
+  color: #15803d;
+  text-shadow: none;
+}
+
+/* Card de skill com --skill-color:#ffffff (GitHub):
+   O ícone branco fica invisível no fundo claro */
+[data-theme="light"] .skill-card[style*="--skill-color:#ffffff"] .skill-logo img,
+[data-theme="light"] .skill-card[style*="--skill-color: #ffffff"] .skill-logo img {
+  filter: invert(1) brightness(0.15);
+}
+
 /* ─── BODY ───────────────────────────────────────────────────────── */
 body{
   background:var(--body-bg);
@@ -1703,6 +1794,7 @@ body.mobile-menu-active{overflow:hidden;}
   .company-actions { flex-direction: column; align-items: center; }
   .zyntek-block { gap: 36px; }
 }
+
 /* ═══════════════════════════════════════════════════════════════════
    PROJETOS (CARROSSEL) — VERSÃO PREMIUM CORRIGIDA
    ═══════════════════════════════════════════════════════════════════
@@ -3756,32 +3848,35 @@ body.mobile-menu-active{overflow:hidden;}
   }
 }
 
+
 /* ─── 4. CARROSSEL DE PROJETOS ───────────────────────────────────── */
+/* NOTA: os cards usam position:absolute dentro do stage, então o
+   stage precisa de min-height explícita — sem ela ele colapsa para
+   zero e o CTA card sobe e sobrepõe o carrossel. */
 @media (max-width: 900px) {
-  /* Container externo: setas acima/abaixo ou laterais com padding adequado */
   .pcarousel-outer {
     gap: 10px;
     padding: 16px 0 24px;
     align-items: center;
+    margin-bottom: 8px;
   }
 
-  /* Setas: menor e bem posicionadas */
+  /* min-height garante espaço para o card (imagem + corpo + botões) */
+  .pcarousel-stage {
+    min-height: 480px;
+    overflow: visible;
+  }
+
   .carousel-arrow {
     width: 40px !important;
     height: 40px !important;
     font-size: 1.1rem;
     flex-shrink: 0;
-    z-index: 10;
     position: relative;
+    z-index: 10;
   }
 
-  /* Stage: altura automática baseada no conteúdo */
-  .pcarousel-stage {
-    min-height: auto !important;
-    overflow: visible;
-  }
-
-  /* Card único: largura total, sem scale */
+  /* Card central: sem scale em mobile */
   .project-card.pc-center {
     transform: none !important;
     animation: none !important;
@@ -3792,14 +3887,27 @@ body.mobile-menu-active{overflow:hidden;}
     border-color: rgba(139,92,246,.6);
   }
 
-  /* Imagem do card: altura proporcional */
   .project-img-wrap {
     height: 180px;
+  }
+
+  /* Dots: respiro antes do CTA card */
+  .carousel-dots {
+    margin-top: 16px;
+    margin-bottom: 0;
+  }
+
+  /* CTA card: margem explícita para não colidir com o stage */
+  .projects-cta-card {
+    margin-top: 40px;
   }
 }
 
 @media (max-width: 640px) {
-  /* Carrossel com setas menores e layout compacto */
+  .pcarousel-stage {
+    min-height: 440px;
+  }
+
   .pcarousel-outer {
     gap: 8px;
     padding: 10px 0 20px;
@@ -3811,7 +3919,6 @@ body.mobile-menu-active{overflow:hidden;}
     font-size: 1rem;
   }
 
-  /* Body do card: padding menor */
   .project-body {
     padding: 14px 16px 18px;
   }
@@ -3825,7 +3932,6 @@ body.mobile-menu-active{overflow:hidden;}
     -webkit-line-clamp: 3;
   }
 
-  /* Tags das tecnologias */
   .project-tags {
     gap: 5px;
   }
@@ -3835,7 +3941,6 @@ body.mobile-menu-active{overflow:hidden;}
     padding: 2px 8px;
   }
 
-  /* Botões de ação do card */
   .project-actions {
     gap: 8px;
     flex-wrap: wrap;
@@ -3849,7 +3954,6 @@ body.mobile-menu-active{overflow:hidden;}
     min-width: 0;
   }
 
-  /* Dots de navegação: maiores para toque */
   .c-dot {
     width: 10px !important;
     height: 10px !important;
@@ -3860,14 +3964,42 @@ body.mobile-menu-active{overflow:hidden;}
     margin-top: 16px;
   }
 
-  /* Imagem do card */
   .project-img-wrap {
     height: 160px;
+  }
+
+  /* CTA card: layout vertical limpo */
+  .projects-cta-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 28px 20px;
+    margin-top: 36px;
+  }
+
+  .projects-cta-card .pcc-icon {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    font-size: 1.3rem;
+  }
+
+  .projects-cta-card .pcc-text h3 {
+    font-size: 1.05rem;
+  }
+
+  .projects-cta-card .pcc-text p {
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  .projects-cta-card .btn-primary {
+    width: 100%;
+    justify-content: center;
   }
 }
 
 @media (max-width: 400px) {
-  /* Setas: bem pequenas, mas clicáveis */
   .carousel-arrow {
     width: 32px !important;
     height: 32px !important;

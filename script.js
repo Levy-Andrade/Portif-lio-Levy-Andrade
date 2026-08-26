@@ -130,6 +130,7 @@ const DOM = Object.freeze({
 
   /* Partículas */
   particlesBg:      document.getElementById("particlesBg"),
+  networkCanvas:    document.getElementById("networkCanvas"),
 
   /* Seção de contato (para parallax) */
   contactSection:   document.querySelector(".contact-section"),
@@ -327,7 +328,7 @@ function initParticles() {
 
   const fragment = document.createDocumentFragment();
 
-  for (let i = 0; i < 35; i++) {
+  for (let i = 0; i < 26; i++) {
     const particle = document.createElement("div");
     const size     = 2 + Math.random() * 4;
     const opacity  = 0.05 + Math.random() * 0.15;
@@ -345,6 +346,175 @@ function initParticles() {
   }
 
   particlesBg.appendChild(fragment);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   06.1 REDE 3D DE PONTOS CONECTADOS (fundo global via <canvas>)
+   — Pontos com profundidade (z) simulada: os mais "próximos" da câmera
+     são maiores, mais brilhantes e se movem mais rápido (paralaxe),
+     reforçando a sensação de espaço 3D real.
+   — Linhas conectam pontos vizinhos; a opacidade da linha cai com a
+     distância, criando o efeito clássico de "rede neural".
+   — Reage sutilmente à posição do mouse (paralaxe de câmera) e pausa
+     quando a aba está em segundo plano ou o usuário pede menos
+     movimento (prefers-reduced-motion).
+   ══════════════════════════════════════════════════════════════════════ */
+function initNetworkBackground() {
+  const canvas = DOM.networkCanvas;
+  if (!canvas) return;
+
+  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (prefersReducedMotion) return;
+
+  const ctx = canvas.getContext("2d");
+  let width, height, dpr;
+  let points = [];
+  let rafId = null;
+  let running = true;
+
+  const mouse = { x: 0, y: 0, active: false };
+
+  const CONFIG_NET = {
+    density: 14000,      // px² por ponto — menor = mais pontos
+    maxPoints: 160,
+    linkDistance: 170,
+    mouseLinkDistance: 240,
+    baseSpeed: 0.14,
+    parallax: 24,        // intensidade do deslocamento por profundidade (mouse)
+  };
+
+  function themeColor() {
+    const isLight = document.documentElement.getAttribute("data-theme") === "light";
+    return isLight
+      ? { line: "139,92,246", dot: "109,40,217" }
+      : { line: "168,85,247", dot: "196,160,255" };
+  }
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    width  = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width  = width  * dpr;
+    canvas.height = height * dpr;
+    canvas.style.width  = width  + "px";
+    canvas.style.height = height + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const area  = width * height;
+    const count = Math.min(CONFIG_NET.maxPoints, Math.max(36, Math.round(area / CONFIG_NET.density)));
+
+    points = Array.from({ length: count }, () => createPoint());
+  }
+
+  function createPoint() {
+    const z = 0.35 + Math.random() * 0.65; // 0 = longe, 1 = perto (profundidade simulada)
+    return {
+      x: Math.random() * width,
+      y: Math.random() * height,
+      z,
+      vx: (Math.random() - 0.5) * CONFIG_NET.baseSpeed * (0.5 + z),
+      vy: (Math.random() - 0.5) * CONFIG_NET.baseSpeed * (0.5 + z),
+    };
+  }
+
+  function step() {
+    if (!running) return;
+
+    const { line, dot } = themeColor();
+    ctx.clearRect(0, 0, width, height);
+
+    const parallaxX = mouse.active ? (mouse.x / width  - 0.5) * CONFIG_NET.parallax : 0;
+    const parallaxY = mouse.active ? (mouse.y / height - 0.5) * CONFIG_NET.parallax : 0;
+
+    /* Atualiza posições (drift contínuo + wrap nas bordas) */
+    for (const p of points) {
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < -20) p.x = width + 20;
+      if (p.x > width + 20) p.x = -20;
+      if (p.y < -20) p.y = height + 20;
+      if (p.y > height + 20) p.y = -20;
+    }
+
+    /* Posições projetadas (com paralaxe por profundidade — pontos mais
+       "perto" da câmera reagem mais ao movimento do mouse) */
+    const projected = points.map((p) => ({
+      x: p.x + parallaxX * p.z,
+      y: p.y + parallaxY * p.z,
+      z: p.z,
+    }));
+
+    /* Conexões entre pontos próximos */
+    for (let i = 0; i < projected.length; i++) {
+      for (let j = i + 1; j < projected.length; j++) {
+        const a = projected[i], b = projected[j];
+        const dx = a.x - b.x, dy = a.y - b.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONFIG_NET.linkDistance) {
+          const depth   = (a.z + b.z) / 2;
+          const opacity = (1 - dist / CONFIG_NET.linkDistance) * 0.5 * depth;
+          if (opacity <= 0.01) continue;
+          ctx.strokeStyle = `rgba(${line},${opacity.toFixed(3)})`;
+          ctx.lineWidth = 0.6 + depth * 0.6;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+
+      /* Conexão sutil com o cursor, reforçando a interatividade 3D */
+      if (mouse.active) {
+        const a = projected[i];
+        const dx = a.x - mouse.x, dy = a.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < CONFIG_NET.mouseLinkDistance) {
+          const opacity = (1 - dist / CONFIG_NET.mouseLinkDistance) * 0.35 * a.z;
+          ctx.strokeStyle = `rgba(${line},${opacity.toFixed(3)})`;
+          ctx.lineWidth = 0.7;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.stroke();
+        }
+      }
+    }
+
+    /* Pontos — tamanho e brilho crescem com a profundidade (z) */
+    for (const p of projected) {
+      const radius = 0.9 + p.z * 1.8;
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(${dot},${(0.35 + p.z * 0.5).toFixed(3)})`;
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    rafId = requestAnimationFrame(step);
+  }
+
+  function handleMouseMove(e) {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  }
+
+  function handleMouseLeave() {
+    mouse.active = false;
+  }
+
+  function handleVisibility() {
+    running = document.visibilityState === "visible";
+    if (running && !rafId) step();
+  }
+
+  resize();
+  step();
+
+  window.addEventListener("resize", Utils.debounce(resize, 200));
+  window.addEventListener("mousemove", handleMouseMove, { passive: true });
+  window.addEventListener("mouseleave", handleMouseLeave);
+  document.addEventListener("visibilitychange", handleVisibility);
 }
 
 
@@ -1624,7 +1794,7 @@ function initBudgetForm() {
 function initSkillCards() {
   if (!Utils.hasHover()) return;
 
-  document.querySelectorAll(".skill-card").forEach((card) => {
+  document.querySelectorAll(".skill-card, .tech-card").forEach((card) => {
     card.addEventListener("mousemove", (e) => {
       const rect    = card.getBoundingClientRect();
       const x       = e.clientX - rect.left;
@@ -1640,6 +1810,100 @@ function initSkillCards() {
       card.style.transform  = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
     });
   });
+
+  /* Cards de projeto: tilt 3D mais sutil (a área é maior e tem texto)
+     + spotlight que acompanha o cursor via variáveis CSS --mx/--my. */
+  document.querySelectorAll(".project-card").forEach((card) => {
+    card.addEventListener("mousemove", (e) => {
+      const rect    = card.getBoundingClientRect();
+      const x       = e.clientX - rect.left;
+      const y       = e.clientY - rect.top;
+      const rotateY = (x - rect.width  / 2) / 26;
+      const rotateX = -(y - rect.height / 2) / 26;
+      card.style.setProperty("--mx", `${(x / rect.width)  * 100}%`);
+      card.style.setProperty("--my", `${(y / rect.height) * 100}%`);
+      card.style.transition = "transform .08s linear";
+      card.style.transform  = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.015)`;
+    }, { passive: true });
+
+    card.addEventListener("mouseleave", () => {
+      card.style.transition = "transform .5s cubic-bezier(.22,1,.36,1)";
+      card.style.transform  = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
+      card.style.setProperty("--mx", "50%");
+      card.style.setProperty("--my", "50%");
+    });
+  });
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   18.1 FILTRO DE PROJETOS + CONTADOR + SELO NUMERADO
+   — Gera dinamicamente os botões de categoria a partir de data-cat,
+     permite filtrar a vitrine e numera cada card (identidade de "case").
+   ══════════════════════════════════════════════════════════════════════ */
+function initProjectsFilter() {
+  const stage  = document.getElementById("projectsStage");
+  const filter = document.getElementById("projectsFilter");
+  if (!stage) return;
+
+  const cards = Array.from(stage.querySelectorAll(".project-card"));
+  if (!cards.length) return;
+
+  /* Selo numerado (01, 02, 03...) em cada card */
+  cards.forEach((card, i) => {
+    const imgWrap = card.querySelector(".project-img-wrap");
+    if (imgWrap && !imgWrap.querySelector(".project-idx")) {
+      const idx = document.createElement("span");
+      idx.className = "project-idx";
+      idx.textContent = String(i + 1).padStart(2, "0");
+      imgWrap.appendChild(idx);
+    }
+  });
+
+  if (!filter) return;
+
+  const allLabel = document.documentElement.lang === "en" ? "All" : "Todos";
+
+  /* Categorias únicas, na ordem em que aparecem */
+  const cats = [];
+  cards.forEach((card) => {
+    const cat = card.dataset.cat;
+    if (cat && !cats.includes(cat)) cats.push(cat);
+  });
+
+  function countFor(cat) {
+    return cat === "*" ? cards.length : cards.filter((c) => c.dataset.cat === cat).length;
+  }
+
+  function buildButtons() {
+    filter.innerHTML = "";
+    const entries = [{ cat: "*", label: allLabel }, ...cats.map((c) => ({ cat: c, label: c }))];
+    entries.forEach(({ cat, label }) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "projects-filter-btn" + (cat === "*" ? " is-active" : "");
+      btn.dataset.filter = cat;
+      btn.setAttribute("role", "tab");
+      btn.setAttribute("aria-selected", cat === "*" ? "true" : "false");
+      btn.innerHTML = `${label} <span class="projects-filter-count">${countFor(cat)}</span>`;
+      btn.addEventListener("click", () => applyFilter(cat));
+      filter.appendChild(btn);
+    });
+  }
+
+  function applyFilter(cat) {
+    filter.querySelectorAll(".projects-filter-btn").forEach((btn) => {
+      const active = btn.dataset.filter === cat;
+      btn.classList.toggle("is-active", active);
+      btn.setAttribute("aria-selected", active ? "true" : "false");
+    });
+    cards.forEach((card) => {
+      const show = cat === "*" || card.dataset.cat === cat;
+      card.classList.toggle("is-filtered-out", !show);
+    });
+  }
+
+  buildButtons();
 }
 
 
@@ -1714,6 +1978,169 @@ function initDownloadCV() {
 
 
 /* ══════════════════════════════════════════════════════════════════════
+   20.5 TERMINAL INTERATIVO (Seção Sobre)
+   — Visitante digita comandos reais; respostas aparecem no histórico.
+   ══════════════════════════════════════════════════════════════════════ */
+function initTerminal() {
+  const body = document.getElementById("terminalBody");
+  const history = document.getElementById("termHistory");
+  const input = document.getElementById("termInput");
+  if (!body || !history || !input) return;
+
+  const scrollBottom = () => { body.scrollTop = body.scrollHeight; };
+
+  const printLine = (cmd) => {
+    const line = document.createElement("div");
+    line.className = "t-line";
+    line.innerHTML =
+      '<span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>' +
+      '<span class="t-dir">~</span><span class="t-dollar">$</span>' +
+      '<span class="t-cmd"></span>';
+    line.querySelector(".t-cmd").textContent = cmd;
+    history.appendChild(line);
+  };
+
+  const printOutput = (html, extraClass) => {
+    const out = document.createElement("div");
+    out.className = "t-output" + (extraClass ? " " + extraClass : "");
+    out.innerHTML = html;
+    history.appendChild(out);
+  };
+
+  const printBreak = () => history.appendChild(document.createElement("br"));
+
+  const goTo = (selector) => {
+    const el = document.querySelector(selector);
+    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const COMMANDS = {
+    help() {
+      printOutput(
+        "Comandos disponíveis: <span class=\"t-hl\">whoami</span>, " +
+        "<span class=\"t-hl\">about</span>, <span class=\"t-hl\">skills</span> " +
+        "(ou <span class=\"t-hl\">cat stack.json</span>), " +
+        "<span class=\"t-hl\">education</span> (ou <span class=\"t-hl\">cat education.json</span>), " +
+        "<span class=\"t-hl\">stats</span>, " +
+        "<span class=\"t-hl\">projects</span>, <span class=\"t-hl\">contact</span>, " +
+        "<span class=\"t-hl\">cv</span>, <span class=\"t-hl\">github</span>, " +
+        "<span class=\"t-hl\">linkedin</span>, <span class=\"t-hl\">sudo hire-me</span>, " +
+        "<span class=\"t-hl\">clear</span>."
+      );
+    },
+    whoami() {
+      printOutput("levy_andrade");
+      printOutput("Software Engineer &amp; Co-Founder @ Zyntek");
+      printOutput("Full Stack Developer · UI/UX Designer");
+    },
+    about() {
+      printOutput(
+        "Desenvolvedor Full Stack focado em Java, Spring Boot, React e JavaScript. " +
+        "Co-fundador da Zyntek, unindo engenharia e design para entregar produtos reais. " +
+        "Estudante de Análise e Desenvolvimento de Sistemas (UNIPAR), com certificações AWS e GCP."
+      );
+    },
+    skills() {
+      const pre = document.createElement("pre");
+      pre.className = "t-json";
+      pre.innerHTML =
+        '{\n  <span class="tj-key">"languages"</span>: [<span class="tj-str">"Java"</span>, <span class="tj-str">"JavaScript"</span>, <span class="tj-str">"TypeScript"</span>, <span class="tj-str">"C#"</span>, <span class="tj-str">"Python"</span>, <span class="tj-str">"HTML5"</span>, <span class="tj-str">"CSS3"</span>],\n' +
+        '  <span class="tj-key">"frontend"</span>:  [<span class="tj-str">"React"</span>, <span class="tj-str">"Tailwind CSS"</span>, <span class="tj-str">"Vite"</span>],\n' +
+        '  <span class="tj-key">"backend"</span>:   [<span class="tj-str">"Spring Boot"</span>, <span class="tj-str">"Node.js"</span>, <span class="tj-str">"APIs REST"</span>, <span class="tj-str">"JWT / Spring Security"</span>],\n' +
+        '  <span class="tj-key">"database"</span>:  [<span class="tj-str">"MySQL"</span>, <span class="tj-str">"Modelagem de Dados"</span>],\n' +
+        '  <span class="tj-key">"cloud"</span>:     [<span class="tj-str">"AWS"</span>, <span class="tj-str">"Microsoft Azure"</span>, <span class="tj-str">"Google Cloud"</span>, <span class="tj-str">"Docker"</span>],\n' +
+        '  <span class="tj-key">"tools"</span>:     [<span class="tj-str">"Git"</span>, <span class="tj-str">"GitHub"</span>, <span class="tj-str">"Postman"</span>, <span class="tj-str">"Figma"</span>],\n' +
+        '  <span class="tj-key">"agile"</span>:     [<span class="tj-str">"Scrum"</span>]\n}';
+      history.appendChild(pre);
+    },
+    education() {
+      const pre = document.createElement("pre");
+      pre.className = "t-json";
+      pre.innerHTML =
+        '{\n  <span class="tj-key">"graduacao"</span>: <span class="tj-str">"Análise e Desenvolvimento de Sistemas — UNIPAR (2023–2026)"</span>,\n' +
+        '  <span class="tj-key">"proxima"</span>:   <span class="tj-str">"Engenharia de Software (planejada, 2027)"</span>,\n' +
+        '  <span class="tj-key">"certificacoes"</span>: [<span class="tj-str">"AWS Certified AI Practitioner"</span>, <span class="tj-str">"GCP Associate Cloud Engineer"</span>, <span class="tj-str">"Java SE 11 OCP (Parte 1)"</span>],\n' +
+        '  <span class="tj-key">"em_andamento"</span>: [<span class="tj-str">"Java e Spring Boot — Formação Completa"</span>, <span class="tj-str">"Inglês do Zero ao Avançado"</span>]\n}';
+      history.appendChild(pre);
+    },
+    stats() {
+      const total = document.querySelectorAll("#projectsStage .project-card").length || 18;
+      printOutput(
+        `${total} projetos entregues · 7+ stacks utilizadas · 100% responsivo · 2 produtos próprios (Zyntek).`
+      );
+    },
+    ls() {
+      printOutput("about  skills  education  stats  projects  contact  cv  github  linkedin");
+    },
+    projects() {
+      printOutput("Abrindo a vitrine de projetos...");
+      goTo("#projetos");
+    },
+    contact() {
+      printOutput("Redirecionando para a seção de contato...");
+      goTo("#contatos");
+    },
+    cv() {
+      printOutput("Baixando currículo em PDF...");
+      const link = document.getElementById("downloadCV");
+      if (link) link.click();
+    },
+    github() {
+      printOutput("Abrindo GitHub em nova aba...");
+      window.open("https://github.com/Levy-Andrade", "_blank", "noopener");
+    },
+    linkedin() {
+      printOutput("Abrindo LinkedIn em nova aba...");
+      window.open("https://www.linkedin.com/in/levy-andrade/", "_blank", "noopener");
+    },
+    clear() {
+      history.innerHTML = "";
+    },
+    "sudo hire-me"() {
+      printOutput("[sudo] senha para levy: ••••••••••", "t-online");
+      printOutput("✓ Acesso concedido. Ótima escolha — vamos conversar!", "t-online");
+      goTo("#contatos");
+    },
+  };
+  COMMANDS["ajuda"] = COMMANDS.help;
+  COMMANDS["contato"] = COMMANDS.contact;
+  COMMANDS["projetos"] = COMMANDS.projects;
+  COMMANDS["curriculo"] = COMMANDS.cv;
+  COMMANDS["currículo"] = COMMANDS.cv;
+  COMMANDS["formacao"] = COMMANDS.education;
+  COMMANDS["formação"] = COMMANDS.education;
+  COMMANDS["cat stack.json"] = COMMANDS.skills;
+  COMMANDS["cat education.json"] = COMMANDS.education;
+
+  const escapeHTML = (str) =>
+    str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+  const runCommand = (raw) => {
+    const cmd = raw.trim();
+    if (!cmd) return;
+    printLine(cmd);
+    const key = cmd.toLowerCase();
+    if (COMMANDS[key]) {
+      COMMANDS[key]();
+    } else {
+      printOutput(`comando não encontrado: ${escapeHTML(cmd)} — digite <span class="t-hl">help</span>`, "t-error");
+    }
+    printBreak();
+    scrollBottom();
+  };
+
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      runCommand(input.value);
+      input.value = "";
+    }
+  });
+
+  body.addEventListener("click", () => input.focus());
+  scrollBottom();
+}
+
+/* ══════════════════════════════════════════════════════════════════════
    21. PARALLAX NA SEÇÃO DE CONTATO
    — Desloca suavemente o background-position conforme o scroll.
    — Apenas em dispositivos com hover real e sem prefers-reduced-motion.
@@ -1785,6 +2212,7 @@ function initGlobalListeners() {
   document.addEventListener("DOMContentLoaded", () => {
     initCursor();
     initParticles();
+    initNetworkBackground();
     initHeader();
     initSmoothScroll();
     initMobileMenu();
@@ -1792,8 +2220,10 @@ function initGlobalListeners() {
     initTyping();
     initCyberFrame();
     initReveal();
-    initProjectCarousel();
+    initTerminal();
+    /* Carrossel removido: projetos agora exibidos em vitrine (grid) completa */
     initProjectModal();
+    initProjectsFilter();
     initBudgetForm();
     initSkillCards();
     initRippleEffect();

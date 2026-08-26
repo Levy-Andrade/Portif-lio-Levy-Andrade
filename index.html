@@ -77,6 +77,7 @@
   <div class="cursor-outline" id="cursorOutline" aria-hidden="true"></div>
 
   <!-- Camadas de fundo globais -->
+  <canvas id="networkCanvas" class="network-canvas" aria-hidden="true"></canvas>
   <div class="particles-background" id="particlesBg" aria-hidden="true"></div>
   <div class="noise-overlay" aria-hidden="true"></div>
 
@@ -119,6 +120,7 @@
             <li><a href="#sobre"    class="nav-link"        data-i18n="menu_about">Sobre</a></li>
             <li><a href="#formacao" class="nav-link"        data-i18n="menu_education">Formação</a></li>
             <li><a href="#skills"   class="nav-link"        data-i18n="menu_skills">Skills</a></li>
+            <li><a href="#comportamental" class="nav-link"   data-i18n="menu_soft">Perfil</a></li>
             <li><a href="#zyntek"   class="nav-link"        data-i18n="menu_zyntek">Zyntek</a></li>
             <li><a href="#projetos" class="nav-link"        data-i18n="menu_projects">Projetos</a></li>
             <li><a href="#contatos" class="nav-link"        data-i18n="menu_contact">Contatos</a></li>
@@ -202,6 +204,7 @@
             <a href="#sobre"    class="mobile-link" data-i18n="menu_about">Sobre</a>
             <a href="#formacao" class="mobile-link" data-i18n="menu_education">Formação</a>
             <a href="#skills"   class="mobile-link" data-i18n="menu_skills">Skills</a>
+            <a href="#comportamental" class="mobile-link" data-i18n="menu_soft">Perfil</a>
             <a href="#zyntek"   class="mobile-link" data-i18n="menu_zyntek">Zyntek</a>
             <a href="#projetos" class="mobile-link" data-i18n="menu_projects">Projetos</a>
             <a href="#contatos" class="mobile-link" data-i18n="menu_contact">Contatos</a>
@@ -342,6 +345,15 @@
           <div class="float-tag float-four" aria-hidden="true">
             <i class="ri-terminal-box-line"></i><span>Full Stack</span>
           </div>
+          <div class="float-tag float-five" aria-hidden="true">
+            <i class="ri-leaf-line"></i><span>Spring Boot</span>
+          </div>
+          <div class="float-tag float-six" aria-hidden="true">
+            <i class="ri-layout-4-line"></i><span>React</span>
+          </div>
+          <div class="float-tag float-seven" aria-hidden="true">
+            <i class="ri-braces-line"></i><span>TypeScript</span>
+          </div>
 
           <!-- Órbitas decorativas -->
           <div class="orbit orbit-one" aria-hidden="true"></div>
@@ -368,6 +380,10 @@
       <div class="about-bg" aria-hidden="true">
         <div class="about-gradient"></div>
         <div class="about-grid-lines"></div>
+        <div class="about-orbs">
+          <span class="about-orb about-orb-a"></span>
+          <span class="about-orb about-orb-b"></span>
+        </div>
       </div>
 
       <div class="container">
@@ -380,8 +396,8 @@
 
         <div class="about-grid">
 
-          <!-- Terminal Linux -->
-          <div class="terminal-card" data-reveal aria-label="Terminal de código mostrando stack tecnológico">
+          <!-- Terminal Linux — interativo -->
+          <div class="terminal-card" data-reveal aria-label="Terminal interativo com stack tecnológico">
             <div class="terminal-bar" aria-hidden="true">
               <div class="terminal-dots">
                 <span class="td td-red"></span>
@@ -390,37 +406,59 @@
               </div>
               <div class="terminal-title">levy@zyntek ~ stack.sh</div>
             </div>
-            <div class="terminal-body" aria-hidden="true">
-              <div class="t-line">
-                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
-                <span class="t-dir">~</span><span class="t-dollar">$</span>
-                <span class="t-cmd">whoami</span>
-              </div>
-              <div class="t-output">levy_andrade</div>
-              <div class="t-output">Software Engineer &amp; Co-Founder @ Zyntek</div>
-              <br>
-              <div class="t-line">
-                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
-                <span class="t-dir">~</span><span class="t-dollar">$</span>
-                <span class="t-cmd">cat stack.json</span>
-              </div>
-              <pre class="t-json">{
-  <span class="tj-key">"backend"</span>:  [<span class="tj-str">"Java"</span>, <span class="tj-str">"Spring Boot"</span>, <span class="tj-str">"MySQL"</span>],
-  <span class="tj-key">"frontend"</span>: [<span class="tj-str">"React"</span>, <span class="tj-str">"JavaScript"</span>, <span class="tj-str">"CSS"</span>, <span class="tj-str">"HTML5"</span>],
-  <span class="tj-key">"tools"</span>:    [<span class="tj-str">"Git"</span>, <span class="tj-str">"Figma"</span>, <span class="tj-str">"Vite"</span>, <span class="tj-str">"Tailwind"</span>],
-  <span class="tj-key">"focus"</span>:    <span class="tj-str">"Software Engineering"</span>
+            <div class="terminal-body" id="terminalBody" role="log" aria-live="polite" tabindex="0">
+              <div id="termHistory">
+                <div class="t-line">
+                  <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                  <span class="t-dir">~</span><span class="t-dollar">$</span>
+                  <span class="t-cmd">whoami</span>
+                </div>
+                <div class="t-output">levy_andrade</div>
+                <div class="t-output">Software Engineer &amp; Co-Founder @ Zyntek</div>
+                <br>
+                <div class="t-line">
+                  <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                  <span class="t-dir">~</span><span class="t-dollar">$</span>
+                  <span class="t-cmd">cat stack.json</span>
+                </div>
+                <pre class="t-json">{
+  <span class="tj-key">"languages"</span>: [<span class="tj-str">"Java"</span>, <span class="tj-str">"JavaScript"</span>, <span class="tj-str">"TypeScript"</span>, <span class="tj-str">"C#"</span>, <span class="tj-str">"Python"</span>, <span class="tj-str">"HTML5"</span>, <span class="tj-str">"CSS3"</span>],
+  <span class="tj-key">"frontend"</span>:  [<span class="tj-str">"React"</span>, <span class="tj-str">"Tailwind CSS"</span>, <span class="tj-str">"Vite"</span>],
+  <span class="tj-key">"backend"</span>:   [<span class="tj-str">"Spring Boot"</span>, <span class="tj-str">"Node.js"</span>, <span class="tj-str">"APIs REST"</span>, <span class="tj-str">"JWT / Spring Security"</span>],
+  <span class="tj-key">"database"</span>:  [<span class="tj-str">"MySQL"</span>, <span class="tj-str">"Modelagem de Dados"</span>],
+  <span class="tj-key">"cloud"</span>:     [<span class="tj-str">"AWS"</span>, <span class="tj-str">"Microsoft Azure"</span>, <span class="tj-str">"Google Cloud"</span>, <span class="tj-str">"Docker"</span>],
+  <span class="tj-key">"tools"</span>:     [<span class="tj-str">"Git"</span>, <span class="tj-str">"GitHub"</span>, <span class="tj-str">"Postman"</span>, <span class="tj-str">"Figma"</span>],
+  <span class="tj-key">"agile"</span>:     [<span class="tj-str">"Scrum"</span>],
+  <span class="tj-key">"focus"</span>:     <span class="tj-str">"Software Engineering"</span>
 }</pre>
-              <div class="t-line">
-                <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
-                <span class="t-dir">~</span><span class="t-dollar">$</span>
-                <span class="t-cmd">echo $STATUS</span>
+                <div class="t-line">
+                  <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                  <span class="t-dir">~</span><span class="t-dollar">$</span>
+                  <span class="t-cmd">cat education.json</span>
+                </div>
+                <pre class="t-json">{
+  <span class="tj-key">"graduacao"</span>: <span class="tj-str">"Análise e Desenvolvimento de Sistemas — UNIPAR (2023–2026)"</span>,
+  <span class="tj-key">"proxima"</span>:   <span class="tj-str">"Engenharia de Software (planejada, 2027)"</span>,
+  <span class="tj-key">"certificacoes"</span>: [<span class="tj-str">"AWS Certified AI Practitioner"</span>, <span class="tj-str">"GCP Associate Cloud Engineer"</span>, <span class="tj-str">"Java SE 11 OCP (Parte 1)"</span>]
+}</pre>
+                <div class="t-line">
+                  <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                  <span class="t-dir">~</span><span class="t-dollar">$</span>
+                  <span class="t-cmd">echo $STATUS</span>
+                </div>
+                <div class="t-output t-online">✓ Em constante evolução. Aberto a projetos.</div>
+                <br>
+                <div class="t-line">
+                  <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
+                  <span class="t-dir">~</span><span class="t-dollar">$</span>
+                  <span class="t-cmd">help</span>
+                </div>
+                <div class="t-output">Terminal interativo. Digite um comando abaixo e pressione Enter — tente <span class="t-hl">help</span>.</div>
               </div>
-              <div class="t-output t-online">✓ Em constante evolução. Aberto a projetos.</div>
-              <br>
-              <div class="t-line">
+              <div class="t-line t-input-line">
                 <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
                 <span class="t-dir">~</span><span class="t-dollar">$</span>
-                <span class="t-cursor-blink">█</span>
+                <input type="text" id="termInput" class="t-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Digite um comando no terminal" placeholder="digite 'help'">
               </div>
             </div>
           </div>
@@ -495,74 +533,180 @@
           <p class="section-desc" data-i18n="education_subtitle">Cada etapa construída com dedicação e propósito.</p>
         </div>
 
-        <!-- Timeline de formação -->
-        <ol class="timeline" aria-label="Histórico de formação">
+        <!-- Linha do tempo unificada da formação -->
+        <div class="edu-timeline" data-reveal>
 
-          <!-- ADS -->
-          <li class="tl-item tl-right" data-reveal>
-            <div class="tl-node" aria-hidden="true">
-              <i class="ri-graduation-cap-fill"></i>
-            </div>
-            <div class="tl-card">
-              <span class="tl-period status-done" data-i18n="education_ads_period">Concluída (2023 - 2026)</span>
-              <h3 data-i18n="education_ads_title">Análise e Desenvolvimento de Sistemas</h3>
-              <h4 data-i18n="education_ads_institution">Graduação — Unipar</h4>
-              <p data-i18n="education_ads_text">Formação técnica e acadêmica em desenvolvimento de sistemas, algoritmos, banco de dados, engenharia de software e fundamentos da computação aplicada ao desenvolvimento de soluções modernas.</p>
-            </div>
-          </li>
+          <div class="edu-rail" aria-hidden="true"><div class="edu-rail-fill"></div></div>
 
-          <!-- Inglês -->
-          <li class="tl-item tl-left" data-reveal>
-            <div class="tl-card">
-              <span class="tl-period status-doing" data-i18n="education_english_period">Em andamento</span>
-              <h3 data-i18n="education_english_title">Inglês do Zero ao Avançado</h3>
-              <h4>Udemy</h4>
-              <p data-i18n="education_english_text">Aperfeiçoamento contínuo da comunicação técnica para atuação em projetos internacionais, leitura de documentação e colaboração global.</p>
+          <!-- Graduações em destaque -->
+          <div class="edu-tl-group edu-tl-group-degrees">
+            <span class="edu-node edu-node-pulse" aria-hidden="true"><i class="ri-graduation-cap-fill"></i></span>
+            <div class="edu-courses-header">
+              <h3 data-i18n="education_degrees_heading">Graduação Acadêmica</h3>
+              <span class="cat-line" aria-hidden="true"></span>
             </div>
-            <div class="tl-node" aria-hidden="true">
-              <i class="ri-translate-2"></i>
-            </div>
-          </li>
+            <div class="edu-degrees" data-reveal>
 
-          <!-- Java -->
-          <li class="tl-item tl-right" data-reveal>
-            <div class="tl-node" aria-hidden="true">
-              <i class="ri-code-box-fill"></i>
-            </div>
-            <div class="tl-card">
-              <span class="tl-period status-doing" data-i18n="education_java_period">Em andamento</span>
-              <h3 data-i18n="education_java_title">Java e Spring Boot</h3>
-              <h4 data-i18n="education_java_institution">Formação Completa — Udemy</h4>
-              <p data-i18n="education_java_text">Especialização em desenvolvimento backend, APIs REST, microsserviços, autenticação JWT, Spring Security, JPA, Hibernate e integração com bancos de dados.</p>
-            </div>
-          </li>
+              <article class="edu-degree-card">
+                <div class="edu-degree-icon" aria-hidden="true"><i class="ri-graduation-cap-fill"></i></div>
+                <span class="tl-period status-doing" data-i18n="education_ads_period">Fev/2023 – Abr/2026</span>
+                <h3 data-i18n="education_ads_title">Análise e Desenvolvimento de Sistemas</h3>
+                <h4 data-i18n="education_ads_institution">Graduação — UNIPAR (Universidade Paranaense)</h4>
+                <p data-i18n="education_ads_text">Formação técnica e acadêmica em desenvolvimento de sistemas, algoritmos, banco de dados, engenharia de software e fundamentos da computação aplicada ao desenvolvimento de soluções modernas.</p>
+              </article>
 
-          <!-- Engenharia de Software (planejada) -->
-          <li class="tl-item tl-left" data-reveal>
-            <div class="tl-card tl-future">
-              <span class="tl-period status-future" data-i18n="education_eng_period">Em breve</span>
-              <h3 data-i18n="education_eng_title">Bacharelado em Engenharia de Software</h3>
-              <h4 data-i18n="education_eng_institution">Nova Graduação • Planejada</h4>
-              <p data-i18n="education_eng_text">Próximo passo acadêmico focado no aprofundamento de arquitetura de sistemas complexos, qualidade de processos de software, gerência de projetos e engenharia de requisitos corporativos.</p>
-            </div>
-            <div class="tl-node tl-node-future" aria-hidden="true">
-              <i class="ri-book-open-fill"></i>
-            </div>
-          </li>
+              <article class="edu-degree-card edu-degree-future">
+                <div class="edu-degree-icon" aria-hidden="true"><i class="ri-book-open-fill"></i></div>
+                <span class="tl-period status-future" data-i18n="education_eng_period">Início previsto: 2027</span>
+                <h3 data-i18n="education_eng_title">Graduação em Engenharia de Software</h3>
+                <h4 data-i18n="education_eng_institution">Nova Graduação • Planejada</h4>
+                <p data-i18n="education_eng_text">Próximo passo acadêmico focado no aprofundamento de arquitetura de sistemas complexos, qualidade de processos de software, gerência de projetos e engenharia de requisitos corporativos.</p>
+              </article>
 
-        </ol>
-
-        <!-- Card de destaque -->
-        <div class="edu-footer" data-reveal>
-          <div class="edu-highlight-card">
-            <div class="edu-hl-icon" aria-hidden="true">
-              <i class="ri-lightbulb-flash-fill"></i>
-            </div>
-            <div>
-              <h3 data-i18n="education_highlight_title">Aprendizado Contínuo</h3>
-              <p data-i18n="education_highlight_text">Acredito que a evolução profissional é construída diariamente através da prática, pesquisa e constante atualização tecnológica, buscando sempre excelência no desenvolvimento de software moderno.</p>
             </div>
           </div>
+
+          <!-- Certificações em destaque -->
+          <div class="edu-tl-group edu-tl-group-featured">
+            <span class="edu-node" aria-hidden="true"><i class="ri-award-fill"></i></span>
+            <div class="edu-courses-header">
+              <i class="ri-award-fill" aria-hidden="true"></i>
+              <h3 data-i18n="education_featured_heading">Certificações &amp; Formações em Destaque</h3>
+              <span class="cat-line" aria-hidden="true"></span>
+            </div>
+            <ul class="courses-grid courses-grid-featured" data-reveal role="list" aria-label="Certificações e formações em destaque">
+
+              <li class="course-card course-card-featured">
+                <div class="course-icon" aria-hidden="true"><i class="ri-cloud-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_aws_period">Concluído</span>
+                  <h4 data-i18n="education_aws_title">AWS Certified AI Practitioner (AIF-C01)</h4>
+                  <p class="course-meta" data-i18n="education_aws_text_meta">Udemy · Curso preparatório para certificação</p>
+                </div>
+              </li>
+
+              <li class="course-card course-card-featured">
+                <div class="course-icon" aria-hidden="true"><i class="ri-cloud-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_gcp_period">Concluído</span>
+                  <h4 data-i18n="education_gcp_title">GCP — Associate Cloud Engineer</h4>
+                  <p class="course-meta" data-i18n="education_gcp_text_meta">Udemy · Curso preparatório para certificação</p>
+                </div>
+              </li>
+
+              <li class="course-card course-card-featured">
+                <div class="course-icon" aria-hidden="true"><i class="ri-award-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_ocp_period">Concluído</span>
+                  <h4 data-i18n="education_ocp_title">Java SE 11 Developer — 1Z0-819 OCP (Parte 1)</h4>
+                  <p class="course-meta" data-i18n="education_ocp_text_meta">Udemy · Preparação para certificação Oracle</p>
+                </div>
+              </li>
+
+              <li class="course-card course-card-featured">
+                <div class="course-icon" aria-hidden="true"><i class="ri-code-box-fill"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-doing" data-i18n="education_java_period">Em andamento</span>
+                  <h4 data-i18n="education_java_title">Java e Spring Boot — Formação Completa</h4>
+                  <p class="course-meta" data-i18n="education_java_text_meta">Udemy · APIs REST, microsserviços, JWT, Spring Security, JPA/Hibernate</p>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+          <!-- Formação complementar -->
+          <div class="edu-tl-group edu-tl-group-complementary">
+            <span class="edu-node" aria-hidden="true"><i class="ri-book-2-fill"></i></span>
+            <div class="edu-courses-header edu-courses-header-secondary">
+              <i class="ri-book-2-fill" aria-hidden="true"></i>
+              <h3 data-i18n="education_courses_heading">Formação Complementar</h3>
+              <span class="cat-line" aria-hidden="true"></span>
+            </div>
+            <ul class="courses-grid" data-reveal role="list" aria-label="Cursos e formações complementares">
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-cloud-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_azure_period">Concluído</span>
+                  <h4 data-i18n="education_azure_title">DP-420: Microsoft Azure Cosmos DB</h4>
+                  <p class="course-meta" data-i18n="education_azure_text_meta">Udemy · Guia de exame hands-on</p>
+                </div>
+              </li>
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-shield-check-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_f5_period">Concluído</span>
+                  <h4 data-i18n="education_f5_title">F5 201 Exam Preparation</h4>
+                  <p class="course-meta" data-i18n="education_f5_text_meta">Udemy · Curso completo com exames práticos</p>
+                </div>
+              </li>
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-database-2-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_db_period">Concluído</span>
+                  <h4 data-i18n="education_db_title">Administrando Banco de Dados</h4>
+                  <p class="course-meta" data-i18n="education_db_text_meta">Fundação Bradesco — Escola Virtual · Curso autoinstrucional</p>
+                </div>
+              </li>
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-braces-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_csharp1_period">Concluído</span>
+                  <h4 data-i18n="education_csharp1_title">C# Completo — POO + Projetos</h4>
+                  <p class="course-meta" data-i18n="education_csharp1_text_meta">Udemy · Programação orientada a objetos aplicada em projetos práticos</p>
+                </div>
+              </li>
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-flow-chart"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_csharp2_period">Concluído</span>
+                  <h4 data-i18n="education_csharp2_title">C# Primeiros Passos</h4>
+                  <p class="course-meta" data-i18n="education_csharp2_text_meta">Udemy · Lógica de programação e construção de algoritmos</p>
+                </div>
+              </li>
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-terminal-window-line"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-done" data-i18n="education_python_period">Concluído</span>
+                  <h4 data-i18n="education_python_title">Python: Domine a Programação</h4>
+                  <p class="course-meta" data-i18n="education_python_text_meta">Udemy · Fundamentos da linguagem aplicados a scripts e automações</p>
+                </div>
+              </li>
+
+              <li class="course-card">
+                <div class="course-icon" aria-hidden="true"><i class="ri-translate-2"></i></div>
+                <div class="course-body">
+                  <span class="course-status status-doing" data-i18n="education_english_period">Em andamento</span>
+                  <h4 data-i18n="education_english_title">Inglês do Zero ao Avançado</h4>
+                  <p class="course-meta" data-i18n="education_english_text_meta">Udemy · Comunicação técnica e leitura de documentação</p>
+                </div>
+              </li>
+
+            </ul>
+          </div>
+
+          <!-- Card de destaque final ("você está aqui") -->
+          <div class="edu-tl-group edu-tl-group-final">
+            <span class="edu-node edu-node-final edu-node-pulse" aria-hidden="true"><i class="ri-lightbulb-flash-fill"></i></span>
+            <div class="edu-footer">
+              <div class="edu-highlight-card">
+                <div class="edu-hl-icon" aria-hidden="true">
+                  <i class="ri-lightbulb-flash-fill"></i>
+                </div>
+                <div>
+                  <h3 data-i18n="education_highlight_title">Aprendizado Contínuo</h3>
+                  <p data-i18n="education_highlight_text">Acredito que a evolução profissional é construída diariamente através da prática, pesquisa e constante atualização tecnológica, buscando sempre excelência no desenvolvimento de software moderno.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -587,109 +731,238 @@
           <p class="section-desc" data-i18n="skills_description">Uma combinação entre engenharia de software, desenvolvimento full stack e design de experiência para construir aplicações modernas, escaláveis e de alto desempenho.</p>
         </div>
 
-        <!-- Grid de skills -->
-        <ul class="skills-grid" data-reveal role="list" aria-label="Tecnologias e habilidades">
+        <!-- ═══════════ CATEGORIA: LINGUAGENS ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-code-s-slash-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_languages">Linguagens de Programação</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Linguagens de programação">
+            <li class="tech-card" style="--skill-color:#F89820;">
+              <span class="tech-card-domain" data-domain="backend">Back-end</span>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/openjdk/F89820" alt="" loading="lazy"></div>
+              <h4>Java</h4>
+              <p>Linguagem robusta para back-end orientado a objetos.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#F7DF1E;">
+              <span class="tech-card-domain" data-domain="frontend">Front-end</span>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="" loading="lazy"></div>
+              <h4>JavaScript</h4>
+              <p>Interatividade e lógica dinâmica no front-end.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#3178C6;">
+              <span class="tech-card-domain" data-domain="frontend">Front-end</span>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="" loading="lazy"></div>
+              <h4>TypeScript</h4>
+              <p>JavaScript com tipagem estática e mais segurança.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#9B4F96;">
+              <span class="tech-card-domain" data-domain="backend">Back-end</span>
+              <div class="tech-card-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="" loading="lazy"></div>
+              <h4>C#</h4>
+              <p>Linguagem orientada a objetos do ecossistema .NET.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#3776AB;">
+              <span class="tech-card-domain" data-domain="script">Script</span>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/python/3776AB" alt="" loading="lazy"></div>
+              <h4>Python</h4>
+              <p>Scripts, automação e prototipagem rápida.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#E34F26;">
+              <span class="tech-card-domain" data-domain="frontend">Front-end</span>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="" loading="lazy"></div>
+              <h4>HTML5</h4>
+              <p>Estrutura semântica das páginas web.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#1572B6;">
+              <span class="tech-card-domain" data-domain="frontend">Front-end</span>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/css/1572B6" alt="" loading="lazy"></div>
+              <h4>CSS3</h4>
+              <p>Estilização visual e responsividade das interfaces.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#E34F26;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML5 Logo" loading="lazy">
-            </div>
-            <h3>HTML5</h3>
-            <p data-i18n="skill_html5">Estruturação de páginas web modernas utilizando semântica avançada, acessibilidade e boas práticas de SEO.</p>
-          </article></li>
+        <!-- ═══════════ CATEGORIA: FRONT-END ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-layout-4-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_frontend">Front-end — Frameworks &amp; Bibliotecas</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Frameworks e bibliotecas de front-end">
+            <li class="tech-card" style="--skill-color:#61DAFB;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="" loading="lazy"></div>
+              <h4>React</h4>
+              <p>Interfaces reativas e componentizadas.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#06B6D4;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="" loading="lazy"></div>
+              <h4>Tailwind CSS</h4>
+              <p>Estilização utilitária rápida e consistente.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#646CFF;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/vite/646CFF" alt="" loading="lazy"></div>
+              <h4>Vite</h4>
+              <p>Build tool moderna com hot reload instantâneo.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#1572B6;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/css/1572B6" alt="CSS3 Logo" loading="lazy">
-            </div>
-            <h3>CSS3</h3>
-            <p data-i18n="skill_css">Estilização de layouts complexos, animações, responsividade e design fluido para uma excelente experiência visual.</p>
-          </article></li>
+        <!-- ═══════════ CATEGORIA: BACK-END ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-server-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_backend">Back-end — Frameworks &amp; APIs</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Frameworks e ferramentas de back-end">
+            <li class="tech-card" style="--skill-color:#6DB33F;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt="" loading="lazy"></div>
+              <h4>Spring Boot</h4>
+              <p>Framework Java para APIs robustas e escaláveis.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#339933;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/nodedotjs/339933" alt="" loading="lazy"></div>
+              <h4>Node.js</h4>
+              <p>Execução de JavaScript no back-end.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#A78BFA;">
+              <div class="tech-card-icon"><i class="ri-exchange-2-line" aria-hidden="true"></i></div>
+              <h4>APIs REST</h4>
+              <p>Comunicação entre sistemas via endpoints padronizados.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#F43F5E;">
+              <div class="tech-card-icon"><i class="ri-shield-keyhole-line" aria-hidden="true"></i></div>
+              <h4>JWT &amp; Spring Security</h4>
+              <p>Autenticação e autorização seguras.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#F7DF1E;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="JavaScript Logo" loading="lazy">
-            </div>
-            <h3>JavaScript</h3>
-            <p data-i18n="skill_js">Desenvolvimento moderno utilizando ES6+, manipulação do DOM, animações avançadas e lógica de aplicações.</p>
-          </article></li>
+        <!-- ═══════════ CATEGORIA: BANCO DE DADOS ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-database-2-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_database">Banco de Dados</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Tecnologias de banco de dados">
+            <li class="tech-card" style="--skill-color:#4479A1;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/mysql/4479A1" alt="" loading="lazy"></div>
+              <h4>MySQL</h4>
+              <p>Banco de dados relacional para persistência de dados.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#38BDF8;">
+              <div class="tech-card-icon"><i class="ri-organization-chart" aria-hidden="true"></i></div>
+              <h4>Modelagem de Dados</h4>
+              <p>Estruturação lógica e eficiente de bancos.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#61DAFB;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/react/61DAFB" alt="React Logo" loading="lazy">
-            </div>
-            <h3>React</h3>
-            <p data-i18n="skill_react">Construção de interfaces modernas, reutilizáveis e performáticas utilizando componentes e arquitetura escalável.</p>
-          </article></li>
+        <!-- ═══════════ CATEGORIA: CLOUD & INFRAESTRUTURA ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-cloud-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_cloud">Cloud &amp; Infraestrutura</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Tecnologias de nuvem e infraestrutura">
+            <li class="tech-card" style="--skill-color:#FF9900;">
+              <div class="tech-card-icon"><i class="ri-amazon-fill" aria-hidden="true"></i></div>
+              <h4>AWS</h4>
+              <p>Infraestrutura em nuvem escalável da Amazon.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#0078D4;">
+              <div class="tech-card-icon"><i class="ri-microsoft-fill" aria-hidden="true"></i></div>
+              <h4>Microsoft Azure</h4>
+              <p>Serviços em nuvem da Microsoft.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#4285F4;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/googlecloud/4285F4" alt="" loading="lazy"></div>
+              <h4>Google Cloud</h4>
+              <p>Plataforma em nuvem do Google.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#2496ED;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="" loading="lazy"></div>
+              <h4>Docker</h4>
+              <p>Containers para ambientes consistentes e portáveis.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#008be5;">
+              <div class="tech-card-icon"><img src="https://img.icons8.com/fluency/96/cloud.png" alt="" loading="lazy"></div>
+              <h4>SaaS</h4>
+              <p>Modelos de software entregues como serviço.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#F89820;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/openjdk/F89820" alt="Java Logo" loading="lazy">
-            </div>
-            <h3>Java</h3>
-            <p data-i18n="skill_java">Desenvolvimento backend robusto utilizando orientação a objetos, APIs REST, arquitetura em camadas e aplicações corporativas.</p>
-          </article></li>
+        <!-- ═══════════ CATEGORIA: FERRAMENTAS & VERSIONAMENTO ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-tools-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_tools">Ferramentas &amp; Versionamento</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Ferramentas de versionamento e testes">
+            <li class="tech-card" style="--skill-color:#F05032;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="" loading="lazy"></div>
+              <h4>Git</h4>
+              <p>Controle de versão do código-fonte.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#ffffff;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/github/FFFFFF" alt="" loading="lazy"></div>
+              <h4>GitHub</h4>
+              <p>Hospedagem e colaboração em repositórios de código.</p>
+            </li>
+            <li class="tech-card" style="--skill-color:#FF6C37;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/postman/FF6C37" alt="" loading="lazy"></div>
+              <h4>Postman</h4>
+              <p>Testes e documentação de APIs.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#4479A1;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/mysql/4479A1" alt="MySQL Logo" loading="lazy">
-            </div>
-            <h3>MySQL</h3>
-            <p data-i18n="skill_mysql">Modelagem relacional, consultas avançadas, procedures, otimização e integração com aplicações backend.</p>
-          </article></li>
+        <!-- ═══════════ CATEGORIA: METODOLOGIAS ÁGEIS ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-refresh-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_agile">Metodologias Ágeis</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Metodologias ágeis">
+            <li class="tech-card" style="--skill-color:#FFB020;">
+              <div class="tech-card-icon"><i class="ri-refresh-line" aria-hidden="true"></i></div>
+              <h4>Scrum</h4>
+              <p>Framework ágil para entregas iterativas.</p>
+            </li>
+          </ul>
+        </div>
 
-          <li><article class="skill-card" style="--skill-color:#6DB33F;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/spring/6DB33F" alt="Spring Boot Logo" loading="lazy">
-            </div>
-            <h3>Spring Boot</h3>
-            <p data-i18n="skill_spring">Criação de APIs modernas, autenticação JWT, microsserviços, JPA, Hibernate e integração com bancos relacionais.</p>
-          </article></li>
-
-          <li><article class="skill-card" style="--skill-color:#06B6D4;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS Logo" loading="lazy">
-            </div>
-            <h3>Tailwind CSS</h3>
-            <p data-i18n="skill_tailwind">Desenvolvimento ágil de interfaces de alta performance com foco em produtividade através de classes utilitárias.</p>
-          </article></li>
-
-          <li><article class="skill-card" style="--skill-color:#646CFF;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/vite/646CFF" alt="Vite Logo" loading="lazy">
-            </div>
-            <h3>Vite</h3>
-            <p data-i18n="skill_vite">Ferramenta de build extremamente rápida para projetos frontend modernos, otimizando o tempo de carregamento e o fluxo de trabalho.</p>
-          </article></li>
-
-          <li><article class="skill-card" style="--skill-color:#008be5;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://img.icons8.com/fluency/96/cloud.png" alt="SaaS — Computação em Nuvem" loading="lazy">
-            </div>
-            <h3>SaaS</h3>
-            <p data-i18n="skill_saas">Arquitetura e desenvolvimento de soluções baseadas em Software como Serviço, com foco em escalabilidade, nuvem e alta disponibilidade.</p>
-          </article></li>
-
-          <li><article class="skill-card" style="--skill-color:#ffffff;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo">
-              <img src="https://cdn.simpleicons.org/github/FFFFFF" alt="GitHub Logo" loading="lazy">
-            </div>
-            <h3>GitHub</h3>
-            <p data-i18n="skill_github">Versionamento de código, colaboração ágil e automação de deploy através de fluxos de CI/CD e workflows modernos.</p>
-          </article></li>
-
-        </ul>
+        <!-- ═══════════ CATEGORIA: DESIGN & PROTOTIPAÇÃO ═══════════ -->
+        <div class="skills-category" data-reveal>
+          <div class="skills-category-title">
+            <i class="ri-pencil-ruler-2-line" aria-hidden="true"></i>
+            <span class="cat-line" aria-hidden="true"></span>
+            <h3 data-i18n="skills_cat_design">Design &amp; Prototipação</h3>
+            <span class="cat-line" aria-hidden="true"></span>
+          </div>
+          <ul class="tech-card-grid" role="list" aria-label="Ferramentas de design">
+            <li class="tech-card" style="--skill-color:#F24E1E;">
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="" loading="lazy"></div>
+              <h4>Figma</h4>
+              <p>Design de interfaces e prototipação colaborativa.</p>
+            </li>
+          </ul>
+        </div>
 
         <!-- Card rodapé de skills -->
         <div class="skills-footer-card" data-reveal>
@@ -701,6 +974,81 @@
             <p data-i18n="skills_footer_text">A tecnologia evolui diariamente e meu objetivo é acompanhar essa transformação através de estudos, projetos reais e boas práticas de engenharia, entregando soluções modernas, performáticas, seguras e escaláveis.</p>
           </div>
         </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         SEÇÃO 04.1 — HABILIDADES COMPORTAMENTAIS (SOFT SKILLS)
+    ============================================================= -->
+    <section id="comportamental" class="skills-section section" aria-labelledby="comportamental-titulo">
+
+      <div class="skills-bg" aria-hidden="true">
+        <div class="skills-gradient"></div>
+        <div class="skills-glow"></div>
+        <div class="skills-grid-overlay"></div>
+      </div>
+
+      <div class="container">
+
+        <div class="section-header" data-reveal>
+          <span class="section-pill" data-i18n="soft_badge">— PERFIL PROFISSIONAL —</span>
+          <h2 id="comportamental-titulo" class="section-title" data-i18n="soft_title">Além do código: como eu entrego valor.</h2>
+          <p class="section-desc" data-i18n="soft_subtitle">Competências comportamentais que sustentam entregas consistentes dentro de um time de engenharia de software.</p>
+        </div>
+
+        <ul class="skills-grid" data-reveal role="list" aria-label="Habilidades comportamentais">
+
+          <li><article class="skill-card" style="--skill-color:#8b5cf6;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-tools-line" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_problem_title">Resolução Analítica de Problemas</h3>
+            <p data-i18n="soft_problem_text">Identifico gargalos técnicos com rapidez e proponho soluções eficientes, escaláveis e sustentáveis a longo prazo.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#22D3EE;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-team-line" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_team_title">Colaboração em Equipe</h3>
+            <p data-i18n="soft_team_text">Adapto-me rapidamente a ambientes dinâmicos, comunico-me com clareza e contribuo ativamente com o time.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#F59E0B;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-flashlight-line" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_autonomy_title">Autonomia e Proatividade</h3>
+            <p data-i18n="soft_autonomy_text">Assumo responsabilidades e conduzo desafios técnicos até a entrega, sem depender de supervisão constante.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#34D399;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-rocket-2-line" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_learning_title">Curva de Aprendizado Rápida</h3>
+            <p data-i18n="soft_learning_text">Absorvo novas tecnologias, ferramentas e regras de negócio com agilidade, aplicando-as em contexto real.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#60A5FA;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-list-check-3" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_organization_title">Organização e Disciplina Técnica</h3>
+            <p data-i18n="soft_organization_text">Estruturo meu trabalho com atenção constante a padrões de código e boas práticas de desenvolvimento.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#FB7185;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-git-merge-line" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_agile_title">Metodologias Ágeis</h3>
+            <p data-i18n="soft_agile_text">Familiaridade com rituais Scrum, sprints e entregas incrementais em times multidisciplinares.</p>
+          </article></li>
+
+          <li><article class="skill-card" style="--skill-color:#A3E635;">
+            <div class="skill-glow" aria-hidden="true"></div>
+            <div class="skill-logo"><i class="ri-robot-2-line" aria-hidden="true"></i></div>
+            <h3 data-i18n="soft_automation_title">Mentalidade de Automação</h3>
+            <p data-i18n="soft_automation_text">Busco automatizar processos repetitivos, reduzindo retrabalho e elevando a eficiência do time.</p>
+          </article></li>
+
+        </ul>
 
       </div>
     </section>
@@ -956,16 +1304,13 @@
           <p class="section-desc" data-i18n="projects_subtitle">Cada projeto representa uma combinação entre engenharia de software, design estratégico e tecnologia moderna.</p>
         </div>
 
-        <!-- Carrossel de projetos -->
-        <div class="pcarousel-outer" data-reveal>
+        <!-- Filtro por categoria -->
+        <div class="projects-filter" id="projectsFilter" role="tablist" aria-label="Filtrar projetos por categoria"></div>
 
-          <!-- Seta esquerda -->
-          <button class="carousel-arrow carousel-prev" id="projectPrev" aria-label="Projeto anterior">
-            <i class="ri-arrow-left-s-line" aria-hidden="true"></i>
-          </button>
+        <!-- Vitrine completa de projetos — grid responsivo (sem carrossel) -->
+        <div class="projects-showcase" data-reveal>
 
-          <!-- Stage do carrossel -->
-          <div class="pcarousel-stage" id="projectsStage" aria-live="polite" aria-label="Projetos">
+          <div class="projects-grid" id="projectsStage" aria-label="Projetos">
 
             <!-- ─── PROJETO 01: R.A.S Premium ────────────────── -->
             <article class="project-card"
@@ -1007,7 +1352,7 @@
             </article>
 
             <!-- ─── PROJETO 02: Ecossistema Zyntek ──────────── -->
-            <article class="project-card project-card-featured"
+            <article class="project-card project-card-featured project-card-wide"
               data-title="Zyntek Connect"
               data-cat="Startup SaaS"
               data-desc="Desenvolvimento da plataforma corporativa e ecossistema digital da Zyntek. O projeto engloba desde a concepção do Design System e mapeamento de experiência do usuário (UI/UX) até a engenharia de software final. Construído sobre uma arquitetura moderna e escalável, conta com animações fluidas de alto padrão, otimização extrema de performance e foco em posicionamento de mercado premium."
@@ -1124,7 +1469,7 @@
             </article>
             
             <!-- ─── PROJETO 05: Pokémon Battle Arena ────────────────── -->
-            <article class="project-card"
+            <article class="project-card project-card-wide"
               data-title="Pokémon Battle Arena"
               data-cat="Web Game"
               data-desc="Simulador de batalhas Pokémon em turnos desenvolvido com sincronização de alta performance entre o backend e a interface do usuário. O projeto utiliza uma arquitetura robusta para garantir o processamento seguro da lógica de combate, gerenciamento de turnos em tempo real e feedback visual dinâmico a cada ação."
@@ -1163,7 +1508,7 @@
             </article>
 
             <!-- ─── PROJETO 06: Zynk Finance Dashboard ──────────── -->
-            <article class="project-card"
+            <article class="project-card project-card-wide"
               data-title="Zynk Finance Dashboard"
               data-cat="SaaS Platform"
               data-desc="Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas. A plataforma centraliza o fluxo de caixa, monitora indicadores em tempo real e exibe relatórios gráficos interativos através de uma experiência limpa, intuitiva e focada em performance."
@@ -1201,21 +1546,469 @@
               </div>
             </article>
 
+            <!-- ─── PROJETO 07: Portfólio Advocacia (Ré Lany) ────────────────── -->
+            <article class="project-card"
+              data-title="Portfólio Advocacia"
+              data-cat="Portfólio"
+              data-desc="Site institucional desenvolvido para uma profissional da área jurídica, com foco em transmitir credibilidade, organização das áreas de atuação e um canal direto de contato para novos clientes."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-scales-3-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Portfólio</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Portfólio Advocacia</h3>
+                <p>Site institucional para advocacia, com identidade visual sóbria, áreas de atuação em destaque e contato facilitado via WhatsApp.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Portfólio Advocacia">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 08: Sistema de Gestão de Clientes e Pedidos ────────────────── -->
+            <article class="project-card"
+              data-title="Gestão de Clientes e Pedidos"
+              data-cat="Sistema Web"
+              data-desc="Sistema web para gestão de clientes e pedidos, permitindo cadastro, consulta e controle do fluxo de vendas de forma centralizada, com foco em usabilidade e organização dos dados."
+              data-tags="Java, Spring Boot, MySQL"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="Java · Spring Boot · MySQL · Arquitetura em Camadas · CRUD Completo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-shopping-bag-3-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Sistema Web</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Gestão de Clientes e Pedidos</h3>
+                <p>Sistema para cadastro e controle de clientes e pedidos, centralizando o fluxo de vendas em uma interface simples e organizada.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: Java, Spring Boot, MySQL">
+                  <span>Java</span>
+                  <span>Spring Boot</span>
+                  <span>MySQL</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Gestão de Clientes e Pedidos">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 09: Santa Rita — Casa dos Colchões ────────────────── -->
+            <article class="project-card"
+              data-title="Santa Rita — Casa dos Colchões"
+              data-cat="Catálogo Online"
+              data-desc="Catálogo online desenvolvido para loja de colchões e itens de cama, mesa e banho, apresentando os produtos de forma visual e responsiva com contato direto via WhatsApp."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-store-2-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Catálogo Online</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Santa Rita — Casa dos Colchões</h3>
+                <p>Catálogo online de produtos para cama, mesa e banho, com navegação simples e contato rápido via WhatsApp.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Santa Rita — Casa dos Colchões">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 10: E-commerce Lucas ────────────────── -->
+            <article class="project-card project-card-wide"
+              data-title="E-commerce Lucas"
+              data-cat="E-commerce"
+              data-desc="Loja virtual desenvolvida com foco em catálogo de produtos, carrinho de compras e experiência de navegação fluida, aplicando boas práticas de front-end moderno."
+              data-tags="React, JavaScript, CSS"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="React · Componentização · Gerenciamento de Estado · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-shopping-cart-2-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">E-commerce</span>
+              </div>
+
+              <div class="project-body">
+                <h3>E-commerce Lucas</h3>
+                <p>Loja virtual com catálogo de produtos, carrinho de compras e navegação fluida, construída com React.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: React, JavaScript, CSS">
+                  <span>React</span>
+                  <span>JavaScript</span>
+                  <span>CSS</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto E-commerce Lucas">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 11: Serralheria — Landing Page ────────────────── -->
+            <article class="project-card"
+              data-title="Serralheria — Landing Page"
+              data-cat="Landing Page"
+              data-desc="Landing page institucional para empresa do ramo de serralheria, apresentando serviços, portfólio de trabalhos realizados e canal de orçamento rápido via WhatsApp."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-hammer-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Landing Page</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Serralheria — Landing Page</h3>
+                <p>Landing page para empresa de serralheria, com apresentação de serviços e orçamento rápido via WhatsApp.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Serralheria">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 12: G-Snor ────────────────── -->
+            <article class="project-card"
+              data-title="G-Snor"
+              data-cat="Aplicação Web"
+              data-desc="Aplicação web desenvolvida para explorar lógica de programação e organização de código em um projeto autoral, aplicando boas práticas de estruturação front-end."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-code-box-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Aplicação Web</span>
+              </div>
+
+              <div class="project-body">
+                <h3>G-Snor</h3>
+                <p>Projeto autoral desenvolvido para praticar lógica de programação e organização de código front-end.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto G-Snor">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 13: Site Vasco ────────────────── -->
+            <article class="project-card"
+              data-title="Site Vasco"
+              data-cat="Web Site"
+              data-desc="Site temático desenvolvido como projeto autoral, explorando layout, identidade visual e apresentação de conteúdo esportivo de forma responsiva."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-shield-star-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Web Site</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Site Vasco</h3>
+                <p>Site temático autoral com foco em layout, identidade visual e apresentação de conteúdo de forma responsiva.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Site Vasco">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 14: Blab ────────────────── -->
+            <article class="project-card"
+              data-title="Blab"
+              data-cat="Aplicação Web"
+              data-desc="Aplicação web autoral desenvolvida para praticar lógica de interação em tempo real, manipulação de estado e construção de interface dinâmica."
+              data-tags="JavaScript, HTML5, CSS3"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="Vanilla JavaScript · Manipulação de Estado · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-chat-3-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Aplicação Web</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Blab</h3>
+                <p>Aplicação autoral para prática de interação dinâmica e manipulação de estado no front-end.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: JavaScript, HTML5, CSS3">
+                  <span>JavaScript</span>
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Blab">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 15: Imobiliária Valentin ────────────────── -->
+            <article class="project-card project-card-wide"
+              data-title="Imobiliária Valentin"
+              data-cat="Web Site"
+              data-desc="Plataforma imobiliária moderna desenvolvida para apresentar imóveis à venda, com interface elegante, filtros de busca e seção inicial personalizada com base no perfil do cliente."
+              data-tags="TypeScript, CSS3, HTML"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="TypeScript · Design Responsivo · Filtros de Busca · UI Moderna">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-home-4-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Web Site</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Imobiliária Valentin</h3>
+                <p>Plataforma imobiliária moderna com apresentação de imóveis, filtros de busca e interface elegante e responsiva.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: TypeScript, CSS3, HTML">
+                  <span>TypeScript</span>
+                  <span>CSS3</span>
+                  <span>HTML</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Imobiliária Valentin">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 16: Presente Dia dos Namorados ────────────────── -->
+            <article class="project-card"
+              data-title="Presente Dia dos Namorados"
+              data-cat="Web Site"
+              data-desc="Página temática interativa criada como presente digital para o Dia dos Namorados, unindo animações, storytelling visual e uma experiência de navegação afetiva e personalizada."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="HTML5 Semântico · Animações CSS · Vanilla JavaScript · Interatividade">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-heart-3-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Web Site</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Presente Dia dos Namorados</h3>
+                <p>Página interativa e animada criada como presente digital, com storytelling visual e experiência afetiva personalizada.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Presente Dia dos Namorados">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 17: Tela de Login Netflix (Clone) ────────────────── -->
+            <article class="project-card"
+              data-title="Tela de Login Netflix"
+              data-cat="Clone / UI"
+              data-desc="Réplica fiel da tela de login da Netflix, desenvolvida para estudo aprofundado de fidelidade visual, responsividade e boas práticas de HTML5 e CSS3 aplicadas a interfaces reais de mercado."
+              data-tags="HTML5, CSS3, JavaScript"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="Fidelidade Visual · HTML5 Semântico · CSS Avançado · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-login-box-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Clone / UI</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Tela de Login Netflix</h3>
+                <p>Réplica da tela de login da Netflix, com foco em fidelidade visual, responsividade e boas práticas de front-end.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: HTML5, CSS3, JavaScript">
+                  <span>HTML5</span>
+                  <span>CSS3</span>
+                  <span>JavaScript</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Tela de Login Netflix">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
+            <!-- ─── PROJETO 18: Previsão do Tempo ────────────────── -->
+            <article class="project-card"
+              data-title="Previsão do Tempo"
+              data-cat="Aplicação Web"
+              data-desc="Aplicação web de previsão do tempo com consumo de API externa em tempo real, exibindo informações climáticas precisas com base na localização e permitindo consulta de outras cidades."
+              data-tags="JavaScript, API REST, CSS3"
+              data-video=""
+              data-deploy="#"
+              data-github="#"
+              data-details="Consumo de API REST · Geolocalização · Vanilla JavaScript · Design Responsivo">
+
+              <div class="project-img-wrap">
+                <div class="project-img-placeholder" aria-hidden="true">
+                  <i class="ri-cloudy-2-line"></i>
+                </div>
+                <div class="project-overlay" aria-hidden="true"></div>
+                <span class="project-cat" aria-hidden="true">Aplicação Web</span>
+              </div>
+
+              <div class="project-body">
+                <h3>Previsão do Tempo</h3>
+                <p>App de previsão do tempo com consumo de API externa em tempo real e consulta de clima por cidade.</p>
+
+                <div class="project-tags" aria-label="Tecnologias: JavaScript, API REST, CSS3">
+                  <span>JavaScript</span>
+                  <span>API REST</span>
+                  <span>CSS3</span>
+                </div>
+
+                <div class="project-actions">
+                  <button class="btn-project btn-open-modal" aria-label="Ver detalhes do projeto Previsão do Tempo">
+                    <span aria-hidden="true">&lt;/&gt;</span>
+                    <span data-i18n="project_button">Ver Projeto</span>
+                  </button>
+                </div>
+              </div>
+            </article>
+
             <!-- ════════════════════════════════════════════════
                  ADICIONE NOVOS PROJETOS AQUI
                  ════════════════════════════════════════════════ -->
 
-          </div><!-- /pcarousel-stage -->
+          </div><!-- /projects-grid -->
 
-          <!-- Seta direita -->
-          <button class="carousel-arrow carousel-next" id="projectNext" aria-label="Próximo projeto">
-            <i class="ri-arrow-right-s-line" aria-hidden="true"></i>
-          </button>
-
-        </div><!-- /pcarousel-outer -->
-
-        <!-- Dots de navegação — gerados pelo JS -->
-        <div class="carousel-dots" id="carouselDots" role="tablist" aria-label="Navegação por projeto"></div>
+        </div><!-- /projects-showcase -->
 
         <!-- CTA de projetos -->
         <div class="projects-cta-card" data-reveal>
@@ -1442,6 +2235,7 @@
               <li><a href="#sobre"    data-i18n="menu_about">Sobre</a></li>
               <li><a href="#formacao" data-i18n="menu_education">Formação</a></li>
               <li><a href="#skills"   data-i18n="menu_skills">Skills</a></li>
+              <li><a href="#comportamental" data-i18n="menu_soft">Perfil</a></li>
               <li><a href="#zyntek"   data-i18n="menu_zyntek">Zyntek</a></li>
               <li><a href="#projetos" data-i18n="menu_projects">Projetos</a></li>
               <li><a href="#contatos" data-i18n="menu_contact">Contatos</a></li>

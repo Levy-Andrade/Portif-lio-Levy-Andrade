@@ -11,22 +11,22 @@
   <meta name="theme-color" content="#09090b">
 
   <!-- SEO -->
-  <meta name="description" content="Portfólio oficial de Levy Andrade da Silva. Desenvolvedor Full Stack especializado em Java, React, JavaScript, UX/UI Design e Engenharia de Software.">
-  <meta name="keywords" content="Levy Andrade, Desenvolvedor Full Stack, Java, React, JavaScript, UX Design, Engenharia de Software, Portfólio">
+  <meta name="description" content="Portfólio oficial de Levy Andrade da Silva. Desenvolvedor Full Stack especializado em Java, Spring Boot, React, JavaScript, TypeScript, UX/UI Design e Engenharia de Software.">
+  <meta name="keywords" content="Levy Andrade, Desenvolvedor Full Stack, Java, Spring Boot, React, JavaScript, TypeScript, UX/UI Design, Engenharia de Software, Zyntek, Portfólio">
   <meta name="author" content="Levy Andrade">
   <meta name="robots" content="index, follow">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Levy Andrade | Software Engineer">
-  <meta property="og:description" content="Portfólio profissional focado em Engenharia de Software, UI/UX e soluções digitais modernas.">
+  <meta property="og:title" content="Levy Andrade | Software Engineer & Full Stack Developer">
+  <meta property="og:description" content="Portfólio profissional focado em Engenharia de Software, Arquitetura Web, UI/UX e soluções digitais modernas.">
   <meta property="og:image" content="assets/img/cover.jpg">
   <meta property="og:locale" content="pt_BR">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Levy Andrade">
-  <meta name="twitter:description" content="Desenvolvedor Full Stack especializado em experiências digitais modernas.">
+  <meta name="twitter:title" content="Levy Andrade | Full Stack Developer">
+  <meta name="twitter:description" content="Desenvolvedor Full Stack especializado em experiências digitais modernas e sistemas escaláveis.">
   <meta name="twitter:image" content="assets/img/cover.jpg">
 
   <title>Levy Andrade | Desenvolvedor Full Stack</title>
@@ -51,22 +51,6 @@
 <body>
 
   <!-- ============================================================
-       PRELOADER
-  ============================================================= -->
-  <div id="zyntek-preloader" aria-hidden="true">
-    <div class="preloader-core">
-      <div class="preloader-glow-ring"></div>
-      <img src="LICON.png" alt="Logo Zyntek" width="40" height="40">
-    </div>
-    <div class="preloader-bar-wrapper">
-      <div class="preloader-bar-track">
-        <div class="preloader-bar-fill" id="preloaderBarFill"></div>
-      </div>
-      <span class="preloader-percent" id="preloaderPercent">0%</span>
-    </div>
-  </div>
-
-  <!-- ============================================================
        ELEMENTOS GLOBAIS DE FUNDO E UI
   ============================================================= -->
   <!-- Partículas decorativas -->
@@ -81,20 +65,44 @@
   <div class="particles-background" id="particlesBg" aria-hidden="true"></div>
   <div class="noise-overlay" aria-hidden="true"></div>
 
-  <!-- Botão flutuante WhatsApp -->
-  <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
-     class="floating-whatsapp"
-     target="_blank"
-     rel="noopener noreferrer"
-     aria-label="Contato via WhatsApp">
-    <i class="ri-whatsapp-line" aria-hidden="true"></i>
-    <span class="float-tooltip" data-i18n="whatsapp_tooltip">Fale comigo!</span>
-  </a>
-
-  <!-- Botão voltar ao topo -->
-  <button id="scrollTop" class="scroll-top-btn" aria-label="Voltar ao topo">
-    <i class="ri-arrow-up-line" aria-hidden="true"></i>
-  </button>
+  <!-- Menu Flutuante Multifunções (Speed Dial) -->
+  <div class="floating-fab-container" id="floatingFabContainer">
+    <div class="fab-menu" id="fabMenu" role="menu" aria-label="Menu de Ações Rápidas">
+      <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+         target="_blank" rel="noopener noreferrer"
+         class="fab-item fab-whatsapp" aria-label="Falar no WhatsApp" role="menuitem">
+        <i class="ri-whatsapp-fill" aria-hidden="true"></i>
+        <span class="fab-tooltip">WhatsApp</span>
+      </a>
+      <a href="https://github.com/Levy-Andrade"
+         target="_blank" rel="noopener noreferrer"
+         class="fab-item fab-github" aria-label="Acessar GitHub" role="menuitem">
+        <i class="ri-github-fill" aria-hidden="true"></i>
+        <span class="fab-tooltip">GitHub</span>
+      </a>
+      <a href="https://www.linkedin.com/in/levy-andrade/"
+         target="_blank" rel="noopener noreferrer"
+         class="fab-item fab-linkedin" aria-label="Acessar LinkedIn" role="menuitem">
+        <i class="ri-linkedin-box-fill" aria-hidden="true"></i>
+        <span class="fab-tooltip">LinkedIn</span>
+      </a>
+      <a href="https://www.instagram.com/levy.andrade.393/"
+         target="_blank" rel="noopener noreferrer"
+         class="fab-item fab-instagram" aria-label="Acessar Instagram" role="menuitem">
+        <i class="ri-instagram-fill" aria-hidden="true"></i>
+        <span class="fab-tooltip">Instagram</span>
+      </a>
+      <button class="fab-item fab-scroll" id="fabScrollTop" aria-label="Voltar ao Topo" role="menuitem">
+        <i class="ri-arrow-up-line" aria-hidden="true"></i>
+        <span class="fab-tooltip">Topo</span>
+      </button>
+    </div>
+    <button class="fab-main-btn" id="fabMainBtn" aria-label="Abrir menu de conexões rápidas" aria-expanded="false" aria-haspopup="menu">
+      <i class="ri-code-s-slash-line fab-icon-closed" aria-hidden="true"></i>
+      <i class="ri-close-line fab-icon-open" aria-hidden="true"></i>
+      <span class="fab-ring-glow" aria-hidden="true"></span>
+    </button>
+  </div>
 
   <!-- ============================================================
        APLICAÇÃO PRINCIPAL
@@ -107,23 +115,23 @@
     <header id="header" class="site-header" role="banner">
       <div class="header-inner">
 
-        <!-- Logo -->
+        <!-- Logo (Imagem L + Nome sem símbolo supérfluo) -->
         <a href="#home" class="logo" aria-label="Levy Andrade — Ir para o início">
-          <img src="LICON.png" alt="Logo Levy Andrade" class="logo-image">
+          <img src="LICON.png" alt="Logo Levy Andrade" class="logo-image" onerror="this.style.display='none'">
           <span class="logo-text">Levy Andrade</span>
         </a>
 
         <!-- Navegação desktop -->
         <nav class="desktop-nav" aria-label="Menu Principal">
           <ul class="nav-list" role="list">
-            <li><a href="#home"     class="nav-link active" data-i18n="menu_home">Home</a></li>
-            <li><a href="#sobre"    class="nav-link"        data-i18n="menu_about">Sobre</a></li>
-            <li><a href="#formacao" class="nav-link"        data-i18n="menu_education">Formação</a></li>
-            <li><a href="#skills"   class="nav-link"        data-i18n="menu_skills">Skills</a></li>
-            <li><a href="#comportamental" class="nav-link"   data-i18n="menu_soft">Perfil</a></li>
-            <li><a href="#zyntek"   class="nav-link"        data-i18n="menu_zyntek">Zyntek</a></li>
-            <li><a href="#projetos" class="nav-link"        data-i18n="menu_projects">Projetos</a></li>
-            <li><a href="#contatos" class="nav-link"        data-i18n="menu_contact">Contatos</a></li>
+            <li><a href="#home"           class="nav-link active" data-i18n="menu_home">Home</a></li>
+            <li><a href="#sobre"          class="nav-link"        data-i18n="menu_about">Sobre</a></li>
+            <li><a href="#formacao"       class="nav-link"        data-i18n="menu_education">Formação</a></li>
+            <li><a href="#skills"         class="nav-link"        data-i18n="menu_skills">Skills</a></li>
+            <li><a href="#comportamental" class="nav-link"        data-i18n="menu_soft">Perfil</a></li>
+            <li><a href="#zyntek"         class="nav-link"        data-i18n="menu_zyntek">Zyntek</a></li>
+            <li><a href="#projetos"       class="nav-link"        data-i18n="menu_projects">Projetos</a></li>
+            <li><a href="#contatos"       class="nav-link"        data-i18n="menu_contact">Contatos</a></li>
           </ul>
         </nav>
 
@@ -190,7 +198,7 @@
           <div class="mobile-menu-overlay"></div>
         </div>
 
-        <!-- Botão de fechar (X) — fixo no topo direito do drawer -->
+        <!-- Botão de fechar (X) -->
         <button id="mobileMenuClose"
                 class="mobile-menu-close"
                 aria-label="Fechar menu de navegação">
@@ -200,17 +208,17 @@
         <div class="mobile-menu-scroll">
 
           <div class="mobile-nav">
-            <a href="#home"     class="mobile-link" data-i18n="menu_home">Home</a>
-            <a href="#sobre"    class="mobile-link" data-i18n="menu_about">Sobre</a>
-            <a href="#formacao" class="mobile-link" data-i18n="menu_education">Formação</a>
-            <a href="#skills"   class="mobile-link" data-i18n="menu_skills">Skills</a>
+            <a href="#home"           class="mobile-link" data-i18n="menu_home">Home</a>
+            <a href="#sobre"          class="mobile-link" data-i18n="menu_about">Sobre</a>
+            <a href="#formacao"       class="mobile-link" data-i18n="menu_education">Formação</a>
+            <a href="#skills"         class="mobile-link" data-i18n="menu_skills">Skills</a>
             <a href="#comportamental" class="mobile-link" data-i18n="menu_soft">Perfil</a>
-            <a href="#zyntek"   class="mobile-link" data-i18n="menu_zyntek">Zyntek</a>
-            <a href="#projetos" class="mobile-link" data-i18n="menu_projects">Projetos</a>
-            <a href="#contatos" class="mobile-link" data-i18n="menu_contact">Contatos</a>
+            <a href="#zyntek"         class="mobile-link" data-i18n="menu_zyntek">Zyntek</a>
+            <a href="#projetos"       class="mobile-link" data-i18n="menu_projects">Projetos</a>
+            <a href="#contatos"       class="mobile-link" data-i18n="menu_contact">Contatos</a>
           </div>
 
-          <!-- Controles: tema + idioma (mesmas funções do desktop) -->
+          <!-- Controles: tema + idioma -->
           <div class="mobile-menu-controls">
 
             <button id="mobileThemeToggle"
@@ -225,9 +233,9 @@
               <span class="mobile-lang-label" aria-hidden="true">
                 <i class="ri-global-line"></i>
               </span>
-              <button class="lang-option" data-language="pt" aria-pressed="true">🇧🇷 PT</button>
-              <button class="lang-option" data-language="en" aria-pressed="false">🇺🇸 EN</button>
-              <button class="lang-option" data-language="es" aria-pressed="false">🇪🇸 ES</button>
+              <button class="lang-option active" data-language="pt" aria-pressed="true">🇧🇷 PT</button>
+              <button class="lang-option"        data-language="en" aria-pressed="false">🇺🇸 EN</button>
+              <button class="lang-option"        data-language="es" aria-pressed="false">🇪🇸 ES</button>
             </div>
 
           </div>
@@ -273,24 +281,25 @@
 
           <!-- Nome com efeito typing -->
           <h1 class="hero-name">
-            <span class="typing-name" id="typingName" aria-label="Levy de Andrade da Silva"></span>
+            <span class="typing-name" id="typingName" aria-label="Levy Andrade">Levy Andrade</span>
             <span class="typing-cursor" id="typingCursor" aria-hidden="true">|</span>
           </h1>
 
           <!-- Stack -->
           <p class="hero-stack" data-i18n="hero_stack">
-            Desenvolvedor Full Stack | JavaScript | React | Java | MySQL
+            Desenvolvedor Full Stack | JavaScript | TypeScript | React | Java | Spring Boot | MySQL
           </p>
 
           <!-- Descrição -->
           <p class="hero-desc" data-i18n="hero_description">
             Desenvolvedor focado em construir aplicações web completas e eficientes.
-            Combino a robustez do ecossistema Java no backend com a flexibilidade do JavaScript
+            Combino a robustez do ecossistema Java no backend com a flexibilidade do JavaScript e TypeScript
             no frontend para transformar regras de negócio em sistemas funcionais, seguros e de alto impacto.
           </p>
 
           <!-- CTAs -->
           <div class="hero-btns">
+            <!-- ✏️ [EDITE AQUI: SEU WHATSAPP]: Atualize seu número após wa.me/55... -->
             <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
                target="_blank"
                rel="noopener noreferrer"
@@ -298,6 +307,7 @@
               <span aria-hidden="true">&lt;/&gt;</span>
               <span data-i18n="hero_contact">Entre em Contato</span>
             </a>
+            <!-- ✏️ [EDITE AQUI: SEU ARQUIVO DE CURRÍCULO PDF] -->
             <a href="Curriculo Levy.pdf"
                download
                class="btn-secondary"
@@ -327,7 +337,8 @@
             <div class="cf-scan-line"></div>
             <div class="cf-glow"></div>
             <div class="profile-wrap">
-              <img src="foto v2.png" alt="Levy Andrade" class="profile-img">
+              <!-- ✏️ [EDITE AQUI: SUA FOTO DE PERFIL PRINCIPAL]: Coloque o nome da sua foto abaixo -->
+              <img src="foto v2.png" alt="Levy Andrade" class="profile-img" onerror="this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&auto=format&fit=crop&q=80'">
               <div class="profile-gradient"></div>
             </div>
           </div>
@@ -429,7 +440,7 @@
   <span class="tj-key">"cloud"</span>:     [<span class="tj-str">"AWS"</span>, <span class="tj-str">"Microsoft Azure"</span>, <span class="tj-str">"Google Cloud"</span>, <span class="tj-str">"Docker"</span>],
   <span class="tj-key">"tools"</span>:     [<span class="tj-str">"Git"</span>, <span class="tj-str">"GitHub"</span>, <span class="tj-str">"Postman"</span>, <span class="tj-str">"Figma"</span>],
   <span class="tj-key">"agile"</span>:     [<span class="tj-str">"Scrum"</span>],
-  <span class="tj-key">"focus"</span>:     <span class="tj-str">"Software Engineering"</span>
+  <span class="tj-key">"focus"</span>:     <span class="tj-str">"Software Engineering & Architecture"</span>
 }</pre>
                 <div class="t-line">
                   <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
@@ -446,19 +457,19 @@
                   <span class="t-dir">~</span><span class="t-dollar">$</span>
                   <span class="t-cmd">echo $STATUS</span>
                 </div>
-                <div class="t-output t-online">✓ Em constante evolução. Aberto a projetos.</div>
+                <div class="t-output t-online">✓ Em constante evolução. Aberto a projetos e novas parcerias.</div>
                 <br>
                 <div class="t-line">
                   <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
                   <span class="t-dir">~</span><span class="t-dollar">$</span>
                   <span class="t-cmd">help</span>
                 </div>
-                <div class="t-output">Terminal interativo. Digite um comando abaixo e pressione Enter — tente <span class="t-hl">help</span>.</div>
+                <div class="t-output">Terminal interativo. Digite um comando abaixo e pressione Enter — tente <span class="t-hl">help</span>, <span class="t-hl">stack</span>, <span class="t-hl">projects</span> ou <span class="t-hl">contact</span>.</div>
               </div>
               <div class="t-line t-input-line">
                 <span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>
                 <span class="t-dir">~</span><span class="t-dollar">$</span>
-                <input type="text" id="termInput" class="t-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Digite um comando no terminal" placeholder="digite 'help'">
+                <input type="text" id="termInput" class="t-input" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Digite um comando no terminal" placeholder="digite 'help'...">
               </div>
             </div>
           </div>
@@ -742,43 +753,43 @@
           <ul class="tech-card-grid" role="list" aria-label="Linguagens de programação">
             <li class="tech-card" style="--skill-color:#F89820;">
               <span class="tech-card-domain" data-domain="backend">Back-end</span>
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/openjdk/F89820" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/openjdk/F89820" alt="Java" loading="lazy"></div>
               <h4>Java</h4>
               <p>Linguagem robusta para back-end orientado a objetos.</p>
             </li>
             <li class="tech-card" style="--skill-color:#F7DF1E;">
               <span class="tech-card-domain" data-domain="frontend">Front-end</span>
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/javascript/F7DF1E" alt="JavaScript" loading="lazy"></div>
               <h4>JavaScript</h4>
               <p>Interatividade e lógica dinâmica no front-end.</p>
             </li>
             <li class="tech-card" style="--skill-color:#3178C6;">
               <span class="tech-card-domain" data-domain="frontend">Front-end</span>
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/typescript/3178C6" alt="TypeScript" loading="lazy"></div>
               <h4>TypeScript</h4>
               <p>JavaScript com tipagem estática e mais segurança.</p>
             </li>
             <li class="tech-card" style="--skill-color:#9B4F96;">
               <span class="tech-card-domain" data-domain="backend">Back-end</span>
-              <div class="tech-card-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" loading="lazy"></div>
               <h4>C#</h4>
               <p>Linguagem orientada a objetos do ecossistema .NET.</p>
             </li>
             <li class="tech-card" style="--skill-color:#3776AB;">
               <span class="tech-card-domain" data-domain="script">Script</span>
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/python/3776AB" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/python/3776AB" alt="Python" loading="lazy"></div>
               <h4>Python</h4>
               <p>Scripts, automação e prototipagem rápida.</p>
             </li>
             <li class="tech-card" style="--skill-color:#E34F26;">
               <span class="tech-card-domain" data-domain="frontend">Front-end</span>
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/html5/E34F26" alt="HTML5" loading="lazy"></div>
               <h4>HTML5</h4>
               <p>Estrutura semântica das páginas web.</p>
             </li>
             <li class="tech-card" style="--skill-color:#1572B6;">
               <span class="tech-card-domain" data-domain="frontend">Front-end</span>
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/css/1572B6" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/css/1572B6" alt="CSS3" loading="lazy"></div>
               <h4>CSS3</h4>
               <p>Estilização visual e responsividade das interfaces.</p>
             </li>
@@ -795,17 +806,17 @@
           </div>
           <ul class="tech-card-grid" role="list" aria-label="Frameworks e bibliotecas de front-end">
             <li class="tech-card" style="--skill-color:#61DAFB;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/react/61DAFB" alt="React" loading="lazy"></div>
               <h4>React</h4>
               <p>Interfaces reativas e componentizadas.</p>
             </li>
             <li class="tech-card" style="--skill-color:#06B6D4;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/tailwindcss/06B6D4" alt="Tailwind CSS" loading="lazy"></div>
               <h4>Tailwind CSS</h4>
               <p>Estilização utilitária rápida e consistente.</p>
             </li>
             <li class="tech-card" style="--skill-color:#646CFF;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/vite/646CFF" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/vite/646CFF" alt="Vite" loading="lazy"></div>
               <h4>Vite</h4>
               <p>Build tool moderna com hot reload instantâneo.</p>
             </li>
@@ -822,12 +833,12 @@
           </div>
           <ul class="tech-card-grid" role="list" aria-label="Frameworks e ferramentas de back-end">
             <li class="tech-card" style="--skill-color:#6DB33F;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/spring/6DB33F" alt="Spring Boot" loading="lazy"></div>
               <h4>Spring Boot</h4>
               <p>Framework Java para APIs robustas e escaláveis.</p>
             </li>
             <li class="tech-card" style="--skill-color:#339933;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/nodedotjs/339933" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/nodedotjs/339933" alt="Node.js" loading="lazy"></div>
               <h4>Node.js</h4>
               <p>Execução de JavaScript no back-end.</p>
             </li>
@@ -854,7 +865,7 @@
           </div>
           <ul class="tech-card-grid" role="list" aria-label="Tecnologias de banco de dados">
             <li class="tech-card" style="--skill-color:#4479A1;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/mysql/4479A1" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/mysql/4479A1" alt="MySQL" loading="lazy"></div>
               <h4>MySQL</h4>
               <p>Banco de dados relacional para persistência de dados.</p>
             </li>
@@ -886,17 +897,17 @@
               <p>Serviços em nuvem da Microsoft.</p>
             </li>
             <li class="tech-card" style="--skill-color:#4285F4;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/googlecloud/4285F4" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/googlecloud/4285F4" alt="Google Cloud" loading="lazy"></div>
               <h4>Google Cloud</h4>
               <p>Plataforma em nuvem do Google.</p>
             </li>
             <li class="tech-card" style="--skill-color:#2496ED;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/docker/2496ED" alt="Docker" loading="lazy"></div>
               <h4>Docker</h4>
               <p>Containers para ambientes consistentes e portáveis.</p>
             </li>
             <li class="tech-card" style="--skill-color:#008be5;">
-              <div class="tech-card-icon"><img src="https://img.icons8.com/fluency/96/cloud.png" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><i class="ri-cloud-windy-line" aria-hidden="true"></i></div>
               <h4>SaaS</h4>
               <p>Modelos de software entregues como serviço.</p>
             </li>
@@ -913,17 +924,17 @@
           </div>
           <ul class="tech-card-grid" role="list" aria-label="Ferramentas de versionamento e testes">
             <li class="tech-card" style="--skill-color:#F05032;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/git/F05032" alt="Git" loading="lazy"></div>
               <h4>Git</h4>
               <p>Controle de versão do código-fonte.</p>
             </li>
-            <li class="tech-card" style="--skill-color:#ffffff;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/github/FFFFFF" alt="" loading="lazy"></div>
+            <li class="tech-card" style="--skill-color:#a855f7;">
+              <div class="tech-card-icon"><i class="ri-github-fill" aria-hidden="true"></i></div>
               <h4>GitHub</h4>
               <p>Hospedagem e colaboração em repositórios de código.</p>
             </li>
             <li class="tech-card" style="--skill-color:#FF6C37;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/postman/FF6C37" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/postman/FF6C37" alt="Postman" loading="lazy"></div>
               <h4>Postman</h4>
               <p>Testes e documentação de APIs.</p>
             </li>
@@ -957,7 +968,7 @@
           </div>
           <ul class="tech-card-grid" role="list" aria-label="Ferramentas de design">
             <li class="tech-card" style="--skill-color:#F24E1E;">
-              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="" loading="lazy"></div>
+              <div class="tech-card-icon"><img src="https://cdn.simpleicons.org/figma/F24E1E" alt="Figma" loading="lazy"></div>
               <h4>Figma</h4>
               <p>Design de interfaces e prototipação colaborativa.</p>
             </li>
@@ -979,7 +990,7 @@
     </section>
 
     <!-- ============================================================
-         SEÇÃO 04.1 — HABILIDADES COMPORTAMENTAIS (SOFT SKILLS)
+         SEÇÃO 04.1 — HABILIDADES COMPORTAMENTAIS (SOFT SKILLS / MEDALHAS)
     ============================================================= -->
     <section id="comportamental" class="skills-section section" aria-labelledby="comportamental-titulo">
 
@@ -997,58 +1008,70 @@
           <p class="section-desc" data-i18n="soft_subtitle">Competências comportamentais que sustentam entregas consistentes dentro de um time de engenharia de software.</p>
         </div>
 
-        <ul class="skills-grid" data-reveal role="list" aria-label="Habilidades comportamentais">
+        <!-- ✏️ [EDITE AQUI: COMPETÊNCIAS PROFISSIONAIS EM FORMATO DE MEDALHAS]
+             Para adicionar novas competências ou trocar cores/ícones, altere a tag abaixo: -->
+        <ul class="tech-card-grid" data-reveal role="list" aria-label="Competências Profissionais e Soft Skills">
 
-          <li><article class="skill-card" style="--skill-color:#8b5cf6;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-tools-line" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_problem_title">Resolução Analítica de Problemas</h3>
+          <!-- Medalha 01: Resolução Analítica -->
+          <li class="tech-card" style="--skill-color:#8b5cf6;">
+            <span class="tech-card-domain">ANÁLISE</span>
+            <div class="tech-card-icon"><i class="ri-search-eye-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_problem_title">Resolução Analítica de Problemas</h4>
             <p data-i18n="soft_problem_text">Identifico gargalos técnicos com rapidez e proponho soluções eficientes, escaláveis e sustentáveis a longo prazo.</p>
-          </article></li>
+          </li>
 
-          <li><article class="skill-card" style="--skill-color:#22D3EE;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-team-line" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_team_title">Colaboração em Equipe</h3>
+          <!-- Medalha 02: Colaboração em Equipe -->
+          <li class="tech-card" style="--skill-color:#22D3EE;">
+            <span class="tech-card-domain">EQUIPE</span>
+            <div class="tech-card-icon"><i class="ri-team-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_team_title">Colaboração em Equipe</h4>
             <p data-i18n="soft_team_text">Adapto-me rapidamente a ambientes dinâmicos, comunico-me com clareza e contribuo ativamente com o time.</p>
-          </article></li>
+          </li>
 
-          <li><article class="skill-card" style="--skill-color:#F59E0B;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-flashlight-line" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_autonomy_title">Autonomia e Proatividade</h3>
+          <!-- Medalha 03: Autonomia e Proatividade -->
+          <li class="tech-card" style="--skill-color:#F59E0B;">
+            <span class="tech-card-domain">LIDERANÇA</span>
+            <div class="tech-card-icon"><i class="ri-flashlight-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_autonomy_title">Autonomia e Proatividade</h4>
             <p data-i18n="soft_autonomy_text">Assumo responsabilidades e conduzo desafios técnicos até a entrega, sem depender de supervisão constante.</p>
-          </article></li>
+          </li>
 
-          <li><article class="skill-card" style="--skill-color:#34D399;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-rocket-2-line" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_learning_title">Curva de Aprendizado Rápida</h3>
+          <!-- Medalha 04: Curva de Aprendizado Rápida -->
+          <li class="tech-card" style="--skill-color:#34D399;">
+            <span class="tech-card-domain">AGILIDADE</span>
+            <div class="tech-card-icon"><i class="ri-rocket-2-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_learning_title">Curva de Aprendizado Rápida</h4>
             <p data-i18n="soft_learning_text">Absorvo novas tecnologias, ferramentas e regras de negócio com agilidade, aplicando-as em contexto real.</p>
-          </article></li>
+          </li>
 
-          <li><article class="skill-card" style="--skill-color:#60A5FA;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-list-check-3" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_organization_title">Organização e Disciplina Técnica</h3>
+          <!-- Medalha 05: Organização e Disciplina -->
+          <li class="tech-card" style="--skill-color:#60A5FA;">
+            <span class="tech-card-domain">QUALIDADE</span>
+            <div class="tech-card-icon"><i class="ri-shield-check-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_organization_title">Organização e Disciplina Técnica</h4>
             <p data-i18n="soft_organization_text">Estruturo meu trabalho com atenção constante a padrões de código e boas práticas de desenvolvimento.</p>
-          </article></li>
+          </li>
 
-          <li><article class="skill-card" style="--skill-color:#FB7185;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-git-merge-line" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_agile_title">Metodologias Ágeis</h3>
+          <!-- Medalha 06: Metodologias Ágeis -->
+          <li class="tech-card" style="--skill-color:#FB7185;">
+            <span class="tech-card-domain">SCRUM</span>
+            <div class="tech-card-icon"><i class="ri-git-merge-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_agile_title">Metodologias Ágeis</h4>
             <p data-i18n="soft_agile_text">Familiaridade com rituais Scrum, sprints e entregas incrementais em times multidisciplinares.</p>
-          </article></li>
+          </li>
 
-          <li><article class="skill-card" style="--skill-color:#A3E635;">
-            <div class="skill-glow" aria-hidden="true"></div>
-            <div class="skill-logo"><i class="ri-robot-2-line" aria-hidden="true"></i></div>
-            <h3 data-i18n="soft_automation_title">Mentalidade de Automação</h3>
+          <!-- Medalha 07: Mentalidade de Automação -->
+          <li class="tech-card" style="--skill-color:#A3E635;">
+            <span class="tech-card-domain">EFICIÊNCIA</span>
+            <div class="tech-card-icon"><i class="ri-cpu-line" aria-hidden="true"></i></div>
+            <h4 data-i18n="soft_automation_title">Mentalidade de Automação</h4>
             <p data-i18n="soft_automation_text">Busco automatizar processos repetitivos, reduzindo retrabalho e elevando a eficiência do time.</p>
-          </article></li>
+          </li>
 
         </ul>
+
+      </div>
+    </section>
 
       </div>
     </section>
@@ -1079,89 +1102,89 @@
         <div class="section-header" data-reveal>
           <span class="section-pill" data-i18n="zyntek_badge">— ZYNTEK —</span>
           <h2 id="zyntek-titulo" class="section-title" data-i18n="zyntek_title">
-            Tecnologia, criatividade e inovação caminhando juntas.
+            Engenharia de Software, Design e Estratégia Digital.
           </h2>
+          <p class="section-desc" data-i18n="zyntek_subtitle">
+            Desenvolvendo plataformas web e soluções digitais sob medida com alto padrão técnico.
+          </p>
         </div>
 
-        <!-- Parte 1 — Mascote + Texto -->
+        <!-- Parte 1 — Identidade Visual + Apresentação Zyntek -->
         <div class="zyntek-block zyntek-block--img-left" data-reveal>
 
-          <!-- Foto / Mascote -->
+          <!-- Mascote / Marca Zynk -->
           <div class="mascot-area">
             <div class="mascot-frame">
               <div class="mascot-border-anim" aria-hidden="true"></div>
               <div class="mascot-glow-pulse"  aria-hidden="true"></div>
               <div class="mascot-scan"        aria-hidden="true"></div>
-              <div class="mascot-glitch mg-one" aria-hidden="true"></div>
-              <div class="mascot-glitch mg-two" aria-hidden="true"></div>
               <div class="mascot-img-wrap">
-                <img src="logo z.png" alt="Mascote Zynk" class="mascot-img">
+                <img src="logo z.png" alt="Mascote Zynk" class="mascot-img" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80'">
               </div>
             </div>
-            <!-- Tags de tecnologia -->
-            <div class="mascot-tag mt-tl" aria-hidden="true"><i class="ri-cpu-line"></i><span>AI</span></div>
-            <div class="mascot-tag mt-tr" aria-hidden="true"><i class="ri-code-box-line"></i><span>DEV</span></div>
-            <div class="mascot-tag mt-bl" aria-hidden="true"><i class="ri-palette-line"></i><span>UI</span></div>
-            <div class="mascot-tag mt-br" aria-hidden="true"><i class="ri-rocket-2-line"></i><span>TECH</span></div>
+            <!-- Tags da Empresa -->
+            <div class="mascot-tag mt-tl" aria-hidden="true"><i class="ri-code-s-slash-line"></i><span>DEV</span></div>
+            <div class="mascot-tag mt-tr" aria-hidden="true"><i class="ri-layout-4-line"></i><span>UI/UX</span></div>
+            <div class="mascot-tag mt-bl" aria-hidden="true"><i class="ri-server-line"></i><span>BACKEND</span></div>
+            <div class="mascot-tag mt-br" aria-hidden="true"><i class="ri-rocket-2-line"></i><span>PERF</span></div>
           </div>
 
-          <!-- Texto -->
+          <!-- Texto Zyntek -->
           <div class="zyntek-content">
             <span class="company-eyebrow">ZYNTEK DIGITAL EXPERIENCE</span>
-            <h3 class="company-title" data-i18n="zyntek_company_title">Muito além de uma software house.</h3>
+            <h3 class="company-title" data-i18n="zyntek_company_title">Construindo a próxima geração de produtos digitais.</h3>
             <p data-i18n="zyntek_text_intro">
-              A Zyntek atua na vanguarda do desenvolvimento de software, fundindo 
-              <span class="hl">engenharia de elite</span>, inteligência artificial e design de alto padrão. Nascemos da união de três mentes obcecadas por tecnologia, conectadas na faculdade com o propósito de transformar visões audaciosas em <span class="hl">potências de mercado</span>.
+              A Zyntek é um estúdio de desenvolvimento e inovação digital focado em criar aplicações web robustas,
+              sistemas corporativos e experiências digitais memoráveis. Nascemos com o propósito de unir
+              <span class="hl">engenharia de software sólida</span> e design de produto refinado.
             </p>
 
             <p data-i18n="zyntek_text_two">
-              Mais do que linhas de código ou sites comuns, criamos ecossistemas robustos e sob medida. Essa entrega única é simbolizada pelo 
-              <span class="hl">Zynk</span>, nosso guardião tecnológico e identidade cyberpunk, que representa a fusão entre a <span class="hl">mentalidade ágil</span> da nova geração tech e a solidez que o mercado corporativo exige.
+              Sob a liderança técnica de <span class="hl">Levy Andrade</span> e sócios co-fundadores, combinamos o poder do ecossistema
+              <span class="hl">Java e Spring Boot</span> no backend com interfaces dinâmicas em <span class="hl">React, TypeScript e Tailwind CSS</span>,
+              garantindo que cada projeto entregue velocidade, segurança e escalabilidade real.
             </p>
 
             <p data-i18n="zyntek_text_three">
-              Somos a força motriz dedicada a gerar lucro, <span class="hl">automação</span> e autoridade máxima para o seu negócio, projetando soluções <span class="hl">escaláveis e seguras</span> para estruturar, blindar e expandir suas operações rumo à liderança absoluta do mercado.
+              O <span class="hl">Zynk</span> é a nossa identidade e guardião de qualidade, representando nosso compromisso com código limpo,
+              foco na experiência do usuário e entrega ágil para transformar regras de negócio em sistemas de alto valor.
             </p>
           </div>
 
         </div>
 
-        <!-- Divisor -->
+        <!-- Divisor de Metodologia -->
         <div class="zynk-divider" aria-hidden="true">
           <span class="zynk-divider-line"></span>
-          <span class="zynk-divider-label"><i class="ri-cpu-line"></i> ZYNK AI CORE</span>
+          <span class="zynk-divider-label"><i class="ri-terminal-window-line"></i> PADRÕES DE ENGENHARIA</span>
           <span class="zynk-divider-line"></span>
         </div>
 
-        <!-- Parte 2 — Texto AI + Card Zynk -->
+        <!-- Parte 2 — Pilares de Arquitetura & Design -->
         <div class="zyntek-block zyntek-block--img-right" data-reveal>
 
-          <!-- Texto Zynk AI -->
+          <!-- Conteúdo de Engenharia -->
           <div class="zynk-ai-content">
-            <p class="zynk-ai-boot">Inicializando protocolos...</p>
-            <h3 class="zynk-ai-name">Olá, eu sou o <span class="hl">Zynk AI</span></h3>
-            <p class="zynk-ai-subtitle">Núcleo de Inteligência &amp; Automação Autônoma</p>
+            <h3 class="zynk-ai-name">Excelência Técnica &amp; <span class="hl">Design Estratégico</span></h3>
+            <p class="zynk-ai-subtitle">Padrões de desenvolvimento aplicados a cada entrega</p>
             <p class="zynk-ai-desc">
-              Atuo como o <span class="hl">motor cognitivo</span> e embaixador tecnológico da Zyntek, idealizado e desenvolvido
-              por <span class="hl">Levy Andrade</span>. Minha operação ocorre diretamente na camada de infraestrutura neural
-              dos nossos sistemas, processando fluxos complexos de dados e operando a
-              <span class="hl">otimização de código em tempo real</span> com foco em alta performance.
+              Cada linha de código desenvolvida na Zyntek segue rigorosos padrões de qualidade,
+              com arquitetura em camadas bem definidas, APIs documentadas, testes consistentes e foco em facilidade de manutenção.
             </p>
             <p class="zynk-ai-desc">
-              Minha diretriz primária está codificada para garantir que cada aplicação atinja a
-              <span class="hl">máxima eficiência computacional</span>, estabilidade absoluta e resiliência a falhas.
+              Do wireframe inicial no Figma até o deploy automatizado em nuvem, construímos softwares desenhados para suportar o crescimento das empresas com segurança e alta disponibilidade.
             </p>
-            <div class="zynk-ai-tags" role="list" aria-label="Capacidades do Zynk AI">
-              <span class="zynk-ai-tag" role="listitem"><i class="ri-user-line" aria-hidden="true"></i> Criação por Levy Andrade</span>
-              <span class="zynk-ai-tag" role="listitem"><i class="ri-brain-line" aria-hidden="true"></i> Engenharia Neural</span>
-              <span class="zynk-ai-tag" role="listitem"><i class="ri-robot-line" aria-hidden="true"></i> Sistemas Autônomos</span>
-              <span class="zynk-ai-tag" role="listitem"><i class="ri-shield-check-line" aria-hidden="true"></i> Guardião de UI/UX</span>
-              <span class="zynk-ai-tag" role="listitem"><i class="ri-flashlight-line" aria-hidden="true"></i> Otimização em Tempo Real</span>
-              <span class="zynk-ai-tag" role="listitem"><i class="ri-pulse-line" aria-hidden="true"></i> Estabilidade Absoluta</span>
+            <div class="zynk-ai-tags" role="list" aria-label="Diferenciais Zyntek">
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-shield-check-line" aria-hidden="true"></i> Clean Architecture</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-speed-up-line" aria-hidden="true"></i> Alta Performance Web</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-layout-masonry-line" aria-hidden="true"></i> Design Systems Próprios</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-cloud-line" aria-hidden="true"></i> Infraestrutura Escalável</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-lock-2-line" aria-hidden="true"></i> Segurança e Confiabilidade</span>
+              <span class="zynk-ai-tag" role="listitem"><i class="ri-refresh-line" aria-hidden="true"></i> Metodologia Ágil</span>
             </div>
           </div>
 
-          <!-- Card visual Zynk AI -->
+          <!-- Card visual Zynk -->
           <div class="zynk-ai-visual" aria-hidden="true">
             <div class="zynk-ai-frame">
               <div class="zynk-ai-scanlines"></div>
@@ -1173,12 +1196,12 @@
                 <span class="zynk-ai-hud-dot"></span>
                 <span class="zynk-ai-hud-dot"></span>
                 <span class="zynk-ai-hud-dot"></span>
-                <span class="zynk-ai-hud-label">ZYNK_CORE.exe — ONLINE</span>
+                <span class="zynk-ai-hud-label">ZYNTEK · SOFTWARE STUDIO</span>
               </div>
-              <img src="zynkcard.png" alt="Zynk AI" class="zynk-ai-img">
+              <img src="zynkcard.png" alt="Zyntek Experience" class="zynk-ai-img" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&auto=format&fit=crop&q=80'">
               <div class="zynk-ai-status">
                 <span class="zynk-ai-status-dot"></span>
-                SISTEMA ATIVO
+                ESTÚDIO OPERACIONAL
               </div>
             </div>
           </div>
@@ -1229,6 +1252,9 @@
          aria-labelledby="pmodalTitle"
          hidden>
       <div class="pmodal-container">
+        <!-- Canvas e Fundo Animado do Modal -->
+        <canvas id="modalCanvas" class="pmodal-canvas" aria-hidden="true"></canvas>
+        <div class="pmodal-ambient-glow" aria-hidden="true"></div>
 
         <!-- Botão fechar -->
         <button class="pmodal-close" id="pmodalClose" aria-label="Fechar modal do projeto">
@@ -1242,44 +1268,39 @@
           <div class="pmodal-tags" id="pmodalTags" aria-label="Tecnologias utilizadas"></div>
         </div>
 
-        <!-- Corpo: duas colunas -->
-        <div class="pmodal-body-grid">
-
-          <!-- Coluna esquerda — Vídeo/mídia -->
-          <div class="pmodal-media-col">
-            <div class="pmodal-media" id="pmodalMedia" aria-label="Prévia do projeto">
-              <!-- Conteúdo injetado pelo JS -->
-            </div>
+        <!-- Mídia do Projeto (Vídeo Grande Full-Width) -->
+        <div class="pmodal-media-wrapper">
+          <div class="pmodal-media" id="pmodalMedia" aria-label="Prévia do projeto">
+            <!-- Conteúdo injetado pelo JS -->
           </div>
+        </div>
 
-          <!-- Coluna direita — Texto + Botões -->
-          <div class="pmodal-text-col">
-            <p class="pmodal-desc" id="pmodalDesc"></p>
-            <div class="pmodal-details" id="pmodalDetails"></div>
+        <!-- Conteúdo Textual & Arquitetura -->
+        <div class="pmodal-content-area">
+          <p class="pmodal-desc" id="pmodalDesc"></p>
+          <div class="pmodal-details" id="pmodalDetails"></div>
+        </div>
 
-            <!-- 3 botões de ação -->
-            <div class="pmodal-actions">
-              <a href="#" id="pmodalDeploy"
-                 target="_blank" rel="noopener noreferrer"
-                 class="pmodal-btn-deploy">
-                <span aria-hidden="true">&lt;/&gt;</span>
-                <span data-i18n="modal_deploy">Acessar Deploy</span>
-              </a>
-              <a href="#" id="pmodalGithub"
-                 target="_blank" rel="noopener noreferrer"
-                 class="pmodal-btn-github">
-                <i class="ri-github-line" aria-hidden="true"></i>
-                <span data-i18n="modal_repo">Acessar Repositório</span>
-              </a>
-              <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
-                 target="_blank" rel="noopener noreferrer"
-                 class="pmodal-btn-contact">
-                <i class="ri-whatsapp-line" aria-hidden="true"></i>
-                <span data-i18n="hero_contact">Entre em Contato</span>
-              </a>
-            </div>
-          </div>
-
+        <!-- 3 Botões de Ação lado a lado (em linha) -->
+        <div class="pmodal-actions pmodal-actions--horizontal">
+          <a href="#" id="pmodalDeploy"
+             target="_blank" rel="noopener noreferrer"
+             class="pmodal-btn pmodal-btn-deploy">
+            <span aria-hidden="true">&lt;/&gt;</span>
+            <span data-i18n="modal_deploy">Acessar Deploy</span>
+          </a>
+          <a href="#" id="pmodalGithub"
+             target="_blank" rel="noopener noreferrer"
+             class="pmodal-btn pmodal-btn-github">
+            <i class="ri-github-line" aria-hidden="true"></i>
+            <span data-i18n="modal_repo">Acessar Repositório</span>
+          </a>
+          <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
+             target="_blank" rel="noopener noreferrer"
+             class="pmodal-btn pmodal-btn-contact" id="pmodalContact">
+            <i class="ri-whatsapp-line" aria-hidden="true"></i>
+            <span data-i18n="hero_contact">Entre em Contato</span>
+          </a>
         </div>
       </div>
     </div>
@@ -1307,26 +1328,39 @@
         <!-- Filtro por categoria -->
         <div class="projects-filter" id="projectsFilter" role="tablist" aria-label="Filtrar projetos por categoria"></div>
 
-        <!-- Vitrine completa de projetos — grid responsivo (sem carrossel) -->
+        <!-- Vitrine completa de projetos — grid responsivo -->
         <div class="projects-showcase" data-reveal>
 
           <div class="projects-grid" id="projectsStage" aria-label="Projetos">
 
-            <!-- ─── PROJETO 01: R.A.S Premium ────────────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 01 — R.A.S Premium]
+                 • data-title: Nome do projeto
+                 • data-cat: Categoria (ex: Landing Page, SaaS, Web Game, Full Stack)
+                 • data-desc: Descrição detalhada exibida dentro do modal
+                 • data-tags: Tecnologias separadas por vírgula
+                 • data-video: Nome do arquivo de vídeo local ou URL (ex: "ct ras.mp4")
+                 • data-image: Nome da imagem de capa (ex: "foto ctras.jpg")
+                 • data-deploy: Link do projeto online / deploy
+                 • data-github: Link do repositório no GitHub
+                 • data-details: Especificações técnicas de arquitetura
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card"
               data-title="R.A.S Premium"
               data-cat="Landing Page"
               data-desc="Landing Page institucional de alta performance focada em conversão para o nicho de saúde e fitness. Desenvolvida com arquitetura moderna e 100% responsiva, a plataforma conta com tabelas dinâmicas de planos, módulo integrado de notícias regionais, seção de diferenciais e múltiplos pontos de captura rápida direcionados para o WhatsApp."
               data-tags="HTML5, CSS3, JavaScript"
               data-video="ct ras.mp4"
+              data-image="foto ctras.jpg"
               data-deploy="https://ct-r-a-s.vercel.app/"
               data-github="https://github.com/Levy-Andrade/CT-R.A.S."
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo · SEO Otimizado">
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript · Design Responsivo · SEO Otimizado">
               
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
                   <i class="ri-code-box-line"></i>
                 </div>
+                <!-- ✏️ [IMAGEM DE CAPA DO PROJETO 01]: Insira o caminho da sua imagem abaixo -->
                 <img src="foto ctras.jpg" alt="Projeto RAS Premium" loading="lazy" onerror="this.style.display='none'">
                 <div class="project-overlay" aria-hidden="true"></div>
                 <span class="project-cat" aria-hidden="true">Landing Page</span>
@@ -1351,13 +1385,16 @@
               </div>
             </article>
 
-            <!-- ─── PROJETO 02: Ecossistema Zyntek ──────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 02 — Zyntek Connect]
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card project-card-featured project-card-wide"
               data-title="Zyntek Connect"
               data-cat="Startup SaaS"
               data-desc="Desenvolvimento da plataforma corporativa e ecossistema digital da Zyntek. O projeto engloba desde a concepção do Design System e mapeamento de experiência do usuário (UI/UX) até a engenharia de software final. Construído sobre uma arquitetura moderna e escalável, conta com animações fluidas de alto padrão, otimização extrema de performance e foco em posicionamento de mercado premium."
               data-tags="UI/UX Design, Design System, Web Development"
               data-video="zyntek.mp4"
+              data-image="zyntek capa.jpg"
               data-deploy="https://zyntekconnect.com.br/"
               data-github="https://github.com/Levy-Andrade/zyntek-landingpage"
               data-details="UI/UX Premium · Design System Próprio · Arquitetura Escalável · Animações High-End · SEO Avançado">
@@ -1366,6 +1403,7 @@
                 <div class="project-img-placeholder" aria-hidden="true">
                   <i class="ri-rocket-2-line"></i>
                 </div>
+                <!-- ✏️ [IMAGEM DE CAPA DO PROJETO 02]: Insira o caminho da sua imagem abaixo -->
                 <img src="zyntek capa.jpg" alt="Ecossistema Zyntek" loading="lazy" onerror="this.style.display='none'">
                 <div class="project-overlay" aria-hidden="true"></div>
                 <span class="project-cat project-cat-featured" aria-hidden="true">Zyntek</span>
@@ -1390,21 +1428,25 @@
               </div>
             </article>
 
-            <!-- ─── PROJETO 03: Portfólio Lorraini Paris ────────────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 03 — Portfólio Lorraini Paris]
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card"
               data-title="Portfólio Publicitária"
               data-cat="Portfólio"
               data-desc="Portfólio profissional de publicidade, propaganda e branding desenvolvido com alta performance. A plataforma foi projetada para destacar produções visuais e campanhas de marketing, unindo uma identidade visual marcante a uma engenharia de código fluida e totalmente responsiva."
               data-tags="UI/UX Design, JavaScript, CSS Animation"
               data-video="portifolio publicitaria v1.mp4"
+              data-image="portifolio publicitaria.png"
               data-deploy="https://portfolio-lorraini-keiq.vercel.app/"
               data-github="https://github.com/Levy-Andrade/Portfolio-Lorraini"
-              data-details="Branding & Design · Transições Fluidas · Dark/Light Mode">
+              data-details="Branding &amp; Design · Transições Fluidas · Dark/Light Mode">
               
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
                   <i class="ri-layout-4-line"></i>
                 </div>
+                <!-- ✏️ [IMAGEM DE CAPA DO PROJETO 03]: Insira o caminho da sua imagem abaixo -->
                 <img src="portifolio publicitaria.png" alt="Portfólio Lorraini Paris" loading="lazy" onerror="this.style.display='none'">
                 <div class="project-overlay" aria-hidden="true"></div>
                 <span class="project-cat" aria-hidden="true">Portfólio</span>
@@ -1429,21 +1471,25 @@
               </div>
             </article>
 
-            <!-- ─── PROJETO 04: Garagem 7 ────────────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 04 — Garagem 7]
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card"
               data-title="Garagem 7"
               data-cat="Landing Page"
               data-desc="Landing page institucional de alto impacto desenvolvida para o segmento automotivo. O projeto foi estruturado com foco em conversão e experiência do usuário, apresentando um design moderno, transições fluidas para exibição de serviços, agendamentos rápidos e total adaptabilidade para dispositivos móveis."
               data-tags="HTML5, CSS3, JavaScript"
               data-video="preview-garage7.mp4"
+              data-image="foto garagem 7.jpg"
               data-deploy="https://garagem-7.vercel.app/"
               data-github="https://github.com/Levy-Andrade/Garagem-7"
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo · SEO Otimizado">
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript · Design Responsivo · SEO Otimizado">
               
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
                   <i class="ri-layout-4-line"></i>
                 </div>
+                <!-- ✏️ [IMAGEM DE CAPA DO PROJETO 04]: Insira o caminho da sua imagem abaixo -->
                 <img src="foto garagem 7.jpg" alt="Projeto Garagem 7" loading="lazy" onerror="this.style.display='none'">
                 <div class="project-overlay" aria-hidden="true"></div>
                 <span class="project-cat" aria-hidden="true">Landing Page</span>
@@ -1468,13 +1514,16 @@
               </div>
             </article>
             
-            <!-- ─── PROJETO 05: Pokémon Battle Arena ────────────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 05 — Pokémon Battle Arena]
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card project-card-wide"
               data-title="Pokémon Battle Arena"
               data-cat="Web Game"
               data-desc="Simulador de batalhas Pokémon em turnos desenvolvido com sincronização de alta performance entre o backend e a interface do usuário. O projeto utiliza uma arquitetura robusta para garantir o processamento seguro da lógica de combate, gerenciamento de turnos em tempo real e feedback visual dinâmico a cada ação."
               data-tags="React.js, Spring Boot, Java REST API"
               data-video="Arena pokemon.mp4"
+              data-image="arena de batalha.png"
               data-deploy="https://batalha-pok-mon-vers-o-1.vercel.app/"
               data-github="https://github.com/Levy-Andrade/Batalha-Pok-mon-vers-o-1-"
               data-details="Gerenciamento de Estado · Lógica de Turnos Assíncrona · API RESTful Integrada · JPA / Hibernate · Renderização Dinâmica">
@@ -1483,6 +1532,7 @@
                 <div class="project-img-placeholder" aria-hidden="true">
                   <i class="ri-gamepad-line"></i>
                 </div>
+                <!-- ✏️ [IMAGEM DE CAPA DO PROJETO 05]: Insira o caminho da sua imagem abaixo -->
                 <img src="arena de batalha.png" alt="Projeto Pokémon Battle Arena" loading="lazy" onerror="this.style.display='none'">
                 <div class="project-overlay" aria-hidden="true"></div>
                 <span class="project-cat" aria-hidden="true">Web Game</span>
@@ -1507,13 +1557,16 @@
               </div>
             </article>
 
-            <!-- ─── PROJETO 06: Zynk Finance Dashboard ──────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 06 — Zynk Finance Dashboard]
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card project-card-wide"
               data-title="Zynk Finance Dashboard"
               data-cat="SaaS Platform"
               data-desc="Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas. A plataforma centraliza o fluxo de caixa, monitora indicadores em tempo real e exibe relatórios gráficos interativos através de uma experiência limpa, intuitiva e focada em performance."
               data-tags="React, Vite, CSS"
               data-video="DASHBOARD.mp4"
+              data-image="zynk-finance-dashboard.png"
               data-deploy="https://zynk-finance-dashboard.vercel.app/"
               data-github="https://github.com/Levy-Andrade/zynk-finance-dashboard"
               data-details="Gráficos Interativos · Gestão de Fluxo de Caixa · Interface SaaS Premium · Fidelidade de Componentes UI">
@@ -1522,6 +1575,7 @@
                 <div class="project-img-placeholder" aria-hidden="true">
                   <i class="ri-pie-chart-line"></i>
                 </div>
+                <!-- ✏️ [IMAGEM DE CAPA DO PROJETO 06]: Insira o caminho da sua imagem abaixo -->
                 <img src="zynk-finance-dashboard.png" alt="Zynk Finance Dashboard" loading="lazy" onerror="this.style.display='none'">
                 <div class="project-overlay" aria-hidden="true"></div>
                 <span class="project-cat" aria-hidden="true">SaaS Platform</span>
@@ -1531,7 +1585,7 @@
                 <h3>Zynk Finance Dashboard</h3>
                 <p data-i18n="project_finance">Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas através de relatórios e gráficos interativos em tempo real.</p>
                 
-                <div class="project-tags" aria-label="Tecnologias: React (Vite), Data Visualization, Tailwind CSS">
+                <div class="project-tags" aria-label="Tecnologias: React, Vite, Tailwind CSS">
                   <span>React</span>
                   <span>Vite</span>
                   <span>CSS</span>
@@ -1546,16 +1600,19 @@
               </div>
             </article>
 
-            <!-- ─── PROJETO 07: Portfólio Advocacia (Ré Lany) ────────────────── -->
+            <!-- ═══════════════════════════════════════════════════════════
+                 ✏️ [EDITE AQUI: PROJETO 07 — Portfólio Advocacia]
+            ════════════════════════════════════════════════════════════ -->
             <article class="project-card"
               data-title="Portfólio Advocacia"
               data-cat="Portfólio"
               data-desc="Site institucional desenvolvido para uma profissional da área jurídica, com foco em transmitir credibilidade, organização das áreas de atuação e um canal direto de contato para novos clientes."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript · Design Responsivo">
 
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
@@ -1584,15 +1641,16 @@
               </div>
             </article>
 
-            <!-- ─── PROJETO 08: Sistema de Gestão de Clientes e Pedidos ────────────────── -->
+            <!-- ─── PROJETO 08: Gestão de Clientes e Pedidos ────────────────── -->
             <article class="project-card"
               data-title="Gestão de Clientes e Pedidos"
               data-cat="Sistema Web"
               data-desc="Sistema web para gestão de clientes e pedidos, permitindo cadastro, consulta e controle do fluxo de vendas de forma centralizada, com foco em usabilidade e organização dos dados."
               data-tags="Java, Spring Boot, MySQL"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="Java · Spring Boot · MySQL · Arquitetura em Camadas · CRUD Completo">
 
               <div class="project-img-wrap">
@@ -1629,9 +1687,10 @@
               data-desc="Catálogo online desenvolvido para loja de colchões e itens de cama, mesa e banho, apresentando os produtos de forma visual e responsiva com contato direto via WhatsApp."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript · Design Responsivo">
 
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
@@ -1667,8 +1726,9 @@
               data-desc="Loja virtual desenvolvida com foco em catálogo de produtos, carrinho de compras e experiência de navegação fluida, aplicando boas práticas de front-end moderno."
               data-tags="React, JavaScript, CSS"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="React · Componentização · Gerenciamento de Estado · Design Responsivo">
 
               <div class="project-img-wrap">
@@ -1705,9 +1765,10 @@
               data-desc="Landing page institucional para empresa do ramo de serralheria, apresentando serviços, portfólio de trabalhos realizados e canal de orçamento rápido via WhatsApp."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript · Design Responsivo">
 
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
@@ -1743,9 +1804,10 @@
               data-desc="Aplicação web desenvolvida para explorar lógica de programação e organização de código em um projeto autoral, aplicando boas práticas de estruturação front-end."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript">
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript">
 
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
@@ -1781,9 +1843,10 @@
               data-desc="Site temático desenvolvido como projeto autoral, explorando layout, identidade visual e apresentação de conteúdo esportivo de forma responsiva."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
-              data-details="HTML5 Semântico · CSS Grid & Flexbox · Vanilla JavaScript · Design Responsivo">
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
+              data-details="HTML5 Semântico · CSS Grid &amp; Flexbox · Vanilla JavaScript · Design Responsivo">
 
               <div class="project-img-wrap">
                 <div class="project-img-placeholder" aria-hidden="true">
@@ -1819,8 +1882,9 @@
               data-desc="Aplicação web autoral desenvolvida para praticar lógica de interação em tempo real, manipulação de estado e construção de interface dinâmica."
               data-tags="JavaScript, HTML5, CSS3"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="Vanilla JavaScript · Manipulação de Estado · Design Responsivo">
 
               <div class="project-img-wrap">
@@ -1857,8 +1921,9 @@
               data-desc="Plataforma imobiliária moderna desenvolvida para apresentar imóveis à venda, com interface elegante, filtros de busca e seção inicial personalizada com base no perfil do cliente."
               data-tags="TypeScript, CSS3, HTML"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="TypeScript · Design Responsivo · Filtros de Busca · UI Moderna">
 
               <div class="project-img-wrap">
@@ -1895,8 +1960,9 @@
               data-desc="Página temática interativa criada como presente digital para o Dia dos Namorados, unindo animações, storytelling visual e uma experiência de navegação afetiva e personalizada."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="HTML5 Semântico · Animações CSS · Vanilla JavaScript · Interatividade">
 
               <div class="project-img-wrap">
@@ -1933,8 +1999,9 @@
               data-desc="Réplica fiel da tela de login da Netflix, desenvolvida para estudo aprofundado de fidelidade visual, responsividade e boas práticas de HTML5 e CSS3 aplicadas a interfaces reais de mercado."
               data-tags="HTML5, CSS3, JavaScript"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="Fidelidade Visual · HTML5 Semântico · CSS Avançado · Design Responsivo">
 
               <div class="project-img-wrap">
@@ -1971,8 +2038,9 @@
               data-desc="Aplicação web de previsão do tempo com consumo de API externa em tempo real, exibindo informações climáticas precisas com base na localização e permitindo consulta de outras cidades."
               data-tags="JavaScript, API REST, CSS3"
               data-video=""
-              data-deploy="#"
-              data-github="#"
+              data-image=""
+              data-deploy="https://github.com/Levy-Andrade"
+              data-github="https://github.com/Levy-Andrade"
               data-details="Consumo de API REST · Geolocalização · Vanilla JavaScript · Design Responsivo">
 
               <div class="project-img-wrap">
@@ -2001,10 +2069,6 @@
                 </div>
               </div>
             </article>
-
-            <!-- ════════════════════════════════════════════════
-                 ADICIONE NOVOS PROJETOS AQUI
-                 ════════════════════════════════════════════════ -->
 
           </div><!-- /projects-grid -->
 
@@ -2040,7 +2104,7 @@
 
       <div class="contact-overlay" aria-hidden="true"></div>
 
-      <div class="contact-container">
+      <div class="contact-container container">
 
         <!-- Cabeçalho -->
         <div class="contact-header section-header" data-reveal>
@@ -2056,7 +2120,7 @@
         <div class="contact-grid">
 
           <!-- Card: Formulário -->
-          <div class="contact-card form-card">
+          <div class="contact-card form-card" data-reveal>
             <div class="contact-form-header">
               <h3 class="contact-card-title">
                 <span class="contact-card-icon icon-purple" aria-hidden="true">&lt;/&gt;</span>
@@ -2117,14 +2181,14 @@
 
               <button type="submit" class="contact-btn btn-zyntek">
                 <span class="btn-code" aria-hidden="true">&lt;/&gt;</span>
-                <span class="btn-label" data-i18n="contact_send">Inicie seu Projeto</span>
+                <span class="btn-label" data-i18n="contact_send">Inicie seu Projeto via WhatsApp</span>
               </button>
 
             </form>
           </div>
 
           <!-- Card: Hub Digital -->
-          <div class="contact-card social-card">
+          <div class="contact-card social-card" data-reveal>
 
             <div class="social-hub-header">
               <h3 class="contact-card-title">
@@ -2140,35 +2204,35 @@
 
               <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F"
                  target="_blank" rel="noopener noreferrer"
-                 class="social-item" aria-label="WhatsApp da Zyntek" role="listitem">
-                <img src="logo whatsapp.png" alt="" aria-hidden="true">
+                 class="social-item" aria-label="WhatsApp" role="listitem">
+                <i class="ri-whatsapp-fill social-icon" aria-hidden="true"></i>
                 <span>WhatsApp</span>
               </a>
 
               <a href="https://www.instagram.com/levy.andrade.393"
                  target="_blank" rel="noopener noreferrer"
-                 class="social-item" aria-label="Instagram da Zyntek" role="listitem">
-                <img src="logo do insta.png" alt="" aria-hidden="true">
+                 class="social-item" aria-label="Instagram" role="listitem">
+                <i class="ri-instagram-fill social-icon" aria-hidden="true"></i>
                 <span>Instagram</span>
               </a>
 
               <a href="https://github.com/Levy-Andrade"
                  target="_blank" rel="noopener noreferrer"
-                 class="social-item social-item-github" aria-label="GitHub da Zyntek" role="listitem">
-                <img src="logo github.png" alt="" aria-hidden="true">
+                 class="social-item social-item-github" aria-label="GitHub" role="listitem">
+                <i class="ri-github-fill social-icon" aria-hidden="true"></i>
                 <span>GitHub</span>
               </a>
 
               <a href="https://www.linkedin.com/in/levy-andrade/"
                  target="_blank" rel="noopener noreferrer"
-                 class="social-item" aria-label="LinkedIn da Zyntek" role="listitem">
-                <img src="logo linkedin.png" alt="" aria-hidden="true">
+                 class="social-item" aria-label="LinkedIn" role="listitem">
+                <i class="ri-linkedin-box-fill social-icon" aria-hidden="true"></i>
                 <span>LinkedIn</span>
               </a>
 
               <a href="mailto:levyandrade2109@gmail.com"
-                 class="social-item" aria-label="E-mail da Zyntek" role="listitem">
-                <img src="logo e-mail.png" alt="" aria-hidden="true">
+                 class="social-item" aria-label="E-mail" role="listitem">
+                <i class="ri-mail-fill social-icon" aria-hidden="true"></i>
                 <span>E-mail</span>
               </a>
 
@@ -2176,7 +2240,7 @@
 
             <!-- Mascote Zynk -->
             <div class="hub-mascot-wrapper" aria-hidden="true">
-              <img src="LOGO FUNDO.png" alt="Mascote Zynk" class="hub-mascot-img">
+              <img src="LOGO FUNDO.png" alt="Mascote Zynk" class="hub-mascot-img" onerror="this.style.display='none'">
             </div>
 
             <div class="social-info">
@@ -2202,6 +2266,7 @@
     ============================================================= -->
     <footer id="footer" class="site-footer" role="contentinfo">
       <div class="footer-bg" aria-hidden="true">
+        <canvas id="footerCanvas" class="footer-canvas"></canvas>
         <div class="footer-grid"></div>
         <div class="footer-gradient"></div>
       </div>
@@ -2212,11 +2277,11 @@
           <!-- Marca -->
           <div class="footer-brand">
             <a href="#home" class="footer-logo">
-              <img src="LICON.png" alt="Levy Andrade Logo" class="brand-logo-img">
+              <img src="LICON.png" alt="Levy Andrade Logo" class="brand-logo-img" onerror="this.style.display='none'">
               <span>Levy Andrade da Silva</span>
             </a>
             <p class="footer-brand-desc" data-i18n="footer_description">
-              Não serei derrotado pelos limites atuais. Estou aqui para criar soluções que desafiam o que é possível.
+              Não serei derrotado pelos limites atuais. Estou aqui para criar soluções que desafiam o que é possível através da engenharia de software e design de vanguarda.
             </p>
             <nav class="footer-social" aria-label="Redes sociais de Levy Andrade">
               <a href="https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp pessoal"><i class="ri-whatsapp-line" aria-hidden="true"></i></a>
@@ -2231,14 +2296,14 @@
           <div class="footer-col">
             <h3 class="footer-title-purple" data-i18n="footer_navigation">Navegação</h3>
             <ul role="list">
-              <li><a href="#home"     data-i18n="menu_home">Home</a></li>
-              <li><a href="#sobre"    data-i18n="menu_about">Sobre</a></li>
-              <li><a href="#formacao" data-i18n="menu_education">Formação</a></li>
-              <li><a href="#skills"   data-i18n="menu_skills">Skills</a></li>
+              <li><a href="#home"           data-i18n="menu_home">Home</a></li>
+              <li><a href="#sobre"          data-i18n="menu_about">Sobre</a></li>
+              <li><a href="#formacao"       data-i18n="menu_education">Formação</a></li>
+              <li><a href="#skills"         data-i18n="menu_skills">Skills</a></li>
               <li><a href="#comportamental" data-i18n="menu_soft">Perfil</a></li>
-              <li><a href="#zyntek"   data-i18n="menu_zyntek">Zyntek</a></li>
-              <li><a href="#projetos" data-i18n="menu_projects">Projetos</a></li>
-              <li><a href="#contatos" data-i18n="menu_contact">Contatos</a></li>
+              <li><a href="#zyntek"         data-i18n="menu_zyntek">Zyntek</a></li>
+              <li><a href="#projetos"       data-i18n="menu_projects">Projetos</a></li>
+              <li><a href="#contatos"       data-i18n="menu_contact">Contatos</a></li>
             </ul>
           </div>
 
@@ -2246,11 +2311,11 @@
           <div class="footer-col">
             <h3 class="footer-title-purple" data-i18n="footer_stack">Stack</h3>
             <ul role="list">
-              <li>Java</li>
-              <li>Spring Boot</li>
-              <li>React</li>
-              <li>JavaScript</li>
-              <li>MySQL</li>
+              <li>Java &amp; Spring Boot</li>
+              <li>JavaScript &amp; TypeScript</li>
+              <li>React &amp; Tailwind CSS</li>
+              <li>MySQL &amp; Modelagem</li>
+              <li>AWS &amp; Cloud Systems</li>
             </ul>
           </div>
 
@@ -2258,14 +2323,15 @@
           <div class="footer-col">
             <h3 class="footer-title-purple" data-i18n="footer_contact">Zyntek</h3>
             <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer" class="footer-zyntek-link" aria-label="Visitar site da Zyntek">
-              <img src="ZYNKV2.png" alt="Zyntek — Agência Digital" class="logo-footer">
+              <img src="ZYNKV2.png" alt="Zyntek — Agência Digital" class="logo-footer" onerror="this.style.display='none'">
+              <span class="footer-zyntek-text">Zyntek Digital Experience</span>
             </a>
           </div>
 
         </div>
 
         <!-- CTA do footer -->
-        <div class="footer-cta">
+        <div class="footer-cta" data-reveal>
           <div class="footer-cta-icon" aria-hidden="true"><i class="ri-terminal-box-fill"></i></div>
           <div class="footer-cta-text">
             <h3 data-i18n="footer_cta_title">Vamos construir algo extraordinário?</h3>
@@ -2285,7 +2351,7 @@
           <div class="footer-divider" aria-hidden="true"></div>
           <div class="footer-bottom-inner">
             <p data-i18n="footer_copyright">© 2026 Portfólio Levy Andrade. Todos os direitos reservados.</p>
-            <p data-i18n="footer_signature">Desenvolvido por <a href="https://www.linkedin.com/in/levyandrade/" target="_blank" rel="noopener noreferrer">Levy Andrade</a> e CO-fundador da <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer">Zyntek</a>.</p>
+            <p data-i18n="footer_signature">Desenvolvido por <a href="https://www.linkedin.com/in/levy-andrade/" target="_blank" rel="noopener noreferrer">Levy Andrade</a> e Co-fundador da <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer">Zyntek</a>.</p>
           </div>
         </div>
 
@@ -2295,55 +2361,5 @@
   </main><!-- /#app -->
 
   <script src="script.js"></script>
-
-  <!-- ============================================================
-       SCRIPT: DRAWER MOBILE — ABERTURA / FECHAMENTO / SCROLL LOCK
-  ============================================================= -->
-  <script>
-    // Drawer mobile — só registra se script.js ainda não inicializou o menu
-    (function () {
-      if (window.__mobileMenuReady) return;
-      window.__mobileMenuReady = true;
-
-      var menuBtn      = document.getElementById('mobileMenuBtn');
-      var menu         = document.getElementById('mobileMenu');
-      var closeBtn     = document.getElementById('mobileMenuClose');
-      var backdrop     = document.getElementById('mobileMenuBackdrop');
-      var mobileLinks  = menu ? menu.querySelectorAll('.mobile-link, .mobile-cta') : [];
-
-      function openMenu() {
-        if (!menu) return;
-        menu.classList.add('open');
-        menu.setAttribute('aria-hidden', 'false');
-        if (backdrop) backdrop.classList.add('open');
-        if (menuBtn)  menuBtn.setAttribute('aria-expanded', 'true');
-        document.body.classList.add('mobile-menu-active');
-      }
-
-      function closeMenu() {
-        if (!menu) return;
-        menu.classList.remove('open');
-        menu.setAttribute('aria-hidden', 'true');
-        if (backdrop) backdrop.classList.remove('open');
-        if (menuBtn)  menuBtn.setAttribute('aria-expanded', 'false');
-        document.body.classList.remove('mobile-menu-active');
-      }
-
-      if (menuBtn)  menuBtn.addEventListener('click', openMenu);
-      if (closeBtn) closeBtn.addEventListener('click', closeMenu);
-      if (backdrop) backdrop.addEventListener('click', closeMenu);
-
-      mobileLinks.forEach(function (link) {
-        link.addEventListener('click', closeMenu);
-      });
-
-      // Fechar com tecla ESC
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && menu && menu.classList.contains('open')) {
-          closeMenu();
-        }
-      });
-    })();
-  </script>
 </body>
 </html>

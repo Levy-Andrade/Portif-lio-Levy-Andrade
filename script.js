@@ -1,2238 +1,1461 @@
-/**
- * ═══════════════════════════════════════════════════════════════════════
- *  PORTFÓLIO LEVY ANDRADE — script.js  (Versão Refatorada 2.0)
- *  Autor         : Levy Andrade da Silva
- *  Co-autoria    : Zyntek Digital Experience
- *  Última revisão: 2026
- * ═══════════════════════════════════════════════════════════════════════
- *
- *  ÍNDICE DE MÓDULOS
- *  ─────────────────
- *  01. CONFIGURAÇÕES GERAIS
- *  02. SELETORES GLOBAIS (DOM)
- *  03. UTILITÁRIOS
- *  04. PRELOADER
- *  05. CURSOR CUSTOMIZADO
- *  06. PARTÍCULAS DE FUNDO
- *  07. HEADER & NAVEGAÇÃO ATIVA
- *  08. SCROLL SUAVE & BOTÃO VOLTAR AO TOPO
- *  09. MENU MOBILE
- *  10. TEMA DARK / LIGHT
- *  11. INTERNACIONALIZAÇÃO (i18n)
- *  12. EFEITO TYPING + GLITCH
- *  13. PARALLAX 3D — CYBERFRAME
- *  14. SCROLL REVEAL
- *  15. CARROSSEL DE PROJETOS
- *  16. MODAL DINÂMICO DE PROJETOS
- *  17. FORMULÁRIO DE ORÇAMENTO (Zyntek)
- *  18. EFEITO 3D NAS SKILL CARDS
- *  19. RIPPLE EFFECT NOS BOTÕES
- *  20. BOTÃO DOWNLOAD CURRÍCULO
- *  21. PARALLAX NA SEÇÃO DE CONTATO
- *  22. EVENT LISTENERS GLOBAIS
- *  23. INICIALIZAÇÃO
- * ═══════════════════════════════════════════════════════════════════════
- */
+/*=====================================================================
+  PORTFÓLIO LEVY ANDRADE — SCRIPT.JS
+  Interatividade Completa, Terminal, i18n, Canvas Global, Temas & Projetos
+======================================================================*/
 
-"use strict";
+document.addEventListener('DOMContentLoaded', () => {
 
-/* ══════════════════════════════════════════════════════════════════════
-   01. CONFIGURAÇÕES GERAIS
-   ══════════════════════════════════════════════════════════════════════ */
-const CONFIG = Object.freeze({
-  /* — LocalStorage keys — */
-  STORAGE_THEME:    "levy_portfolio_theme",
-  STORAGE_LANGUAGE: "levy_portfolio_lang",
-
-  /* — SessionStorage key (preloader) — */
-  PRELOADER_SESSION_KEY: "zyntek_preloader_shown",
-
-  /* — Tipagem — */
-  FULL_NAME:    "Levy de Andrade da Silva",
-  GLITCH_CHARS: "!<>-_\\/[]{}—=+*^?#",
-
-  /* — Links WhatsApp — */
-  WA_LEVY:   "https://wa.me/5544984271446?text=Ol%C3%A1%20Levy%2C%20vi%20seu%20portf%C3%B3lio%2C%20achei%20interessante%2C%20podemos%20conversar%3F",
-  WA_ZYNTEK: "https://wa.me/554488317870?text=Ol%C3%A1%20equipe%20Zyntek%2C%20vim%20pelo%20site%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto.",
-
-  /* — Timings (ms) — */
-  PRELOADER_DURATION_MS:    2800,
-  SCROLL_THRESHOLD:           60,
-  SCROLL_TOP_THRESHOLD:      400,
-  CAROUSEL_SWIPE_THRESHOLD:   50,
-  CAROUSEL_RESIZE_DEBOUNCE_MS:120,
-  GLITCH_INTERVAL_MS:       9000,
-  TYPING_PAUSE_FULL_MS:     5000,
-  TYPING_PAUSE_EMPTY_MS:    1200,
-  TYPING_GLITCH_DELAY_MS:   3500,
-});
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   02. SELETORES GLOBAIS (DOM)
-   — Todos os seletores centralizados num único objeto.
-   — Seletores inexistentes retornam null sem causar erros.
-   ══════════════════════════════════════════════════════════════════════ */
-const DOM = Object.freeze({
-  /* Preloader */
-  preloader:        document.getElementById("zyntek-preloader"),
-  preloaderFill:    document.getElementById("preloaderBarFill"),
-  preloaderPercent: document.getElementById("preloaderPercent"),
-
-  /* Header */
-  header:           document.getElementById("header"),
-  scrollTopBtn:     document.getElementById("scrollTop"),
-
-  /* Menu Mobile */
-  mobileMenuBtn:    document.getElementById("mobileMenuBtn"),
-  mobileMenu:       document.getElementById("mobileMenu"),
-
-  /* Tema */
-  themeToggle:      document.getElementById("themeToggle"),
-  themeIcon:        document.getElementById("themeIcon"),
-  mobileThemeToggle: document.getElementById("mobileThemeToggle"),
-  mobileThemeIcon:   document.getElementById("mobileThemeIcon"),
-
-  /* Idioma */
-  langBtn:          document.getElementById("langBtn"),
-  langDropdown:     document.getElementById("langDropdown"),
-  currentLang:      document.getElementById("currentLang"),
-
-  /* Hero */
-  typingName:       document.getElementById("typingName"),
-  cyberFrame:       document.getElementById("cyberFrame"),
-  downloadCvBtn:    document.getElementById("downloadCV"),
-
-  /* Carrossel de projetos */
-  projectStage:     document.getElementById("projectsStage"),
-  projectPrev:      document.getElementById("projectPrev"),
-  projectNext:      document.getElementById("projectNext"),
-  carouselDots:     document.getElementById("carouselDots"),
-
-  /* Modal de projeto */
-  projectModal:     document.getElementById("projectModal"),
-  pmodalClose:      document.getElementById("pmodalClose"),
-  pmodalCat:        document.getElementById("pmodalCat"),
-  pmodalTitle:      document.getElementById("pmodalTitle"),
-  pmodalTags:       document.getElementById("pmodalTags"),
-  pmodalMedia:      document.getElementById("pmodalMedia"),
-  pmodalDesc:       document.getElementById("pmodalDesc"),
-  pmodalDetails:    document.getElementById("pmodalDetails"),
-  pmodalDeploy:     document.getElementById("pmodalDeploy"),
-  pmodalGithub:     document.getElementById("pmodalGithub"),
-
-  /* Formulário de orçamento */
-  budgetForm:       document.getElementById("budgetForm"),
-
-  /* Cursor */
-  cursorDot:        document.getElementById("cursorDot"),
-  cursorOutline:    document.getElementById("cursorOutline"),
-
-  /* Partículas */
-  particlesBg:      document.getElementById("particlesBg"),
-  networkCanvas:    document.getElementById("networkCanvas"),
-
-  /* Seção de contato (para parallax) */
-  contactSection:   document.querySelector(".contact-section"),
-});
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   03. UTILITÁRIOS
-   ══════════════════════════════════════════════════════════════════════ */
-const Utils = {
-
-  /**
-   * Injeta uma tag <style> com id único no <head>.
-   * Evita duplicatas em re-inicializações.
-   */
-  injectStyle(key, css) {
-    const styleId = `injected-style-${key}`;
-    if (document.getElementById(styleId)) return;
-    const style = document.createElement("style");
-    style.id          = styleId;
-    style.textContent = css;
-    document.head.appendChild(style);
-  },
-
-  /**
-   * Módulo aritmético sempre positivo — util para carrossel circular.
-   * @param {number} n — índice atual
-   * @param {number} m — total de itens
-   */
-  mod(n, m) {
-    return ((n % m) + m) % m;
-  },
-
-  /**
-   * Debounce genérico.
-   * @param {Function} fn — função a ser debounced
-   * @param {number}   ms — delay em milissegundos
-   */
-  debounce(fn, ms) {
-    let timer = null;
-    return (...args) => {
-      clearTimeout(timer);
-      timer = setTimeout(() => fn(...args), ms);
-    };
-  },
-
-  /**
-   * Verifica suporte a hover real (exclui touch-only).
-   */
-  hasHover() {
-    return window.matchMedia("(hover: hover)").matches;
-  },
-
-  /**
-   * Verifica preferência por movimento reduzido.
-   */
-  prefersReducedMotion() {
-    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  },
-};
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   04. PRELOADER
-   — Barra de progresso animada via rAF.
-   — Exibido apenas uma vez por sessão (sessionStorage).
-   ══════════════════════════════════════════════════════════════════════ */
-function initPreloader() {
-  const { preloader, preloaderFill, preloaderPercent } = DOM;
-  if (!preloader) return;
-
-  /* Já exibiu nesta sessão → oculta imediatamente */
-  if (sessionStorage.getItem(CONFIG.PRELOADER_SESSION_KEY)) {
-    preloader.classList.add("preloader-hidden");
-    return;
-  }
-
-  preloader.removeAttribute("hidden");
-
-  let progress  = 0;
-  let rafId     = null;
-  let dismissed = false;
-  const startTime = performance.now();
-
-  /* Atualiza a barra suavemente via lerp */
-  function updateBar(now) {
-    const elapsed   = now - startTime;
-    const rawTarget = Math.min((elapsed / CONFIG.PRELOADER_DURATION_MS) * 100, 97);
-    progress       += (rawTarget - progress) * 0.06;
-
-    const pct = Math.round(progress);
-    if (preloaderFill)    preloaderFill.style.width    = pct + "%";
-    if (preloaderPercent) preloaderPercent.textContent = pct + "%";
-
-    if (progress < 97 && !dismissed) rafId = requestAnimationFrame(updateBar);
-  }
-
-  rafId = requestAnimationFrame(updateBar);
-
-  /* Completa a barra e oculta o preloader */
-  function hidePreloader() {
-    if (dismissed) return;
-    dismissed = true;
-    cancelAnimationFrame(rafId);
-
-    if (preloaderFill) {
-      preloaderFill.style.transition = "width 0.3s ease";
-      preloaderFill.style.width      = "100%";
+  /* ===================================================================
+     01. SISTEMA DE INTERNACIONALIZAÇÃO (i18n)
+  =================================================================== */
+  const translations = {
+    pt: {
+      menu_home: "Home",
+      menu_about: "Sobre",
+      menu_education: "Formação",
+      menu_skills: "Skills",
+      menu_soft: "Perfil",
+      menu_zyntek: "Zyntek",
+      menu_projects: "Projetos",
+      menu_contact: "Contatos",
+      contact_button: "Entre em contato",
+      whatsapp_tooltip: "Fale comigo!",
+      mobile_theme_label: "Tema",
+      hero_badge: "Full Stack Developer",
+      hero_stack: "Desenvolvedor Full Stack | JavaScript | TypeScript | React | Java | Spring Boot | MySQL",
+      hero_description: "Desenvolvedor focado em construir aplicações web completas e eficientes. Combino a robustez do ecossistema Java no backend com a flexibilidade do JavaScript e TypeScript no frontend para transformar regras de negócio em sistemas funcionais, seguros e de alto impacto.",
+      hero_contact: "Entre em Contato",
+      hero_cv: "Download Currículo",
+      hero_status: "Disponível para novos projetos",
+      scroll_text: "Role para explorar",
+      about_badge: "— SOBRE MIM —",
+      about_title: "Construindo soluções através da tecnologia.",
+      about_subtitle: "Transformando desafios em experiências digitais inteligentes.",
+      about_heading: "Muito prazer, sou Levy Andrade.",
+      about_text_one: "Minha trajetória profissional é marcada pela busca constante por evolução, unindo tecnologia, engenharia de software e pensamento estratégico para desenvolver soluções digitais que geram valor para empresas e usuários.",
+      about_text_two: "Atualmente concentro meus estudos e projetos em Engenharia de Software, desenvolvimento Full Stack e UI/UX Design, construindo aplicações modernas com foco em qualidade de código, arquitetura escalável e experiência do usuário.",
+      about_text_three: "Além do desenvolvimento técnico, sou co-fundador da Zyntek, onde aplico minha experiência para estruturar ecossistemas web robustos, landing pages institucionais de alta conversão e plataformas digitais completas.",
+      about_stat_dev: "Developer",
+      about_stat_design: "Designer",
+      about_button: "Vamos Conversar",
+      education_badge: "— FORMAÇÃO —",
+      education_title: "Jornada de aprendizado contínuo.",
+      education_subtitle: "Cada etapa construída com dedicação e propósito.",
+      education_degrees_heading: "Graduação Acadêmica",
+      education_ads_period: "Fev/2023 – Abr/2026",
+      education_ads_title: "Análise e Desenvolvimento de Sistemas",
+      education_ads_institution: "Graduação — UNIPAR (Universidade Paranaense)",
+      education_ads_text: "Formação técnica e acadêmica em desenvolvimento de sistemas, algoritmos, banco de dados, engenharia de software e fundamentos da computação aplicada ao desenvolvimento de soluções modernas.",
+      education_eng_period: "Início previsto: 2027",
+      education_eng_title: "Graduação em Engenharia de Software",
+      education_eng_institution: "Nova Graduação • Planejada",
+      education_eng_text: "Próximo passo acadêmico focado no aprofundamento de arquitetura de sistemas complexos, qualidade de processos de software, gerência de projetos e engenharia de requisitos corporativos.",
+      education_featured_heading: "Certificações & Formações em Destaque",
+      education_aws_period: "Concluído",
+      education_aws_title: "AWS Certified AI Practitioner (AIF-C01)",
+      education_aws_text_meta: "Udemy · Curso preparatório para certificação",
+      education_gcp_period: "Concluído",
+      education_gcp_title: "GCP — Associate Cloud Engineer",
+      education_gcp_text_meta: "Udemy · Curso preparatório para certificação",
+      education_ocp_period: "Concluído",
+      education_ocp_title: "Java SE 11 Developer — 1Z0-819 OCP (Parte 1)",
+      education_ocp_text_meta: "Udemy · Preparação para certificação Oracle",
+      education_java_period: "Em andamento",
+      education_java_title: "Java e Spring Boot — Formação Completa",
+      education_java_text_meta: "Udemy · APIs REST, microsserviços, JWT, Spring Security, JPA/Hibernate",
+      education_courses_heading: "Formação Complementar",
+      education_azure_period: "Concluído",
+      education_azure_title: "DP-420: Microsoft Azure Cosmos DB",
+      education_azure_text_meta: "Udemy · Guia de exame hands-on",
+      education_f5_period: "Concluído",
+      education_f5_title: "F5 201 Exam Preparation",
+      education_f5_text_meta: "Udemy · Curso completo com exames práticos",
+      education_db_period: "Concluído",
+      education_db_title: "Administrando Banco de Dados",
+      education_db_text_meta: "Fundação Bradesco — Escola Virtual · Curso autoinstrucional",
+      education_csharp1_period: "Concluído",
+      education_csharp1_title: "C# Completo — POO + Projetos",
+      education_csharp1_text_meta: "Udemy · Programação orientada a objetos aplicada em projetos práticos",
+      education_csharp2_period: "Concluído",
+      education_csharp2_title: "C# Primeiros Passos",
+      education_csharp2_text_meta: "Udemy · Lógica de programação e construção de algoritmos",
+      education_python_period: "Concluído",
+      education_python_title: "Python: Domine a Programação",
+      education_python_text_meta: "Udemy · Fundamentos da linguagem aplicados a scripts e automações",
+      education_english_period: "Em andamento",
+      education_english_title: "Inglês do Zero ao Avançado",
+      education_english_text_meta: "Udemy · Comunicação técnica e leitura de documentação",
+      education_highlight_title: "Aprendizado Contínuo",
+      education_highlight_text: "Acredito que a evolução profissional é construída diariamente através da prática, pesquisa e constante atualização tecnológica, buscando sempre excelência no desenvolvimento de software moderno.",
+      skills_badge: "— SKILLS —",
+      skills_title: "Tecnologias que transformam ideias em soluções.",
+      skills_description: "Uma combinação entre engenharia de software, desenvolvimento full stack e design de experiência para construir aplicações modernas, escaláveis e de alto desempenho.",
+      skills_cat_languages: "Linguagens de Programação",
+      skills_cat_frontend: "Front-end — Frameworks & Bibliotecas",
+      skills_cat_backend: "Back-end — Frameworks & APIs",
+      skills_cat_database: "Banco de Dados",
+      skills_cat_cloud: "Cloud & Infraestrutura",
+      skills_cat_tools: "Ferramentas & Versionamento",
+      skills_cat_agile: "Metodologias Ágeis",
+      skills_cat_design: "Design & Prototipação",
+      skills_footer_title: "Evolução Contínua",
+      skills_footer_text: "A tecnologia evolui diariamente e meu objetivo é acompanhar essa transformação através de boas práticas de engenharia, entregando soluções modernas, performáticas, seguras e escaláveis.",
+      soft_badge: "— PERFIL PROFISSIONAL —",
+      soft_title: "Além do código: como eu entrego valor.",
+      soft_subtitle: "Competências comportamentais que sustentam entregas consistentes dentro de um time de engenharia de software.",
+      soft_problem_title: "Resolução Analítica de Problemas",
+      soft_problem_text: "Identifico gargalos técnicos com rapidez e proponho soluções eficientes, escaláveis e sustentáveis a longo prazo.",
+      soft_team_title: "Colaboração em Equipe",
+      soft_team_text: "Adapto-me rapidamente a ambientes dinâmicos, comunico-me com clareza e contribuo ativamente com o time.",
+      soft_autonomy_title: "Autonomia e Proatividade",
+      soft_autonomy_text: "Assumo responsabilidades e conduzo desafios técnicos até a entrega, sem depender de supervisão constante.",
+      soft_learning_title: "Curva de Aprendizado Rápida",
+      soft_learning_text: "Absorvo novas tecnologias, ferramentas e regras de negócio com agilidade, aplicando-as em contexto real.",
+      soft_organization_title: "Organização e Disciplina Técnica",
+      soft_organization_text: "Estruturo meu trabalho com atenção constante a padrões de código e boas práticas de desenvolvimento.",
+      soft_agile_title: "Metodologias Ágeis",
+      soft_agile_text: "Familiaridade com rituais Scrum, sprints e entregas incrementais em times multidisciplinares.",
+      soft_automation_title: "Mentalidade de Automação",
+      soft_automation_text: "Busco automatizar processos repetitivos, reduzindo retrabalho e elevando a eficiência do time.",
+      zyntek_badge: "— ZYNTEK —",
+      zyntek_title: "Engenharia de Software, Design e Estratégia Digital.",
+      zyntek_subtitle: "Desenvolvendo plataformas web e soluções digitais sob medida com alto padrão técnico.",
+      zyntek_company_title: "Construindo a próxima geração de produtos digitais.",
+      zyntek_text_intro: "A Zyntek é um estúdio de desenvolvimento e inovação digital focado em criar aplicações web robustas, sistemas corporativos e experiências digitais memoráveis. Nascemos com o propósito de unir engenharia de software sólida e design de produto refinado.",
+      zyntek_text_two: "Sob a liderança técnica de Levy Andrade e sócios co-fundadores, combinamos o poder do ecossistema Java e Spring Boot no backend com interfaces dinâmicas em React, TypeScript e Tailwind CSS, garantindo que cada projeto entregue velocidade, segurança e escalabilidade real.",
+      zyntek_text_three: "O Zynk é a nossa identidade e guardião de qualidade, representando nosso compromisso com código limpo, foco na experiência do usuário e entrega ágil para transformar regras de negócio em sistemas de alto valor.",
+      zyntek_stat_tech: "Sistemas Escaláveis",
+      zyntek_stat_design: "Interfaces de Alto Padrão",
+      zyntek_stat_ai: "Soluções Inteligentes",
+      zyntek_button: "Conheça a Zyntek",
+      zyntek_projects: "Ver Projetos",
+      projects_badge: "— PROJETOS —",
+      projects_title: "Soluções digitais desenvolvidas para gerar impacto.",
+      projects_subtitle: "Cada projeto representa uma combinação entre engenharia de software, design estratégico e tecnologia moderna.",
+      project_button: "Ver Projeto",
+      project_ras: "Landing Page institucional de alta performance, desenvolvida com foco em conversão, animações modernas e experiência mobile premium.",
+      project_zyntek: "Plataforma institucional construída com identidade visual futurista, animações de alta fidelidade e engenharia de código focada em escalabilidade corporativa.",
+      project_portfolio: "Portfólio profissional de publicidade e branding, desenvolvido com alta performance, transições fluidas, interface clean e experiência totalmente responsiva.",
+      project_system: "Landing page institucional desenvolvida para o segmento automotivo, focada em conversão, agendamentos e exibição de serviços com design moderno e totalmente responsivo.",
+      project_webgame: "Aplicação web dinâmica que replica a mecânica de combate por turnos da franquia Pokémon. Construído integrando uma API escalável a um ecossistema front-end otimizado.",
+      project_finance: "Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas através de relatórios e gráficos interativos em tempo real.",
+      projects_footer_title: "Tem uma ideia para transformar em realidade?",
+      projects_footer_text: "Vamos construir uma solução moderna, escalável e personalizada para o seu negócio utilizando as melhores práticas de engenharia de software.",
+      projects_footer_button: "Iniciar Projeto",
+      modal_deploy: "Acessar Deploy",
+      modal_repo: "Acessar Repositório",
+      contact_badge: "— CONTATOS —",
+      contact_title: "Vamos construir o futuro do seu projeto.",
+      contact_description: "Estou disponível para oportunidades, projetos, parcerias estratégicas e desenvolvimento de soluções digitais personalizadas.",
+      label_name: "Nome Completo *",
+      label_company: "Nome da Empresa",
+      label_phone: "Telefone / WhatsApp *",
+      label_message: "Descrição da Ideia do Projeto *",
+      contact_send: "Inicie seu Projeto via WhatsApp",
+      hub_button: "Vamos Conversar",
+      footer_description: "Não serei derrotado pelos limites atuais. Estou aqui para criar soluções que desafiam o que é possível através da engenharia de software e design de vanguarda.",
+      footer_navigation: "Navegação",
+      footer_stack: "Stack",
+      footer_contact: "Zyntek",
+      footer_cta_title: "Vamos construir algo extraordinário?",
+      footer_cta_text: "Transformo desafios complexos em soluções digitais de alto impacto. Vamos construir o próximo projeto juntos?",
+      footer_cta_button: "Entre em Contato",
+      footer_copyright: "© 2026 Portfólio Levy Andrade. Todos os direitos reservados.",
+      footer_signature: "Desenvolvido por Levy Andrade e Co-fundador da Zyntek."
+    },
+    en: {
+      menu_home: "Home",
+      menu_about: "About",
+      menu_education: "Education",
+      menu_skills: "Skills",
+      menu_soft: "Profile",
+      menu_zyntek: "Zyntek",
+      menu_projects: "Projects",
+      menu_contact: "Contact",
+      contact_button: "Get in touch",
+      whatsapp_tooltip: "Chat with me!",
+      mobile_theme_label: "Theme",
+      hero_badge: "Full Stack Developer",
+      hero_stack: "Full Stack Developer | JavaScript | TypeScript | React | Java | Spring Boot | MySQL",
+      hero_description: "Developer focused on building complete, efficient web applications. Combining Java backend robustness with JavaScript and TypeScript frontend versatility to transform business requirements into scalable, secure, and impactful systems.",
+      hero_contact: "Get in Touch",
+      hero_cv: "Download Resume",
+      hero_status: "Available for new projects",
+      scroll_text: "Scroll to explore",
+      about_badge: "— ABOUT ME —",
+      about_title: "Building solutions through technology.",
+      about_subtitle: "Turning complex challenges into intelligent digital experiences.",
+      about_heading: "Nice to meet you, I'm Levy Andrade.",
+      about_text_one: "My career path is driven by continuous learning and evolution, combining technology, software engineering, and strategic thinking to build digital solutions that truly deliver value.",
+      about_text_two: "Currently focused on Software Engineering, Full Stack development, and UI/UX Design, creating modern applications with emphasis on code quality, architecture, and user experience.",
+      about_text_three: "In addition to engineering, I am co-founder of Zyntek, where I craft high-end web ecosystems, high-converting landing pages, and scalable digital solutions.",
+      about_stat_dev: "Developer",
+      about_stat_design: "Designer",
+      about_button: "Let's Talk",
+      education_badge: "— EDUCATION —",
+      education_title: "Continuous learning journey.",
+      education_subtitle: "Every milestone built with passion and dedication.",
+      education_degrees_heading: "Academic Degrees",
+      education_ads_period: "Feb/2023 – Apr/2026",
+      education_ads_title: "Analysis and Systems Development",
+      education_ads_institution: "Bachelor's Degree — UNIPAR University",
+      education_ads_text: "Technical and academic foundation in software development, algorithms, databases, software engineering, and applied computer science.",
+      education_eng_period: "Expected: 2027",
+      education_eng_title: "B.S. in Software Engineering",
+      education_eng_institution: "Second Degree • Planned",
+      education_eng_text: "Advanced academic focus on complex distributed architectures, software quality, project management, and requirements engineering.",
+      education_featured_heading: "Featured Certifications & Training",
+      education_aws_period: "Completed",
+      education_aws_title: "AWS Certified AI Practitioner (AIF-C01)",
+      education_aws_text_meta: "Udemy · Certification Preparation Course",
+      education_gcp_period: "Completed",
+      education_gcp_title: "GCP — Associate Cloud Engineer",
+      education_gcp_text_meta: "Udemy · Cloud Engineering Certification Prep",
+      education_ocp_period: "Completed",
+      education_ocp_title: "Java SE 11 Developer — 1Z0-819 OCP (Part 1)",
+      education_ocp_text_meta: "Udemy · Oracle Certification Preparation",
+      education_java_period: "In Progress",
+      education_java_title: "Java & Spring Boot — Complete Track",
+      education_java_text_meta: "Udemy · REST APIs, Microservices, JWT, Spring Security, JPA/Hibernate",
+      education_courses_heading: "Complementary Courses",
+      education_azure_period: "Completed",
+      education_azure_title: "DP-420: Microsoft Azure Cosmos DB",
+      education_azure_text_meta: "Udemy · Hands-on Exam Prep",
+      education_f5_period: "Completed",
+      education_f5_title: "F5 201 Exam Preparation",
+      education_f5_text_meta: "Udemy · Complete Training with Practice Exams",
+      education_db_period: "Completed",
+      education_db_title: "Database Administration",
+      education_db_text_meta: "Fundação Bradesco · Database Architecture & SQL",
+      education_csharp1_period: "Completed",
+      education_csharp1_title: "Complete C# — OOP + Projects",
+      education_csharp1_text_meta: "Udemy · Object-Oriented Programming with real applications",
+      education_csharp2_period: "Completed",
+      education_csharp2_title: "C# Fundamentals",
+      education_csharp2_text_meta: "Udemy · Programming Logic & Algorithms",
+      education_python_period: "Completed",
+      education_python_title: "Python: Master the Language",
+      education_python_text_meta: "Udemy · Scripts, Data Processing & Automations",
+      education_english_period: "In Progress",
+      education_english_title: "English: Zero to Advanced",
+      education_english_text_meta: "Udemy · Technical Communication & Documentation",
+      education_highlight_title: "Lifelong Learning",
+      education_highlight_text: "I believe true engineering growth is forged daily through deliberate practice, research, and keeping up with cutting-edge industry standards.",
+      skills_badge: "— SKILLS —",
+      skills_title: "Technologies that turn ideas into software.",
+      skills_description: "A combination of software engineering, full stack development, and design to build modern, scalable, and high-performance applications.",
+      skills_cat_languages: "Programming Languages",
+      skills_cat_frontend: "Front-end — Frameworks & Libraries",
+      skills_cat_backend: "Back-end — Frameworks & APIs",
+      skills_cat_database: "Databases",
+      skills_cat_cloud: "Cloud & Infrastructure",
+      skills_cat_tools: "Tools & Version Control",
+      skills_cat_agile: "Agile Methodologies",
+      skills_cat_design: "Design & Prototyping",
+      skills_footer_title: "Continuous Evolution",
+      skills_footer_text: "Technology evolves every day. My mission is to lead that transformation through clean code, modern architecture, and exceptional software quality.",
+      soft_badge: "— PROFESSIONAL PROFILE —",
+      soft_title: "Beyond code: how I deliver value.",
+      soft_subtitle: "Core interpersonal and behavioral skills that empower consistent, high-standard software delivery.",
+      soft_problem_title: "Analytical Problem Solving",
+      soft_problem_text: "Rapidly diagnosing technical bottlenecks and delivering sustainable, scalable, and robust solutions.",
+      soft_team_title: "Team Collaboration",
+      soft_team_text: "Seamlessly adapting to agile teams with clear, proactive, and transparent communication.",
+      soft_autonomy_title: "Autonomy & Ownership",
+      soft_autonomy_text: "Taking complete ownership of complex technical challenges from inception to production delivery.",
+      soft_learning_title: "Fast Learning Curve",
+      soft_learning_text: "Quickly mastering new frameworks, technologies, and domain rules to apply them in real-world scenarios.",
+      soft_organization_title: "Technical Discipline",
+      soft_organization_text: "Structuring projects with strict adherence to architectural standards and clean code conventions.",
+      soft_agile_title: "Agile Mindset",
+      soft_agile_text: "Experienced with Scrum workflows, sprint planning, and rapid incremental delivery cycles.",
+      soft_automation_title: "Automation Focus",
+      soft_automation_text: "Automating repetitive workflows to minimize friction and boost team throughput.",
+      zyntek_badge: "— ZYNTEK —",
+      zyntek_title: "Software Engineering, Design & Digital Strategy.",
+      zyntek_subtitle: "Building custom web platforms and high-standard digital products.",
+      zyntek_company_title: "Crafting the next generation of digital platforms.",
+      zyntek_text_intro: "Zyntek is a digital development studio focused on engineering robust web applications, enterprise systems, and memorable user experiences.",
+      zyntek_text_two: "Led by Levy Andrade and co-founders, we blend the power of Java and Spring Boot with reactive frontends in React, TypeScript, and Tailwind CSS.",
+      zyntek_text_three: "Zynk is our symbol of engineering excellence, embodying our commitment to clean code, user-centric design, and scalable execution.",
+      zyntek_stat_tech: "Scalable Systems",
+      zyntek_stat_design: "High-End UI/UX",
+      zyntek_stat_ai: "Smart Automations",
+      zyntek_button: "Discover Zyntek",
+      zyntek_projects: "View Projects",
+      projects_badge: "— PROJECTS —",
+      projects_title: "Digital solutions engineered for real impact.",
+      projects_subtitle: "Each project represents a blend of clean architecture, strategic UI/UX, and modern tech.",
+      project_button: "View Project",
+      project_ras: "High-performance landing page designed for conversion, featuring interactive pricing tables and mobile-first experience.",
+      project_zyntek: "Corporate digital ecosystem designed with futuristic visual identity, high-fidelity animations, and scalable web architecture.",
+      project_portfolio: "Advertising and branding portfolio developed with ultra-fast transitions, clean UI, and responsive design.",
+      project_system: "Automotive institutional landing page focused on appointment bookings and premium service showcase.",
+      project_webgame: "Dynamic web turn-based battle simulator inspired by Pokémon, featuring asynchronous state management and real-time interface rendering.",
+      project_finance: "Intelligent financial analytics dashboard turning complex cash-flow metrics into actionable insights in real-time.",
+      projects_footer_title: "Have a project in mind?",
+      projects_footer_text: "Let's build a modern, high-performance, and scalable digital solution tailored to your goals.",
+      projects_footer_button: "Start Project",
+      modal_deploy: "Visit Live Deploy",
+      modal_repo: "View Source Code",
+      contact_badge: "— CONTACT —",
+      contact_title: "Let's build the future of your project.",
+      contact_description: "Available for new software challenges, enterprise projects, and strategic technical partnerships.",
+      label_name: "Full Name *",
+      label_company: "Company Name",
+      label_phone: "Phone / WhatsApp *",
+      label_message: "Project Details *",
+      contact_send: "Start Project via WhatsApp",
+      hub_button: "Let's Connect",
+      footer_description: "I will not be defeated by current limits. I am here to build software solutions that challenge what is possible.",
+      footer_navigation: "Navigation",
+      footer_stack: "Stack",
+      footer_contact: "Zyntek",
+      footer_cta_title: "Ready to build something extraordinary?",
+      footer_cta_text: "I transform complex ideas into reliable, high-impact digital systems. Let's create together.",
+      footer_cta_button: "Get in Touch",
+      footer_copyright: "© 2026 Levy Andrade Portfolio. All rights reserved.",
+      footer_signature: "Built by Levy Andrade & Co-founder of Zyntek."
+    },
+    es: {
+      menu_home: "Inicio",
+      menu_about: "Sobre Mí",
+      menu_education: "Formación",
+      menu_skills: "Habilidades",
+      menu_soft: "Perfil",
+      menu_zyntek: "Zyntek",
+      menu_projects: "Proyectos",
+      menu_contact: "Contacto",
+      contact_button: "Contáctame",
+      whatsapp_tooltip: "¡Hablemos!",
+      mobile_theme_label: "Tema",
+      hero_badge: "Full Stack Developer",
+      hero_stack: "Desarrollador Full Stack | JavaScript | TypeScript | React | Java | Spring Boot | MySQL",
+      hero_description: "Desarrollador enfocado en construir aplicaciones web completas y eficientes. Combino la solidez de Java en backend con la versatilidad de JavaScript y TypeScript en frontend para transformar reglas de negocio en soluciones seguras y de alto impacto.",
+      hero_contact: "Contáctame",
+      hero_cv: "Descargar CV",
+      hero_status: "Disponible para nuevos proyectos",
+      scroll_text: "Desplaza para explorar",
+      about_badge: "— SOBRE MÍ —",
+      about_title: "Construyendo soluciones a través de la tecnología.",
+      about_subtitle: "Transformando desafíos en experiencias digitales inteligentes.",
+      about_heading: "Mucho gusto, soy Levy Andrade.",
+      about_text_one: "Mi trayectoria profesional se basa en la evolución constante, combinando tecnología, diseño estratégico y visión empresarial para crear soluciones que generen verdadero valor.",
+      about_text_two: "Actualmente concentro mis estudios en Ingeniería de Software, desarrollo Full Stack y UI/UX Design, construyendo aplicaciones modernas con enfoque en escalabilidad y experiencia de usuario.",
+      about_text_three: "Además, soy cofundador de Zyntek, donde diseño soluciones web prémium y arquitecturas digitales de alto rendimiento.",
+      about_stat_dev: "Developer",
+      about_stat_design: "Designer",
+      about_button: "Hablemos",
+      education_badge: "— FORMACIÓN —",
+      education_title: "Jornada de aprendizaje continuo.",
+      education_subtitle: "Cada etapa construida com dedicación y propósito.",
+      education_degrees_heading: "Grados Académicos",
+      education_ads_period: "Feb/2023 – Abr/2026",
+      education_ads_title: "Análisis y Desarrollo de Sistemas",
+      education_ads_institution: "Graduación — Universidad UNIPAR",
+      education_ads_text: "Formación técnica y académica en desarrollo de software, algoritmos, bases de datos e ingeniería de software aplicada.",
+      education_eng_period: "Inicio previsto: 2027",
+      education_eng_title: "Grado en Ingeniería de Software",
+      education_eng_institution: "Segunda Carrera • Planificada",
+      education_eng_text: "Profundización académica en arquitectura de sistemas distribuidos, calidad de software y gestión de proyectos.",
+      education_featured_heading: "Certificaciones y Formaciones Destacadas",
+      education_aws_period: "Completado",
+      education_aws_title: "AWS Certified AI Practitioner (AIF-C01)",
+      education_aws_text_meta: "Udemy · Preparación para certificación AWS",
+      education_gcp_period: "Completado",
+      education_gcp_title: "GCP — Associate Cloud Engineer",
+      education_gcp_text_meta: "Udemy · Preparación para certificación Google Cloud",
+      education_ocp_period: "Completado",
+      education_ocp_title: "Java SE 11 Developer — 1Z0-819 OCP (Parte 1)",
+      education_ocp_text_meta: "Udemy · Preparación para certificación Oracle",
+      education_java_period: "En Curso",
+      education_java_title: "Java y Spring Boot — Formação Completa",
+      education_java_text_meta: "Udemy · APIs REST, Microservicios, JWT, Spring Security, JPA/Hibernate",
+      education_courses_heading: "Formación Complementaria",
+      education_azure_period: "Completado",
+      education_azure_title: "DP-420: Microsoft Azure Cosmos DB",
+      education_azure_text_meta: "Udemy · Guía práctica para examen Azure",
+      education_f5_period: "Completado",
+      education_f5_title: "F5 201 Exam Preparation",
+      education_f5_text_meta: "Udemy · Curso completo con exámenes prácticos",
+      education_db_period: "Completado",
+      education_db_title: "Administración de Bases de Datos",
+      education_db_text_meta: "Fundación Bradesco · Modelado y SQL",
+      education_csharp1_period: "Completado",
+      education_csharp1_title: "C# Completo — POO + Proyectos",
+      education_csharp1_text_meta: "Udemy · Programación orientada a objetos con proyectos reales",
+      education_csharp2_period: "Completado",
+      education_csharp2_title: "C# Primeros Pasos",
+      education_csharp2_text_meta: "Udemy · Lógica de programación y algoritmos",
+      education_python_period: "Completado",
+      education_python_title: "Python: Domina la Programación",
+      education_python_text_meta: "Udemy · Scripts, análisis y automatización",
+      education_english_period: "En Curso",
+      education_english_title: "Inglés desde Cero a Avanzado",
+      education_english_text_meta: "Udemy · Comunicación técnica y lectura de documentación",
+      education_highlight_title: "Aprendizaje Continuo",
+      education_highlight_text: "La evolución profesional se forja diariamente mediante la práctica, la investigación y la adopción de las mejores tecnologías de la industria.",
+      skills_badge: "— SKILLS —",
+      skills_title: "Tecnologías que convierten ideas en software.",
+      skills_description: "Una combinación entre ingeniería de software, desarrollo full stack y diseño para construir aplicaciones modernas y escalables.",
+      skills_cat_languages: "Lenguajes de Programación",
+      skills_cat_frontend: "Front-end — Frameworks y Librerías",
+      skills_cat_backend: "Back-end — Frameworks y APIs",
+      skills_cat_database: "Bases de Datos",
+      skills_cat_cloud: "Cloud e Infraestructura",
+      skills_cat_tools: "Herramientas y Control de Versiones",
+      skills_cat_agile: "Metodologías Ágiles",
+      skills_cat_design: "Diseño y Prototipado",
+      skills_footer_title: "Evolución Continua",
+      skills_footer_text: "La tecnología evoluciona a diario y mi objetivo es liderar esa transformación con código limpio y altos estándares de ingeniería.",
+      soft_badge: "— PERFIL PROFISSIONAL —",
+      soft_title: "Más allá del código: cómo aporto valor.",
+      soft_subtitle: "Competencias clave que respaldan entregas consistentes y confiables en equipos de software.",
+      soft_problem_title: "Resolución Analítica de Problemas",
+      soft_problem_text: "Diagnóstico rápido de problemas técnicos y entrega de soluciones escalables a largo plazo.",
+      soft_team_title: "Colaboración en Equipo",
+      soft_team_text: "Adaptación ágil a dinámicas de equipo con comunicación clara y transparente.",
+      soft_autonomy_title: "Autonomía y Proactividad",
+      soft_autonomy_text: "Responsabilidad integral en el desarrollo y entrega de soluciones técnicas complejas.",
+      soft_learning_title: "Rápida Curva de Aprendizaje",
+      soft_learning_text: "Asimilación veloz de nuevas herramientas y reglas de negocio aplicadas al entorno real.",
+      soft_organization_title: "Disciplina Técnica",
+      soft_organization_text: "Estructuración de proyectos con rigurosa atención a buenas prácticas de código.",
+      soft_agile_title: "Metodologías Ágiles",
+      soft_agile_text: "Experiencia en rituales Scrum, sprints e entregas incrementales de alto valor.",
+      soft_automation_title: "Mentalidade de Automatización",
+      soft_automation_text: "Automatización de procesos recurrentes para elevar la eficiencia operativa.",
+      zyntek_badge: "— ZYNTEK —",
+      zyntek_title: "Ingeniería de Software, Diseño y Estrategia Digital.",
+      zyntek_subtitle: "Desarrollando plataformas web y soluciones a medida con alto nivel técnico.",
+      zyntek_company_title: "Construyendo la próxima generación de productos digitales.",
+      zyntek_text_intro: "Zyntek es un estudio de desarrollo digital enfocado en aplicaciones web robustas, sistemas empresariales y experiencias interactivas.",
+      zyntek_text_two: "Liderado por Levy Andrade y sus socios, combinamos Java y Spring Boot con React, TypeScript y Tailwind CSS.",
+      zyntek_text_three: "Zynk es nuestro guardián de calidad, reflejando nuestro compromiso con el código limpio y productos escalables.",
+      zyntek_stat_tech: "Sistemas Escalables",
+      zyntek_stat_design: "Diseño Prémium",
+      zyntek_stat_ai: "Automatización Inteligente",
+      zyntek_button: "Conoce Zyntek",
+      zyntek_projects: "Ver Proyectos",
+      projects_badge: "— PROYECTOS —",
+      projects_title: "Soluciones digitales para generar impacto.",
+      projects_subtitle: "Cada proyecto fusiona arquitectura sólida, diseño estratégico y tecnologías modernas.",
+      project_button: "Ver Proyecto",
+      project_ras: "Landing page institucional de alto rendimiento, optimizada para conversión y experiencia móvil prémium.",
+      project_zyntek: "Ecosistema digital corporativo con identidad futurista, animaciones fluidas y arquitectura escalable.",
+      project_portfolio: "Portafolio profesional de publicidad y branding con transiciones fluidas y diseño responsivo.",
+      project_system: "Landing page para el sector automotriz, enfocada en reservas de servicios y conversión.",
+      project_webgame: "Simulador de combate por turnos Pokémon con gestión de estado asíncrona y renderizado dinámico.",
+      project_finance: "Dashboard analítico financiero para transformar datos complejos en decisiones estratégicas.",
+      projects_footer_title: "¿Tienes una idea para hacerla realidad?",
+      projects_footer_text: "Construyamos una solución moderna, segura y escalable para tu negocio.",
+      projects_footer_button: "Iniciar Proyecto",
+      modal_deploy: "Ver Deploy en Vivo",
+      modal_repo: "Ver Repositorio",
+      contact_badge: "— CONTACTO —",
+      contact_title: "Construyamos el futuro de tu proyecto.",
+      contact_description: "Disponible para nuevas oportunidades, proyectos estratégicos y desarrollo de software a medida.",
+      label_name: "Nombre Completo *",
+      label_company: "Empresa",
+      label_phone: "Teléfono / WhatsApp *",
+      label_message: "Detalles del Proyecto *",
+      contact_send: "Iniciar Proyecto por WhatsApp",
+      hub_button: "Hablemos",
+      footer_description: "No seré derrotado por los límites actuales. Estoy aquí para construir soluciones que desafíen lo posible.",
+      footer_navigation: "Navegación",
+      footer_stack: "Stack",
+      footer_contact: "Zyntek",
+      footer_cta_title: "¿Listo para crear algo extraordinario?",
+      footer_cta_text: "Transformo desafíos complejos en sistemas digitales de alto impacto. Creemos juntos.",
+      footer_cta_button: "Ponerse en Contacto",
+      footer_copyright: "© 2026 Portafolio Levy Andrade. Todos os direitos reservados.",
+      footer_signature: "Desarrollado por Levy Andrade y Cofundador de Zyntek."
     }
-    if (preloaderPercent) preloaderPercent.textContent = "100%";
-
-    setTimeout(() => {
-      preloader.classList.add("preloader-hidden");
-      sessionStorage.setItem(CONFIG.PRELOADER_SESSION_KEY, "1");
-    }, 350);
-  }
-
-  /* Dispara ao carregar a página ou após timeout de segurança */
-  window.addEventListener("load", hidePreloader, { once: true });
-  setTimeout(hidePreloader, 3000);
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   05. CURSOR CUSTOMIZADO
-   — Apenas em dispositivos com hover real (desktop).
-   — Dot segue o mouse diretamente; outline usa interpolação suave.
-   ══════════════════════════════════════════════════════════════════════ */
-function initCursor() {
-  const { cursorDot, cursorOutline } = DOM;
-  if (!cursorDot || !cursorOutline) return;
-  if (!Utils.hasHover()) return;
-
-  let mouseX = 0, mouseY = 0;
-  let outlineX = 0, outlineY = 0;
-  let rafId = null;
-
-  /* Dot segue o cursor sem lag */
-  document.addEventListener("mousemove", (e) => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursorDot.style.left = mouseX + "px";
-    cursorDot.style.top  = mouseY + "px";
-  });
-
-  /* Outline interpola suavemente */
-  function animateOutline() {
-    outlineX += (mouseX - outlineX) * 0.12;
-    outlineY += (mouseY - outlineY) * 0.12;
-    cursorOutline.style.left = outlineX + "px";
-    cursorOutline.style.top  = outlineY + "px";
-    rafId = requestAnimationFrame(animateOutline);
-  }
-
-  /* Pausa a animação quando a aba fica oculta */
-  document.addEventListener("visibilitychange", () => {
-    if (document.hidden) cancelAnimationFrame(rafId);
-    else rafId = requestAnimationFrame(animateOutline);
-  });
-
-  rafId = requestAnimationFrame(animateOutline);
-
-  /* Expande o outline ao passar sobre elementos interativos */
-  document.querySelectorAll("a, button, .skill-card, .project-card").forEach((el) => {
-    el.addEventListener("mouseenter", () => {
-      cursorOutline.style.width       = "60px";
-      cursorOutline.style.height      = "60px";
-      cursorOutline.style.borderColor = "rgba(139,92,246,.7)";
-    });
-    el.addEventListener("mouseleave", () => {
-      cursorOutline.style.width       = "36px";
-      cursorOutline.style.height      = "36px";
-      cursorOutline.style.borderColor = "rgba(139,92,246,.5)";
-    });
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   06. PARTÍCULAS DE FUNDO
-   — 35 partículas flutuantes com posição, tamanho e duração aleatórios.
-   — Usa DocumentFragment para inserção eficiente no DOM.
-   ══════════════════════════════════════════════════════════════════════ */
-function initParticles() {
-  const { particlesBg } = DOM;
-  if (!particlesBg) return;
-
-  Utils.injectStyle("particle-float", `
-    @keyframes particle-float {
-      0%, 100% { transform: translate(0, 0);       opacity: .5; }
-      33%       { transform: translate(20px, -30px); opacity: 1; }
-      66%       { transform: translate(-15px, 20px); opacity: .6; }
-    }
-  `);
-
-  const fragment = document.createDocumentFragment();
-
-  for (let i = 0; i < 26; i++) {
-    const particle = document.createElement("div");
-    const size     = 2 + Math.random() * 4;
-    const opacity  = 0.05 + Math.random() * 0.15;
-    const duration = 6 + Math.random() * 8;
-    const delay    = Math.random() * -8;
-
-    particle.style.cssText = `
-      position: absolute; border-radius: 50%;
-      background: rgba(139, 92, 246, ${opacity});
-      width: ${size}px; height: ${size}px;
-      left: ${Math.random() * 100}%; top: ${Math.random() * 100}%;
-      animation: particle-float ${duration}s ease-in-out infinite ${delay}s;
-    `;
-    fragment.appendChild(particle);
-  }
-
-  particlesBg.appendChild(fragment);
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   06.1 REDE 3D DE PONTOS CONECTADOS (fundo global via <canvas>)
-   — Pontos com profundidade (z) simulada: os mais "próximos" da câmera
-     são maiores, mais brilhantes e se movem mais rápido (paralaxe),
-     reforçando a sensação de espaço 3D real.
-   — Linhas conectam pontos vizinhos; a opacidade da linha cai com a
-     distância, criando o efeito clássico de "rede neural".
-   — Reage sutilmente à posição do mouse (paralaxe de câmera) e pausa
-     quando a aba está em segundo plano ou o usuário pede menos
-     movimento (prefers-reduced-motion).
-   ══════════════════════════════════════════════════════════════════════ */
-function initNetworkBackground() {
-  const canvas = DOM.networkCanvas;
-  if (!canvas) return;
-
-  const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  if (prefersReducedMotion) return;
-
-  const ctx = canvas.getContext("2d");
-  let width, height, dpr;
-  let points = [];
-  let rafId = null;
-  let running = true;
-
-  const mouse = { x: 0, y: 0, active: false };
-
-  const CONFIG_NET = {
-    density: 14000,      // px² por ponto — menor = mais pontos
-    maxPoints: 160,
-    linkDistance: 170,
-    mouseLinkDistance: 240,
-    baseSpeed: 0.14,
-    parallax: 24,        // intensidade do deslocamento por profundidade (mouse)
   };
 
-  function themeColor() {
-    const isLight = document.documentElement.getAttribute("data-theme") === "light";
-    return isLight
-      ? { line: "139,92,246", dot: "109,40,217" }
-      : { line: "168,85,247", dot: "196,160,255" };
-  }
+  let currentLanguage = localStorage.getItem('preferredLang') || 'pt';
 
-  function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
-    width  = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width  = width  * dpr;
-    canvas.height = height * dpr;
-    canvas.style.width  = width  + "px";
-    canvas.style.height = height + "px";
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  function applyLanguage(lang) {
+    if (!translations[lang]) lang = 'pt';
+    currentLanguage = lang;
+    localStorage.setItem('preferredLang', lang);
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
 
-    const area  = width * height;
-    const count = Math.min(CONFIG_NET.maxPoints, Math.max(36, Math.round(area / CONFIG_NET.density)));
-
-    points = Array.from({ length: count }, () => createPoint());
-  }
-
-  function createPoint() {
-    const z = 0.35 + Math.random() * 0.65; // 0 = longe, 1 = perto (profundidade simulada)
-    return {
-      x: Math.random() * width,
-      y: Math.random() * height,
-      z,
-      vx: (Math.random() - 0.5) * CONFIG_NET.baseSpeed * (0.5 + z),
-      vy: (Math.random() - 0.5) * CONFIG_NET.baseSpeed * (0.5 + z),
-    };
-  }
-
-  function step() {
-    if (!running) return;
-
-    const { line, dot } = themeColor();
-    ctx.clearRect(0, 0, width, height);
-
-    const parallaxX = mouse.active ? (mouse.x / width  - 0.5) * CONFIG_NET.parallax : 0;
-    const parallaxY = mouse.active ? (mouse.y / height - 0.5) * CONFIG_NET.parallax : 0;
-
-    /* Atualiza posições (drift contínuo + wrap nas bordas) */
-    for (const p of points) {
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x < -20) p.x = width + 20;
-      if (p.x > width + 20) p.x = -20;
-      if (p.y < -20) p.y = height + 20;
-      if (p.y > height + 20) p.y = -20;
+    const currentLangLabel = document.getElementById('currentLang');
+    if (currentLangLabel) {
+      currentLangLabel.textContent = lang.toUpperCase();
     }
 
-    /* Posições projetadas (com paralaxe por profundidade — pontos mais
-       "perto" da câmera reagem mais ao movimento do mouse) */
-    const projected = points.map((p) => ({
-      x: p.x + parallaxX * p.z,
-      y: p.y + parallaxY * p.z,
-      z: p.z,
-    }));
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const key = el.getAttribute('data-i18n');
+      if (translations[lang][key]) {
+        el.textContent = translations[lang][key];
+      }
+    });
 
-    /* Conexões entre pontos próximos */
-    for (let i = 0; i < projected.length; i++) {
-      for (let j = i + 1; j < projected.length; j++) {
-        const a = projected[i], b = projected[j];
-        const dx = a.x - b.x, dy = a.y - b.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < CONFIG_NET.linkDistance) {
-          const depth   = (a.z + b.z) / 2;
-          const opacity = (1 - dist / CONFIG_NET.linkDistance) * 0.5 * depth;
-          if (opacity <= 0.01) continue;
-          ctx.strokeStyle = `rgba(${line},${opacity.toFixed(3)})`;
-          ctx.lineWidth = 0.6 + depth * 0.6;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
+    document.querySelectorAll('.lang-option').forEach(btn => {
+      const btnLang = btn.getAttribute('data-language');
+      const isSelected = btnLang === lang;
+      btn.classList.toggle('active', isSelected);
+      btn.setAttribute('aria-selected', isSelected ? 'true' : 'false');
+      btn.setAttribute('aria-pressed', isSelected ? 'true' : 'false');
+    });
+  }
+
+  // Inicializar i18n
+  applyLanguage(currentLanguage);
+
+  // Dropdown de Idioma (Desktop)
+  const langBtn = document.getElementById('langBtn');
+  const langDropdown = document.getElementById('langDropdown');
+
+  if (langBtn && langDropdown) {
+    langBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = langDropdown.classList.toggle('open');
+      langBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', () => {
+      langDropdown.classList.remove('open');
+      langBtn.setAttribute('aria-expanded', 'false');
+    });
+  }
+
+  // Event Listeners de Botões de Idioma (Desktop & Mobile)
+  document.querySelectorAll('.lang-option').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selectedLang = btn.getAttribute('data-language');
+      if (selectedLang) {
+        applyLanguage(selectedLang);
+        if (langDropdown) {
+          langDropdown.classList.remove('open');
+          if (langBtn) langBtn.setAttribute('aria-expanded', 'false');
         }
       }
-
-      /* Conexão sutil com o cursor, reforçando a interatividade 3D */
-      if (mouse.active) {
-        const a = projected[i];
-        const dx = a.x - mouse.x, dy = a.y - mouse.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < CONFIG_NET.mouseLinkDistance) {
-          const opacity = (1 - dist / CONFIG_NET.mouseLinkDistance) * 0.35 * a.z;
-          ctx.strokeStyle = `rgba(${line},${opacity.toFixed(3)})`;
-          ctx.lineWidth = 0.7;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(mouse.x, mouse.y);
-          ctx.stroke();
-        }
-      }
-    }
-
-    /* Pontos — tamanho e brilho crescem com a profundidade (z) */
-    for (const p of projected) {
-      const radius = 0.9 + p.z * 1.8;
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(${dot},${(0.35 + p.z * 0.5).toFixed(3)})`;
-      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    rafId = requestAnimationFrame(step);
-  }
-
-  function handleMouseMove(e) {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    mouse.active = true;
-  }
-
-  function handleMouseLeave() {
-    mouse.active = false;
-  }
-
-  function handleVisibility() {
-    running = document.visibilityState === "visible";
-    if (running && !rafId) step();
-  }
-
-  resize();
-  step();
-
-  window.addEventListener("resize", Utils.debounce(resize, 200));
-  window.addEventListener("mousemove", handleMouseMove, { passive: true });
-  window.addEventListener("mouseleave", handleMouseLeave);
-  document.addEventListener("visibilitychange", handleVisibility);
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   07. HEADER & NAVEGAÇÃO ATIVA
-   — Adiciona classe "scrolled" ao header quando a página é rolada.
-   — Destaca o link ativo no menu usando IntersectionObserver.
-   ══════════════════════════════════════════════════════════════════════ */
-function initHeader() {
-  const { header, scrollTopBtn } = DOM;
-
-  /* Sincroniza estado do header e botão de voltar ao topo */
-  function syncHeaderState() {
-    const scrolled = window.scrollY > CONFIG.SCROLL_THRESHOLD;
-    const showBtn  = window.scrollY > CONFIG.SCROLL_TOP_THRESHOLD;
-    if (header)       header.classList.toggle("scrolled", scrolled);
-    if (scrollTopBtn) scrollTopBtn.classList.toggle("visible", showBtn);
-  }
-
-  window.addEventListener("scroll", syncHeaderState, { passive: true });
-  syncHeaderState();
-
-  /* Links ativos via IntersectionObserver */
-  const sections = document.querySelectorAll("section[id]");
-  const navLinks  = document.querySelectorAll(".nav-link");
-
-  if (!sections.length || !navLinks.length) return;
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      navLinks.forEach((link) => link.classList.remove("active"));
-      const activeLink = document.querySelector(`.nav-link[href="#${entry.target.id}"]`);
-      if (activeLink) activeLink.classList.add("active");
-    });
-  }, { rootMargin: "-40% 0px -55% 0px" });
-
-  sections.forEach((section) => observer.observe(section));
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   08. SCROLL SUAVE & BOTÃO VOLTAR AO TOPO
-   — Intercepta todos os links âncora e aplica scroll suave com offset
-     do header fixo.
-   ══════════════════════════════════════════════════════════════════════ */
-function initSmoothScroll() {
-  const { header, scrollTopBtn } = DOM;
-
-  /* Botão "voltar ao topo" */
-  if (scrollTopBtn) {
-    scrollTopBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-  }
-
-  /* Links âncora (#secao) */
-  document.querySelectorAll('a[href^="#"]').forEach((link) => {
-    link.addEventListener("click", (e) => {
-      const targetId = link.getAttribute("href").slice(1);
-      if (!targetId) return;
-
-      const targetEl = document.getElementById(targetId);
-      if (!targetEl) return;
-
-      e.preventDefault();
-
-      const headerHeight = header ? header.offsetHeight : 72;
-      const targetTop    = targetEl.getBoundingClientRect().top + window.scrollY - headerHeight;
-
-      window.scrollTo({ top: targetTop, behavior: "smooth" });
-
-      /* Fecha menu mobile se estiver aberto */
-      closeMobileMenu();
     });
   });
-}
 
 
-/* ══════════════════════════════════════════════════════════════════════
-   09. MENU MOBILE
-   — Toggle do menu hambúrguer.
-   — Fecha ao clicar fora, pressionar Escape ou clicar em link.
-   ══════════════════════════════════════════════════════════════════════ */
+  /* ===================================================================
+     02. CONTROLE DE TEMA (DARK / LIGHT)
+  =================================================================== */
+  const themeToggle = document.getElementById('themeToggle');
+  const mobileThemeToggle = document.getElementById('mobileThemeToggle');
+  const themeIcon = document.getElementById('themeIcon');
+  const mobileThemeIcon = document.getElementById('mobileThemeIcon');
 
-/** Fecha o menu mobile e redefine atributos de acessibilidade. */
-function closeMobileMenu() {
-  const { mobileMenu: menu, mobileMenuBtn: btn } = DOM;
-  if (!menu || !btn) return;
-  menu.classList.remove("open");
-  menu.setAttribute("aria-hidden", "true");
-  btn.classList.remove("open");
-  btn.setAttribute("aria-expanded", "false");
-  btn.setAttribute("aria-label", "Abrir menu de navegação");
-  document.body.classList.remove("mobile-menu-active");
-}
-
-function openMobileMenu() {
-  const { mobileMenu: menu, mobileMenuBtn: btn } = DOM;
-  if (!menu || !btn) return;
-  menu.classList.add("open");
-  menu.setAttribute("aria-hidden", "false");
-  btn.classList.add("open");
-  btn.setAttribute("aria-expanded", "true");
-  btn.setAttribute("aria-label", "Fechar menu de navegação");
-  document.body.classList.add("mobile-menu-active");
-}
-
-function initMobileMenu() {
-  /* Evita dupla inicialização com o script inline do HTML */
-  if (window.__mobileMenuReady) return;
-  window.__mobileMenuReady = true;
-
-  const { mobileMenuBtn: btn, mobileMenu: menu } = DOM;
-  if (!btn || !menu) return;
-
-  const backdrop = document.getElementById("mobileMenuBackdrop");
-  const closeBtn = document.getElementById("mobileMenuClose");
-
-  /** Abre o menu e o backdrop */
-  function open() {
-    menu.classList.add("open");
-    menu.setAttribute("aria-hidden", "false");
-    btn.classList.add("open");
-    btn.setAttribute("aria-expanded", "true");
-    btn.setAttribute("aria-label", "Fechar menu de navegação");
-    if (backdrop) backdrop.classList.add("open");
-    document.body.classList.add("mobile-menu-active");
-  }
-
-  /** Fecha o menu e o backdrop */
-  function close() {
-    menu.classList.remove("open");
-    menu.setAttribute("aria-hidden", "true");
-    btn.classList.remove("open");
-    btn.setAttribute("aria-expanded", "false");
-    btn.setAttribute("aria-label", "Abrir menu de navegação");
-    if (backdrop) backdrop.classList.remove("open");
-    document.body.classList.remove("mobile-menu-active");
-  }
-
-  /* Botão hambúrguer — abre/fecha */
-  btn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    menu.classList.contains("open") ? close() : open();
-  });
-
-  /* Botão X interno do drawer */
-  if (closeBtn) closeBtn.addEventListener("click", close);
-
-  /* Backdrop escuro — fecha ao clicar fora */
-  if (backdrop) backdrop.addEventListener("click", close);
-
-  /* Fecha ao pressionar Escape */
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && menu.classList.contains("open")) {
-      close();
-      btn.focus();
-    }
-  });
-
-  /* Fecha ao clicar em um link de navegação dentro do menu */
-  menu.querySelectorAll(".mobile-link, .mobile-cta").forEach((link) => {
-    link.addEventListener("click", close);
-  });
-
-  /* Fecha automaticamente se a tela voltar a tamanho desktop */
-  window.addEventListener("resize", () => {
-    if (window.innerWidth > 768 && menu.classList.contains("open")) {
-      close();
-    }
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   10. TEMA DARK / LIGHT
-   — Persiste preferência no localStorage.
-   — Atualiza ícone e meta theme-color.
-   — Inicializado antes do DOMContentLoaded para evitar FOUC.
-   ══════════════════════════════════════════════════════════════════════ */
-function initTheme() {
-  const { themeToggle, themeIcon, mobileThemeToggle, mobileThemeIcon } = DOM;
-  const metaThemeColor = document.querySelector('meta[name="theme-color"]');
-
-  /** Aplica o tema e persiste no localStorage. */
-  function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
-    localStorage.setItem(CONFIG.STORAGE_THEME, theme);
-
-    const iconClass = theme === "dark" ? "ri-moon-clear-line" : "ri-sun-line";
+  function updateThemeIcons(theme) {
+    const iconClass = theme === 'light' ? 'ri-sun-line' : 'ri-moon-clear-line';
     if (themeIcon) themeIcon.className = iconClass;
     if (mobileThemeIcon) mobileThemeIcon.className = iconClass;
-
-    if (metaThemeColor) {
-      metaThemeColor.content = theme === "dark" ? "#09090b" : "#ffffff";
-    }
   }
 
-  /* Carrega preferência salva ou usa "dark" como padrão */
-  const savedTheme = localStorage.getItem(CONFIG.STORAGE_THEME) || "dark";
-  applyTheme(savedTheme);
-
-  function handleToggleClick() {
-    const current = document.documentElement.getAttribute("data-theme");
-    applyTheme(current === "dark" ? "light" : "dark");
+  function setTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('preferredTheme', theme);
+    updateThemeIcons(theme);
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: { theme } }));
   }
 
-  if (themeToggle) themeToggle.addEventListener("click", handleToggleClick);
-  if (mobileThemeToggle) mobileThemeToggle.addEventListener("click", handleToggleClick);
-}
+  const savedTheme = localStorage.getItem('preferredTheme') || 'dark';
+  setTheme(savedTheme);
 
-
-/* ══════════════════════════════════════════════════════════════════════
-   11. INTERNACIONALIZAÇÃO (i18n)
-   — Suporta: Português (pt), Inglês (en) e Espanhol (es).
-   — Todas as chaves mapeiam diretamente para atributos data-i18n do HTML.
-   — Persiste idioma escolhido no localStorage.
-   — Atalhos de teclado: Alt+1 (PT), Alt+2 (EN), Alt+3 (ES).
-   ══════════════════════════════════════════════════════════════════════ */
-
-/* ── OBJETO DE TRADUÇÕES COMPLETO ─────────────────────────────────── */
-const translations = {
-
-  /* ══════════════════════════════════════════════════════════════════
-     PORTUGUÊS
-     ══════════════════════════════════════════════════════════════════ */
-  pt: {
-    /* Navegação */
-    menu_home:       "Home",
-    menu_about:      "Sobre",
-    menu_education:  "Formação",
-    menu_skills:     "Skills",
-    menu_zyntek:     "Zyntek",
-    menu_projects:   "Projetos",
-    menu_contact:    "Contatos",
-
-    /* Header / CTA */
-    contact_button:   "Entre em contato",
-    whatsapp_tooltip: "Fale comigo!",
-
-    /* Hero */
-    hero_badge:       "Full Stack Developer",
-    hero_stack:       "Desenvolvedor Full Stack | JavaScript | React | Java | MySQL",
-    hero_description: "Desenvolvedor focado em construir aplicações web completas e eficientes. Combino a robustez do ecossistema Java no backend com a flexibilidade do JavaScript no frontend para transformar regras de negócio em sistemas funcionais, seguros e de alto impacto.",
-    hero_contact:     "Entre em Contato",
-    hero_cv:          "Download Currículo",
-    hero_status:      "Disponível para novos projetos",
-    scroll_text:      "Role para explorar",
-
-    /* Sobre */
-    about_badge:       "— SOBRE MIM —",
-    about_title:       "Construindo soluções através da tecnologia.",
-    about_subtitle:    "Transformando desafios em experiências digitais inteligentes.",
-    about_heading:     "Muito prazer, sou Levy Andrade.",
-    about_text_one:    "Minha trajetória profissional é marcada pela busca constante por evolução, unindo <span class=\"hl\">tecnologia,</span> criatividade e pensamento estratégico para desenvolver soluções digitais que realmente geram valor para empresas e pessoas.",
-    about_text_two:    "Atualmente concentro meus estudos e projetos em <span class=\"hl\">Engenharia de Software,</span> desenvolvimento <span class=\"hl\">Full Stack</span> e <span class=\"hl\">UI/UX Design</span>, construindo aplicações modernas com foco em qualidade, escalabilidade e experiência do usuário.",
-    about_text_three:  "Além do desenvolvimento técnico, sou co-fundador da <span class=\"hl\">Zyntek</span>, onde aplico toda minha expertise para criar experiências digitais premium, identidades visuais estratégicas e soluções web de alto impacto.",
-    about_stat_dev:    "Developer",
-    about_stat_design: "Designer",
-    about_button:      "Vamos Conversar",
-
-    /* Formação */
-    education_badge:           "— FORMAÇÃO —",
-    education_title:           "Jornada de aprendizado contínuo.",
-    education_subtitle:        "Cada etapa construída com dedicação e propósito.",
-    education_ads_period:      "Concluída (2023 - 2026)",
-    education_ads_title:       "Análise e Desenvolvimento de Sistemas",
-    education_ads_institution: "Graduação — Unipar",
-    education_ads_text:        "Formação técnica e acadêmica em desenvolvimento de sistemas, algoritmos, banco de dados, engenharia de software e fundamentos da computação aplicada ao desenvolvimento de soluções modernas.",
-    education_english_period:  "Em andamento",
-    education_english_title:   "Inglês do Zero ao Avançado",
-    education_english_text:    "Aperfeiçoamento contínuo da comunicação técnica para atuação em projetos internacionais, leitura de documentação e colaboração global.",
-    education_java_period:     "Em andamento",
-    education_java_title:      "Java e Spring Boot",
-    education_java_institution:"Formação Completa — Udemy",
-    education_java_text:       "Especialização em desenvolvimento backend, APIs REST, microsserviços, autenticação JWT, Spring Security, JPA, Hibernate e integração com bancos de dados.",
-    education_eng_period:      "Em breve",
-    education_eng_title:       "Bacharelado em Engenharia de Software",
-    education_eng_institution: "Nova Graduação • Planejada",
-    education_eng_text:        "Próximo passo acadêmico focado no aprofundamento de arquitetura de sistemas complexos, qualidade de processos de software, gerência de projetos e engenharia de requisitos corporativos.",
-    education_highlight_title: "Aprendizado Contínuo",
-    education_highlight_text:  "Acredito que a evolução profissional é construída diariamente através da prática, pesquisa e constante atualização tecnológica, buscando sempre excelência no desenvolvimento de software moderno.",
-
-    /* Skills */
-    skills_badge:        "— SKILLS —",
-    skills_title:        "Tecnologias que transformam ideias em soluções.",
-    skills_description:  "Uma combinação entre engenharia de software, desenvolvimento full stack e design de experiência para construir aplicações modernas, escaláveis e de alto desempenho.",
-    skill_html5:         "Estruturação de páginas web modernas utilizando semântica avançada, acessibilidade e boas práticas de SEO.",
-    skill_css:           "Estilização de layouts complexos, animações, responsividade e design fluido para uma excelente experiência visual.",
-    skill_js:            "Desenvolvimento moderno utilizando ES6+, manipulação do DOM, animações avançadas e lógica de aplicações.",
-    skill_react:         "Construção de interfaces modernas, reutilizáveis e performáticas utilizando componentes e arquitetura escalável.",
-    skill_java:          "Desenvolvimento backend robusto utilizando orientação a objetos, APIs REST, arquitetura em camadas e aplicações corporativas.",
-    skill_mysql:         "Modelagem relacional, consultas avançadas, procedures, otimização e integração com aplicações backend.",
-    skill_spring:        "Criação de APIs modernas, autenticação JWT, microsserviços, JPA, Hibernate e integração com bancos relacionais.",
-    skill_tailwind:      "Desenvolvimento ágil de interfaces de alta performance com foco em produtividade através de classes utilitárias.",
-    skill_vite:          "Ferramenta de build extremamente rápida para projetos frontend modernos, otimizando o tempo de carregamento e o fluxo de trabalho.",
-    skill_saas:          "Arquitetura e desenvolvimento de soluções baseadas em Software como Serviço, com foco em escalabilidade, nuvem e alta disponibilidade.",
-    skill_github:        "Versionamento de código, colaboração ágil e automação de deploy através de fluxos de CI/CD e workflows modernos.",
-    skills_footer_title: "Evolução Contínua",
-    skills_footer_text:  "A tecnologia evolui diariamente e meu objetivo é acompanhar essa transformação através de estudos, projetos reais e boas práticas de engenharia, entregando soluções modernas, performáticas, seguras e escaláveis.",
-
-    /* Zyntek */
-    zyntek_badge:         "— ZYNTEK —",
-    zyntek_title:         "Tecnologia, criatividade e inovação caminhando juntas.",
-    zyntek_company_title: "Muito além de uma software house.",
-    zyntek_text_intro:    "A Zyntek atua na vanguarda do desenvolvimento de software, fundindo <span class=\"hl\">engenharia de elite</span>, inteligência artificial e design de alto padrão. Nascemos da união de três mentes obcecadas por tecnologia, conectadas na faculdade com o propósito de transformar visões audaciosas em <span class=\"hl\">potências de mercado</span>.",
-    zyntek_text_two:      "Mais do que linhas de código ou sites comuns, criamos ecossistemas robustos e sob medida. Essa entrega única é simbolizada pelo <span class=\"hl\">Zynk</span>, nosso guardião tecnológico e identidade cyberpunk, que representa a fusão entre a <span class=\"hl\">mentalidade ágil</span> da nova geração tech e a solidez que o mercado corporativo exige.",
-    zyntek_text_three:    "Somos a força motriz dedicada a gerar lucro, <span class=\"hl\">automação</span> e autoridade máxima para o seu negócio, projetando soluções <span class=\"hl\">escaláveis e seguras</span> para estruturar, blindar e expandir suas operações rumo à liderança absoluta do mercado.",
-    zyntek_stat_tech:     "Sistemas Escaláveis",
-    zyntek_stat_design:   "Interfaces de Alto Padrão",
-    zyntek_stat_ai:       "Soluções Inteligentes",
-    zyntek_button:        "Conheça a Zyntek",
-    zyntek_projects:      "Ver Projetos",
-
-    /* Projetos */
-    projects_badge:         "— PROJETOS —",
-    projects_title:         "Soluções digitais desenvolvidas para gerar impacto.",
-    projects_subtitle:      "Cada projeto representa uma combinação entre engenharia de software, design estratégico e tecnologia moderna.",
-    project_ras:            "Landing Page institucional de alta performance, desenvolvida com foco em conversão, animações modernas e experiência mobile premium.",
-    project_zyntek:         "Plataforma institucional construída com identidade visual futurista, animações de alta fidelidade e engenharia de código focada em escalabilidade corporativa.",
-    project_portfolio:      "Portfólio profissional de publicidade e branding, desenvolvido com alta performance, transições fluidas, interface clean e experiência totalmente responsiva.",
-    project_system:         "Landing page institucional desenvolvida para o segmento automotivo, focada em conversão, agendamentos e exibição de serviços com design moderno e totalmente responsivo.",
-    project_webgame:        "Aplicação web dinâmica que replica a mecânica de combate por turnos da franquia Pokémon. Construído integrando uma API escalável a um ecossistema front-end otimizado, o sistema gerencia logs de ações, cálculo de dano e atualização imediata da interface.",
-    project_finance:        "Dashboard financeiro inteligente projetado para transformar dados complexos em decisões estratégicas através de relatórios e gráficos interativos em tempo real.",
-    project_button:         "Ver Projeto",
-    projects_footer_title:  "Tem uma ideia para transformar em realidade?",
-    projects_footer_text:   "Vamos construir uma solução moderna, escalável e personalizada para o seu negócio utilizando as melhores práticas de engenharia de software.",
-    projects_footer_button: "Iniciar Projeto",
-
-    /* Modal */
-    modal_deploy: "Acessar Deploy",
-    modal_repo:   "Acessar Repositório",
-
-    /* Contato */
-    contact_badge:       "— CONTATOS —",
-    contact_title:       "Vamos construir o futuro do seu projeto.",
-    contact_description: "Estou disponível para oportunidades, projetos, parcerias estratégicas e desenvolvimento de soluções digitais personalizadas.",
-    label_name:          "Nome Completo *",
-    label_company:       "Nome da Empresa",
-    label_phone:         "Telefone / WhatsApp *",
-    label_message:       "Descrição da Ideia do Projeto *",
-    contact_send:        "Inicie seu Projeto",
-    hub_button:          "Vamos Conversar",
-
-    /* Footer */
-    footer_navigation:  "Navegação",
-    footer_stack:       "Stack",
-    footer_contact:     "Zyntek",
-    footer_description: "Não serei derrotado pelos limites atuais. Estou aqui para criar soluções que desafiam o que é possível.",
-    footer_cta_title:   "Vamos construir algo extraordinário?",
-    footer_cta_text:    "Transformo desafios complexos em soluções digitais de alto impacto. Vamos construir o próximo projeto juntos?",
-    footer_cta_button:  "Entre em Contato",
-    footer_copyright:   "© 2026 Portfólio Levy Andrade. Todos os direitos reservados.",
-    footer_signature:   'Desenvolvido por <a href="https://www.linkedin.com/in/levyandrade/" target="_blank" rel="noopener noreferrer">Levy Andrade</a> e CO-fundador da <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer">Zyntek</a>.',
-  },
-
-
-  /* ══════════════════════════════════════════════════════════════════
-     INGLÊS
-     ══════════════════════════════════════════════════════════════════ */
-  en: {
-    /* Navegação */
-    menu_home:       "Home",
-    menu_about:      "About",
-    menu_education:  "Education",
-    menu_skills:     "Skills",
-    menu_zyntek:     "Zyntek",
-    menu_projects:   "Projects",
-    menu_contact:    "Contact",
-
-    /* Header / CTA */
-    contact_button:   "Get in touch",
-    whatsapp_tooltip: "Talk to me!",
-
-    /* Hero */
-    hero_badge:       "Full Stack Developer",
-    hero_stack:       "Full Stack Developer | JavaScript | React | Java | MySQL",
-    hero_description: "Developer focused on building complete and efficient web applications. I combine the robustness of the Java ecosystem on the backend with the flexibility of JavaScript on the frontend to transform business rules into functional, secure, and high-impact systems.",
-    hero_contact:     "Get in Touch",
-    hero_cv:          "Download Resume",
-    hero_status:      "Available for new projects",
-    scroll_text:      "Scroll to explore",
-
-    /* Sobre */
-    about_badge:       "— ABOUT ME —",
-    about_title:       "Building solutions through technology.",
-    about_subtitle:    "Transforming challenges into intelligent digital experiences.",
-    about_heading:     "Nice to meet you, I'm Levy Andrade.",
-    about_text_one:    "My professional journey is marked by a constant pursuit of growth, combining <span class=\"hl\">technology,</span> creativity and strategic thinking to develop digital solutions that truly generate value for companies and people.",
-    about_text_two:    "I currently focus my studies and projects on <span class=\"hl\">Software Engineering,</span> <span class=\"hl\">Full Stack</span> development and <span class=\"hl\">UI/UX Design</span>, building modern applications focused on quality, scalability and user experience.",
-    about_text_three:  "Beyond technical development, I'm co-founder of <span class=\"hl\">Zyntek</span>, where I apply my expertise to create premium digital experiences, strategic visual identities and high-impact web solutions.",
-    about_stat_dev:    "Developer",
-    about_stat_design: "Designer",
-    about_button:      "Let's Talk",
-
-    /* Formação */
-    education_badge:           "— EDUCATION —",
-    education_title:           "A continuous learning journey.",
-    education_subtitle:        "Each step built with dedication and purpose.",
-    education_ads_period:      "Completed (2023 - 2026)",
-    education_ads_title:       "Systems Analysis and Development",
-    education_ads_institution: "Undergraduate Degree — Unipar",
-    education_ads_text:        "Technical and academic training in systems development, algorithms, databases, software engineering and fundamentals of computing applied to modern solutions.",
-    education_english_period:  "In progress",
-    education_english_title:   "English from Zero to Advanced",
-    education_english_text:    "Continuous improvement of technical communication for international projects, documentation reading and global collaboration.",
-    education_java_period:     "In progress",
-    education_java_title:      "Java and Spring Boot",
-    education_java_institution:"Full Training — Udemy",
-    education_java_text:       "Specialization in backend development, REST APIs, microservices, JWT authentication, Spring Security, JPA, Hibernate and database integration.",
-    education_eng_period:      "Coming soon",
-    education_eng_title:       "Bachelor's Degree in Software Engineering",
-    education_eng_institution: "New Degree • Planned",
-    education_eng_text:        "Next academic step focused on deepening complex systems architecture, software process quality, project management and corporate requirements engineering.",
-    education_highlight_title: "Continuous Learning",
-    education_highlight_text:  "I believe professional growth is built daily through practice, research and constant technological updates, always seeking excellence in modern software development.",
-
-    /* Skills */
-    skills_badge:        "— SKILLS —",
-    skills_title:        "Technologies that transform ideas into solutions.",
-    skills_description:  "A combination of software engineering, full stack development and experience design to build modern, scalable, high-performance applications.",
-    skill_html5:         "Structuring modern web pages using advanced semantics, accessibility and SEO best practices.",
-    skill_css:           "Styling complex layouts, animations, responsiveness and fluid design for an excellent visual experience.",
-    skill_js:            "Modern development using ES6+, DOM manipulation, advanced animations and application logic.",
-    skill_react:         "Building modern, reusable, performant interfaces using components and scalable architecture.",
-    skill_java:          "Robust backend development using object-oriented programming, REST APIs, layered architecture and enterprise applications.",
-    skill_mysql:         "Relational modeling, advanced queries, stored procedures, optimization and backend integration.",
-    skill_spring:        "Modern API creation, JWT authentication, microservices, JPA, Hibernate and relational database integration.",
-    skill_tailwind:      "Agile development of high-performance interfaces focused on productivity through utility classes.",
-    skill_vite:          "Extremely fast build tool for modern frontend projects, optimizing development workflow and loading times.",
-    skill_saas:          "Architecture and development of Software as a Service solutions, focusing on scalability, cloud computing, and high availability.",
-    skill_github:        "Code versioning, agile collaboration, and deployment automation through modern CI/CD workflows.",
-    skills_footer_title: "Continuous Evolution",
-    skills_footer_text:  "Technology evolves daily and my goal is to keep up with this transformation through study, real projects and engineering best practices, delivering modern, performant, secure and scalable solutions.",
-
-    /* Zyntek */
-    zyntek_badge:         "— ZYNTEK —",
-    zyntek_title:         "Technology, creativity and innovation together.",
-    zyntek_company_title: "Much more than a software house.",
-    zyntek_text_intro:    "Zyntek operates at the forefront of software development, merging <span class=\"hl\">elite engineering</span>, artificial intelligence, and high-end design. We were born from the union of three tech-obsessed minds, connected in college with the purpose of transforming bold visions into <span class=\"hl\">market powerhouses</span>.",
-    zyntek_text_two:      "More than just lines of code or ordinary websites, we build robust, custom-tailored ecosystems. This unique delivery is symbolized by <span class=\"hl\">Zynk</span>, our technological guardian and cyberpunk identity, which embodies the fusion of the new tech generation's <span class=\"hl\">agile mindset</span> with the strategic solidity demanded by the corporate market.",
-    zyntek_text_three:    "We are the driving force dedicated to generating profit, <span class=\"hl\">automation</span>, and ultimate authority for your business, engineering <span class=\"hl\">scalable and secure</span> solutions to structure, shield, and expand your operations toward absolute market leadership.",
-    zyntek_stat_tech:     "Scalable Systems",
-    zyntek_stat_design:   "High-Standard Interfaces",
-    zyntek_stat_ai:       "Intelligent Solutions",
-    zyntek_button:        "Meet Zyntek",
-    zyntek_projects:      "See Projects",
-
-    /* Projetos */
-    projects_badge:         "— PROJECTS —",
-    projects_title:         "Digital solutions built to generate impact.",
-    projects_subtitle:      "Each project represents a combination of software engineering, strategic design and modern technology.",
-    project_ras:            "High-performance institutional Landing Page focused on conversion for the health and fitness niche. Built with a modern, fully responsive architecture featuring dynamic pricing tables, a local news module, highlights section and multiple WhatsApp quick-capture points.",
-    project_zyntek:         "Institutional platform built with a futuristic visual identity, high-fidelity animations and code engineering focused on corporate scalability.",
-    project_portfolio:      "Professional advertising and branding portfolio, developed with high performance, fluid transitions, clean interface and fully responsive experience.",
-    project_system:         "Institutional landing page developed for the automotive segment, focused on conversion, scheduling and service display with modern, fully responsive design.",
-    project_webgame:        "Dynamic web application that replicates the turn-based combat mechanics of the Pokémon franchise. Built integrating a scalable API with an optimized front-end ecosystem, managing action logs, damage calculation and instant UI updates.",
-    project_finance:        "Intelligent financial dashboard designed to transform complex data into strategic decisions through real-time interactive reports and charts.",
-    project_button:         "View Project",
-    projects_footer_title:  "Have an idea to turn into reality?",
-    projects_footer_text:   "Let's build a modern, scalable and customized solution for your business using software engineering best practices.",
-    projects_footer_button: "Start Project",
-
-    /* Modal */
-    modal_deploy: "Access Deploy",
-    modal_repo:   "Access Repository",
-
-    /* Contato */
-    contact_badge:       "— CONTACT —",
-    contact_title:       "Let's build the future of your project.",
-    contact_description: "I'm available for opportunities, projects, strategic partnerships and custom digital solutions.",
-    label_name:          "Full Name *",
-    label_company:       "Company Name",
-    label_phone:         "Phone / WhatsApp *",
-    label_message:       "Project Idea Description *",
-    contact_send:        "Start Your Project",
-    hub_button:          "Let's Talk",
-
-    /* Footer */
-    footer_navigation:  "Navigation",
-    footer_stack:       "Stack",
-    footer_contact:     "Zyntek",
-    footer_description: "I won't be defeated by current limits. I'm here to create solutions that challenge what's possible.",
-    footer_cta_title:   "Let's build something extraordinary?",
-    footer_cta_text:    "I transform complex challenges into high-impact digital solutions. Let's build the next project together?",
-    footer_cta_button:  "Get in Touch",
-    footer_copyright:   "© 2026 Levy Andrade Portfolio. All rights reserved.",
-    footer_signature:   'Developed by <a href="https://www.linkedin.com/in/levyandrade/" target="_blank" rel="noopener noreferrer">Levy Andrade</a>, co-founder of <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer">Zyntek</a>.',
-  },
-
-
-  /* ══════════════════════════════════════════════════════════════════
-     ESPANHOL
-     ══════════════════════════════════════════════════════════════════ */
-  es: {
-    /* Navegação */
-    menu_home:       "Inicio",
-    menu_about:      "Sobre mí",
-    menu_education:  "Formación",
-    menu_skills:     "Habilidades",
-    menu_zyntek:     "Zyntek",
-    menu_projects:   "Proyectos",
-    menu_contact:    "Contacto",
-
-    /* Header / CTA */
-    contact_button:   "Contáctame",
-    whatsapp_tooltip: "¡Habla conmigo!",
-
-    /* Hero */
-    hero_badge:       "Desarrollador Full Stack",
-    hero_stack:       "Desarrollador Full Stack | JavaScript | React | Java | MySQL",
-    hero_description: "Desarrollador enfocado en construir aplicaciones web completas y eficientes. Combino la robustez del ecosistema Java en el backend con la flexibilidad de JavaScript en el frontend para transformar reglas de negocio en sistemas funcionales, seguros y de alto impacto.",
-    hero_contact:     "Contáctame",
-    hero_cv:          "Descargar CV",
-    hero_status:      "Disponible para nuevos proyectos",
-    scroll_text:      "Desplázate para explorar",
-
-    /* Sobre */
-    about_badge:       "— SOBRE MÍ —",
-    about_title:       "Construyendo soluciones a través de la tecnología.",
-    about_subtitle:    "Transformando desafíos en experiencias digitales inteligentes.",
-    about_heading:     "Encantado, soy Levy Andrade.",
-    about_text_one:    "Mi trayectoria profesional está marcada por la búsqueda constante de evolución, uniendo <span class=\"hl\">tecnología,</span> creatividad y pensamiento estratégico para desarrollar soluciones digitales que realmente generan valor para empresas y personas.",
-    about_text_two:    "Actualmente concentro mis estudios y proyectos en <span class=\"hl\">Ingeniería de Software,</span> desarrollo <span class=\"hl\">Full Stack</span> y <span class=\"hl\">UI/UX Design</span>, construyendo aplicaciones modernas con enfoque en calidad, escalabilidad y experiencia del usuario.",
-    about_text_three:  "Además del desarrollo técnico, soy cofundador de <span class=\"hl\">Zyntek</span>, donde aplico toda mi experiencia para crear experiencias digitales premium, identidades visuales estratégicas y soluciones web de alto impacto.",
-    about_stat_dev:    "Desarrollador",
-    about_stat_design: "Diseñador",
-    about_button:      "Conversemos",
-
-    /* Formação */
-    education_badge:           "— FORMACIÓN —",
-    education_title:           "Un viaje de aprendizaje continuo.",
-    education_subtitle:        "Cada etapa construida con dedicación y propósito.",
-    education_ads_period:      "Concluida (2023 - 2026)",
-    education_ads_title:       "Análisis y Desarrollo de Sistemas",
-    education_ads_institution: "Graduación — Unipar",
-    education_ads_text:        "Formación técnica y académica en desarrollo de sistemas, algoritmos, bases de datos, ingeniería de software y fundamentos de la computación aplicada al desarrollo de soluciones modernas.",
-    education_english_period:  "En curso",
-    education_english_title:   "Inglés de Cero a Avanzado",
-    education_english_text:    "Perfeccionamiento continuo de la comunicación técnica para proyectos internacionales, lectura de documentación y colaboración global.",
-    education_java_period:     "En curso",
-    education_java_title:      "Java y Spring Boot",
-    education_java_institution:"Formación Completa — Udemy",
-    education_java_text:       "Especialización en desarrollo backend, APIs REST, microservicios, autenticación JWT, Spring Security, JPA, Hibernate e integración con bases de datos.",
-    education_eng_period:      "Próximamente",
-    education_eng_title:       "Licenciatura en Ingeniería de Software",
-    education_eng_institution: "Nueva Carrera • Planificada",
-    education_eng_text:        "Próximo paso académico enfocado en profundizar la arquitectura de sistemas complejos, calidad de procesos de software, gestión de proyectos e ingeniería de requisitos corporativos.",
-    education_highlight_title: "Aprendizaje Continuo",
-    education_highlight_text:  "Creo que la evolución profesional se construye diariamente a través de la práctica, la investigación y la constante actualización tecnológica, buscando siempre la excelencia en el desarrollo de software moderno.",
-
-    /* Skills */
-    skills_badge:        "— HABILIDADES —",
-    skills_title:        "Tecnologías que transforman ideas en soluciones.",
-    skills_description:  "Una combinación de ingeniería de software, desarrollo full stack y diseño de experiencia para construir aplicaciones modernas, escalables y de alto rendimiento.",
-    skill_html5:         "Estructuración de páginas web modernas con semántica avanzada, accesibilidad y buenas prácticas de SEO.",
-    skill_css:           "Diseño de layouts complejos, animaciones, responsividad y diseño fluido para una excelente experiencia visual.",
-    skill_js:            "Desarrollo moderno con ES6+, manipulación del DOM, animaciones avanzadas y lógica de aplicaciones.",
-    skill_react:         "Construcción de interfaces modernas, reutilizables y eficientes mediante componentes y arquitectura escalable.",
-    skill_java:          "Desarrollo backend robusto con programación orientada a objetos, APIs REST, arquitectura en capas y aplicaciones empresariales.",
-    skill_mysql:         "Modelado relacional, consultas avanzadas, procedimientos almacenados, optimización e integración con aplicaciones backend.",
-    skill_spring:        "Creación de APIs modernas, autenticación JWT, microservicios, JPA, Hibernate e integración con bases de datos relacionales.",
-    skill_tailwind:      "Desarrollo ágil de interfaces de alto rendimiento con foco en productividad mediante clases utilitarias.",
-    skill_vite:          "Herramienta de compilación extremadamente rápida para proyectos frontend modernos, optimizando el tiempo de carga y el flujo de trabajo.",
-    skill_saas:          "Arquitectura y desarrollo de soluciones basadas en Software como Servicio, con enfoque en escalabilidad, nube y alta disponibilidad.",
-    skill_github:        "Versionado de código, colaboración ágil y automatización de despliegues a través de flujos de CI/CD y workflows modernos.",
-    skills_footer_title: "Evolución Continua",
-    skills_footer_text:  "La tecnología evoluciona diariamente y mi objetivo es acompañar esa transformación a través del estudio, proyectos reales y buenas prácticas de ingeniería, entregando soluciones modernas, eficientes, seguras y escalables.",
-
-    /* Zyntek */
-    zyntek_badge:         "— ZYNTEK —",
-    zyntek_title:         "Tecnología, creatividad e innovación juntas.",
-    zyntek_company_title: "Mucho más que una software house.",
-    zyntek_text_intro:    "Zyntek actúa en la vanguardia del desarrollo de software, fusionando <span class=\"hl\">ingeniería de élite</span>, inteligencia artificial y diseño de alto nivel. Nacimos de la unión de tres mentes obsesionadas con la tecnología, conectadas en la universidad con el propósito de transformar visiones audaces en <span class=\"hl\">potencias del mercado</span>.",
-    zyntek_text_two:      "Más que líneas de código o sitios web comunes, creamos ecosistemas robustos y a la medida. Esta entrega única está simbolizada por <span class=\"hl\">Zynk</span>, nuestro guardián tecnológico e identidad cyberpunk, que representa la fusión entre la <span class=\"hl\">mentalidad ágil</span> de la nueva generación tech y la solidez que exige el mercado corporativo.",
-    zyntek_text_three:    "Somos la fuerza motriz dedicada a generar ganancias, <span class=\"hl\">automatización</span> y máxima autoridad para tu negocio, proyectando soluciones <span class=\"hl\">escalables y seguras</span> para estructurar, blindar y expandir tus operaciones hacia el liderazgo absoluto del mercado.",
-    zyntek_stat_tech:     "Sistemas Escalables",
-    zyntek_stat_design:   "Interfaces de Alto Estándar",
-    zyntek_stat_ai:       "Soluciones Inteligentes",
-    zyntek_button:        "Conocer Zyntek",
-    zyntek_projects:      "Ver Proyectos",
-
-    /* Projetos */
-    projects_badge:         "— PROYECTOS —",
-    projects_title:         "Soluciones digitales desarrolladas para generar impacto.",
-    projects_subtitle:      "Cada proyecto representa una combinación de ingeniería de software, diseño estratégico y tecnología moderna.",
-    project_ras:            "Landing Page institucional de alto rendimiento enfocada en la conversión para el nicho de salud y fitness. Desarrollada con una arquitectura moderna y 100% responsiva, con tablas dinámicas de planes, módulo de noticias locales y múltiples puntos de captura rápida vinculados a WhatsApp.",
-    project_zyntek:         "Plataforma institucional construida con identidad visual futurista, animaciones de alta fidelidad e ingeniería de código enfocada en escalabilidad corporativa.",
-    project_portfolio:      "Portafolio profesional de publicidad y branding, desarrollado con alto rendimiento, transiciones fluidas, interfaz limpia y experiencia totalmente responsiva.",
-    project_system:         "Landing page institucional desarrollada para el segmento automotriz, enfocada en conversión, agendamientos y exhibición de servicios con diseño moderno y totalmente responsivo.",
-    project_webgame:        "Aplicación web dinámica que replica la mecánica de combate por turnos de la franquicia Pokémon. Construida integrando una API escalable con un ecosistema front-end optimizado, gestionando logs de acciones, cálculo de daño y actualización inmediata de la interfaz.",
-    project_finance:        "Dashboard financiero inteligente diseñado para transformar datos complejos en decisiones estratégicas a través de informes y gráficos interactivos en tiempo real.",
-    project_button:         "Ver Proyecto",
-    projects_footer_title:  "¿Tienes una idea para convertir en realidad?",
-    projects_footer_text:   "Construyamos una solución moderna, escalable y personalizada para tu negocio utilizando las mejores prácticas de ingeniería de software.",
-    projects_footer_button: "Iniciar Proyecto",
-
-    /* Modal */
-    modal_deploy: "Acceder al Deploy",
-    modal_repo:   "Acceder al Repositorio",
-
-    /* Contato */
-    contact_badge:       "— CONTACTO —",
-    contact_title:       "Construyamos el futuro de tu proyecto.",
-    contact_description: "Disponible para oportunidades, proyectos, asociaciones estratégicas y desarrollo de soluciones digitales personalizadas.",
-    label_name:          "Nombre Completo *",
-    label_company:       "Nombre de la Empresa",
-    label_phone:         "Teléfono / WhatsApp *",
-    label_message:       "Descripción de la Idea del Proyecto *",
-    contact_send:        "Inicia tu Proyecto",
-    hub_button:          "Conversemos",
-
-    /* Footer */
-    footer_navigation:  "Navegación",
-    footer_stack:       "Stack",
-    footer_contact:     "Zyntek",
-    footer_description: "No seré derrotado por los límites actuales. Estoy aquí para crear soluciones que desafíen lo posible.",
-    footer_cta_title:   "¿Construimos algo extraordinario?",
-    footer_cta_text:    "Transformo desafíos complejos en soluciones digitales de alto impacto. ¿Construimos el próximo proyecto juntos?",
-    footer_cta_button:  "Contáctame",
-    footer_copyright:   "© 2026 Portafolio Levy Andrade. Todos los derechos reservados.",
-    footer_signature:   'Desarrollado por <a href="https://www.linkedin.com/in/levyandrade/" target="_blank" rel="noopener noreferrer">Levy Andrade</a>, cofundador de <a href="https://zyntekconnect.com.br/" target="_blank" rel="noopener noreferrer">Zyntek</a>.',
-  },
-};
-
-
-/* ── INICIALIZA I18n ──────────────────────────────────────────────── */
-function initI18n() {
-  const { langBtn, langDropdown, currentLang } = DOM;
-
-  /**
-   * Aplica um idioma a toda a página.
-   * — Atualiza todos os elementos com [data-i18n].
-   * — Atualiza o indicador de idioma no header.
-   * — Marca o botão de idioma como ativo.
-   * — Persiste no localStorage.
-   * — Atualiza o atributo lang do <html>.
-   * @param {string} lang — código do idioma: "pt" | "en" | "es"
-   */
-  function applyLanguage(lang) {
-    const dict = translations[lang];
-    if (!dict) return;
-
-    /* Atualiza todos os elementos traduzíveis */
-    document.querySelectorAll("[data-i18n]").forEach((el) => {
-      const key = el.dataset.i18n;
-      if (dict[key] !== undefined) el.innerHTML = dict[key];
-    });
-
-    /* Atualiza indicador de idioma */
-    if (currentLang) currentLang.textContent = lang.toUpperCase();
-
-    /* Atualiza botões de seleção */
-    document.querySelectorAll(".lang-option").forEach((btn) => {
-      const isActive = btn.dataset.language === lang;
-      btn.classList.toggle("active", isActive);
-      btn.setAttribute("aria-selected", String(isActive));
-    });
-
-    /* Fecha dropdown */
-    if (langDropdown) langDropdown.classList.remove("open");
-    if (langBtn)      langBtn.setAttribute("aria-expanded", "false");
-
-    /* Atualiza lang do documento */
-    document.documentElement.lang = lang === "pt" ? "pt-BR" : lang;
-
-    /* Persiste no localStorage */
-    localStorage.setItem(CONFIG.STORAGE_LANGUAGE, lang);
+  function toggleTheme() {
+    const activeTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const nextTheme = activeTheme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
   }
 
-  /* Toggle do dropdown */
-  if (langBtn && langDropdown) {
-    langBtn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      const isOpen = langDropdown.classList.toggle("open");
-      langBtn.setAttribute("aria-expanded", String(isOpen));
+  if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+  if (mobileThemeToggle) mobileThemeToggle.addEventListener('click', toggleTheme);
+
+
+  /* ===================================================================
+     03. PARTICLES CANVAS — REDE NEURAL GLOBAL (EM TODAS AS SEÇÕES)
+  =================================================================== */
+  const canvas = document.getElementById('networkCanvas');
+  if (canvas) {
+    const ctx = canvas.getContext('2d');
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+    let particles = [];
+    const particleCount = Math.min(Math.floor((width * height) / 14000), 90);
+
+    const mouse = { x: null, y: null, radius: 170 };
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
 
-    /* Fecha dropdown ao clicar fora */
-    document.addEventListener("click", () => {
-      langDropdown.classList.remove("open");
-      if (langBtn) langBtn.setAttribute("aria-expanded", "false");
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
     });
 
-    /* Seleção de idioma via botões do dropdown */
-    document.querySelectorAll(".lang-option").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        applyLanguage(btn.dataset.language);
-      });
+    window.addEventListener('mouseleave', () => {
+      mouse.x = null;
+      mouse.y = null;
     });
-  }
 
-  /* Atalhos de teclado: Alt+1, Alt+2, Alt+3 */
-  document.addEventListener("keydown", (e) => {
-    if (!e.altKey) return;
-    const langMap = { "1": "pt", "2": "en", "3": "es" };
-    if (langMap[e.key]) applyLanguage(langMap[e.key]);
-  });
-
-  /* Carrega idioma salvo ou usa "pt" como padrão */
-  const savedLang = localStorage.getItem(CONFIG.STORAGE_LANGUAGE) || "pt";
-  applyLanguage(savedLang);
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   12. EFEITO TYPING + GLITCH
-   — Digita o nome completo letra por letra.
-   — Aplica efeito glitch periódico.
-   — Apaga e redigita em loop.
-   ══════════════════════════════════════════════════════════════════════ */
-function initTyping() {
-  const { typingName } = DOM;
-  if (!typingName) return;
-
-  const { FULL_NAME, GLITCH_CHARS } = CONFIG;
-  let charIndex    = 0;
-  let isDeleting   = false;
-  let glitchQueued = false;
-
-  /** Embaralha o texto com caracteres aleatórios e revela progressivamente. */
-  function glitchText() {
-    let iteration = 0;
-    const intervalId = setInterval(() => {
-      typingName.textContent = FULL_NAME.split("").map((char, i) => {
-        if (i < iteration) return FULL_NAME[i];
-        return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
-      }).join("");
-
-      iteration += 0.5;
-
-      if (iteration >= FULL_NAME.length) {
-        clearInterval(intervalId);
-        typingName.textContent = FULL_NAME;
+    window.addEventListener('click', (e) => {
+      for (let i = 0; i < 5; i++) {
+        const p = new Particle();
+        p.x = e.clientX;
+        p.y = e.clientY;
+        p.vx = (Math.random() - 0.5) * 4;
+        p.vy = (Math.random() - 0.5) * 4;
+        particles.push(p);
+        if (particles.length > particleCount + 20) particles.shift();
       }
-    }, 30);
-  }
+    });
 
-  /** Loop principal de digitação / apagamento. */
-  function type() {
-    typingName.textContent = FULL_NAME.substring(0, charIndex);
+    class Particle {
+      constructor() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.vx = (Math.random() - 0.5) * 0.9;
+        this.vy = (Math.random() - 0.5) * 0.9;
+        this.radius = Math.random() * 2 + 1.2;
+      }
 
-    if (!isDeleting) {
-      charIndex++;
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
 
-      if (charIndex > FULL_NAME.length) {
-        /* Dispara glitch com delay após completar a digitação */
-        if (!glitchQueued) {
-          glitchQueued = true;
-          setTimeout(() => { glitchText(); glitchQueued = false; }, CONFIG.TYPING_GLITCH_DELAY_MS);
+        if (this.x < 0 || this.x > width) this.vx *= -1;
+        if (this.y < 0 || this.y > height) this.vy *= -1;
+
+        if (mouse.x !== null && mouse.y !== null) {
+          const dx = mouse.x - this.x;
+          const dy = mouse.y - this.y;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+          if (distance < mouse.radius) {
+            const force = (mouse.radius - distance) / mouse.radius;
+            this.x -= (dx / distance) * force * 2.2;
+            this.y -= (dy / distance) * force * 2.2;
+          }
         }
-        /* Pausa antes de começar a apagar */
-        setTimeout(() => { isDeleting = true; type(); }, CONFIG.TYPING_PAUSE_FULL_MS);
-        return;
       }
-      /* Velocidade de digitação variável para realismo */
-      setTimeout(type, 80 + Math.random() * 40);
 
-    } else {
-      charIndex--;
-
-      if (charIndex < 0) {
-        isDeleting = false;
-        charIndex  = 0;
-        setTimeout(type, CONFIG.TYPING_PAUSE_EMPTY_MS);
-        return;
+      draw() {
+        const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+        ctx.fillStyle = isDark ? 'rgba(155, 130, 245, 0.85)' : 'rgba(124, 92, 240, 0.75)';
+        ctx.shadowBlur = isDark ? 8 : 4;
+        ctx.shadowColor = isDark ? 'rgba(155, 130, 245, 0.6)' : 'rgba(124, 92, 240, 0.4)';
+        ctx.fill();
+        ctx.shadowBlur = 0;
       }
-      /* Apagamento mais rápido que a digitação */
-      setTimeout(type, 30);
     }
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push(new Particle());
+    }
+
+    function animateParticles() {
+      ctx.clearRect(0, 0, width, height);
+      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
+
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 145) {
+            const alpha = (1 - dist / 145) * (isDark ? 0.45 : 0.35);
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = isDark ? `rgba(155, 130, 245, ${alpha})` : `rgba(124, 92, 240, ${alpha})`;
+            ctx.lineWidth = 1.1;
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(animateParticles);
+    }
+
+    animateParticles();
   }
 
-  /* Inicia com pequeno delay inicial */
-  setTimeout(type, 800);
 
-  /* Glitch periódico independente do ciclo de digitação */
-  setInterval(glitchText, CONFIG.GLITCH_INTERVAL_MS);
-}
+  /* ===================================================================
+     04.1. MODAL PARTICLES CANVAS (ANIMAÇÃO DENTRO DO MODAL)
+  =================================================================== */
+  const modalCanvas = document.getElementById('modalCanvas');
+  let modalAnimationId = null;
 
+  function initModalCanvas() {
+    if (!modalCanvas) return;
+    const mctx = modalCanvas.getContext('2d');
+    let mWidth = (modalCanvas.width = modalCanvas.parentElement.offsetWidth || 700);
+    let mHeight = (modalCanvas.height = modalCanvas.parentElement.offsetHeight || 500);
 
-/* ══════════════════════════════════════════════════════════════════════
-   13. PARALLAX 3D — CYBERFRAME
-   — Aplica rotação 3D suave na moldura de perfil conforme
-     o mouse se move pela tela.
-   — Apenas em dispositivos com hover real.
-   ══════════════════════════════════════════════════════════════════════ */
-function initCyberFrame() {
-  const { cyberFrame } = DOM;
-  if (!cyberFrame) return;
-  if (!Utils.hasHover()) return;
+    let mParticles = [];
+    const count = 28;
 
-  document.addEventListener("mousemove", (e) => {
-    const x = (e.clientX / window.innerWidth  - 0.5) * 14;
-    const y = (e.clientY / window.innerHeight - 0.5) * 14;
-    cyberFrame.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
-  }, { passive: true });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   14. SCROLL REVEAL
-   — Revela elementos com [data-reveal] ao entrarem no viewport.
-   — Respeita prefers-reduced-motion.
-   ══════════════════════════════════════════════════════════════════════ */
-function initReveal() {
-  const revealEls = document.querySelectorAll("[data-reveal]");
-  if (!revealEls.length) return;
-
-  /* Se o usuário prefere menos movimento, revela tudo de uma vez */
-  if (Utils.prefersReducedMotion()) {
-    revealEls.forEach((el) => el.classList.add("revealed"));
-    return;
-  }
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("revealed");
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.12 });
-
-  revealEls.forEach((el) => observer.observe(el));
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   15. CARROSSEL DE PROJETOS
-   — Exibe 3 cards no desktop (esquerdo, central, direito).
-   — Exibe 1 card no mobile (< 900px).
-   — Suporta: setas de navegação, dots clicáveis, swipe touch e resize.
-   ══════════════════════════════════════════════════════════════════════ */
-function initProjectCarousel() {
-  const {
-    projectStage: stage,
-    projectPrev:  prevBtn,
-    projectNext:  nextBtn,
-    carouselDots: dotsWrap,
-  } = DOM;
-
-  if (!stage) return;
-
-  const cards = Array.from(stage.querySelectorAll(".project-card"));
-  if (!cards.length) return;
-
-  const GAP = 24;
-  let centerIndex = 0;
-
-  /** Retorna quantos cards são visíveis simultaneamente. */
-  function getVisibleCount() {
-    return window.innerWidth <= 900 ? 1 : 3;
-  }
-
-  /** Calcula a largura de cada card baseada no espaço disponível. */
-  function calcCardWidth(visibleCount) {
-    return (stage.offsetWidth - GAP * (visibleCount - 1)) / visibleCount;
-  }
-
-  /** Cria os dots de navegação. */
-  function buildDots() {
-    if (!dotsWrap) return;
-    dotsWrap.innerHTML = "";
-    cards.forEach((_, i) => {
-      const dot = document.createElement("button");
-      dot.className = "c-dot";
-      dot.dataset.index = i;
-      dot.setAttribute("role", "tab");
-      dot.setAttribute("aria-label", `Ir para projeto ${i + 1}`);
-      dot.addEventListener("click", () => { centerIndex = i; render(); });
-      dotsWrap.appendChild(dot);
-    });
-  }
-
-  /** Sincroniza o estado visual dos dots com o índice atual. */
-  function updateDots() {
-    if (!dotsWrap) return;
-    dotsWrap.querySelectorAll(".c-dot").forEach((dot, i) => {
-      dot.classList.toggle("active", i === centerIndex);
-      dot.setAttribute("aria-selected", i === centerIndex ? "true" : "false");
-      dot.setAttribute("aria-current",  i === centerIndex ? "true" : "false");
-    });
-  }
-
-  /**
-   * Posiciona e configura visualmente um card.
-   * @param {HTMLElement} card      — elemento do card
-   * @param {number}      leftPx   — posição left em px
-   * @param {number}      widthPx  — largura em px
-   * @param {string}      className — "pc-left" | "pc-center" | "pc-right"
-   */
-  function placeCard(card, leftPx, widthPx, className) {
-    card.style.left          = leftPx + "px";
-    card.style.width         = widthPx + "px";
-    card.style.opacity       = className === "pc-center" ? "1" : "0.75";
-    card.style.pointerEvents = "auto";
-    card.classList.add(className);
-  }
-
-  /** Re-renderiza o carrossel completo. */
-  function render() {
-    /* Aguarda o stage ter largura real (evita cardW=0 no primeiro render mobile) */
-    if (stage.offsetWidth === 0) { requestAnimationFrame(render); return; }
-
-    const visible = getVisibleCount();
-    const cardW   = calcCardWidth(visible);
-
-    /* Reseta todos os cards */
-    cards.forEach((card) => {
-      card.classList.remove("pc-left", "pc-center", "pc-right");
-      card.style.transform     = "";
-      card.style.opacity       = "0";
-      card.style.pointerEvents = "none";
-      card.style.width         = cardW + "px";
-    });
-
-    if (visible === 1) {
-      /* Mobile: card central ocupa toda a largura do stage */
-      const center = cards[Utils.mod(centerIndex, cards.length)];
-      center.style.left          = "0px";
-      center.style.width         = "100%";
-      center.style.opacity       = "1";
-      center.style.pointerEvents = "auto";
-      center.classList.add("pc-center");
-      requestAnimationFrame(() => { stage.style.minHeight = center.offsetHeight + "px"; });
-    } else {
-      /* Desktop: esquerdo + central + direito */
-      const idxLeft   = Utils.mod(centerIndex - 1, cards.length);
-      const idxCenter = Utils.mod(centerIndex,     cards.length);
-      const idxRight  = Utils.mod(centerIndex + 1, cards.length);
-
-      placeCard(cards[idxLeft],   0,                 cardW, "pc-left");
-      placeCard(cards[idxCenter], cardW + GAP,        cardW, "pc-center");
-      placeCard(cards[idxRight],  (cardW + GAP) * 2, cardW, "pc-right");
-
-      requestAnimationFrame(() => {
-        stage.style.minHeight = (cards[idxCenter].offsetHeight + 16) + "px";
+    for (let i = 0; i < count; i++) {
+      mParticles.push({
+        x: Math.random() * mWidth,
+        y: Math.random() * mHeight,
+        vx: (Math.random() - 0.5) * 0.6,
+        vy: (Math.random() - 0.5) * 0.6,
+        radius: Math.random() * 2 + 1
       });
     }
 
-    updateDots();
-  }
+    function animateModalParticles() {
+      mctx.clearRect(0, 0, mWidth, mHeight);
+      const isDark = document.documentElement.getAttribute('data-theme') !== 'light';
 
-  /* Setas de navegação */
-  if (prevBtn) prevBtn.addEventListener("click", () => {
-    centerIndex = Utils.mod(centerIndex - 1, cards.length);
-    render();
-  });
-  if (nextBtn) nextBtn.addEventListener("click", () => {
-    centerIndex = Utils.mod(centerIndex + 1, cards.length);
-    render();
-  });
+      for (let i = 0; i < mParticles.length; i++) {
+        let p = mParticles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0 || p.x > mWidth) p.vx *= -1;
+        if (p.y < 0 || p.y > mHeight) p.vy *= -1;
 
-  /* Suporte a swipe touch */
-  let touchStartX = 0;
-  stage.addEventListener("touchstart", (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
+        mctx.beginPath();
+        mctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        mctx.fillStyle = isDark ? 'rgba(155, 130, 245, 0.5)' : 'rgba(124, 92, 240, 0.4)';
+        mctx.fill();
 
-  stage.addEventListener("touchend", (e) => {
-    const delta = touchStartX - e.changedTouches[0].clientX;
-    if (delta >  CONFIG.CAROUSEL_SWIPE_THRESHOLD) { centerIndex = Utils.mod(centerIndex + 1, cards.length); render(); }
-    if (delta < -CONFIG.CAROUSEL_SWIPE_THRESHOLD) { centerIndex = Utils.mod(centerIndex - 1, cards.length); render(); }
-  });
-
-  /* Re-renderiza ao redimensionar janela (com debounce) */
-  window.addEventListener("resize", Utils.debounce(render, CONFIG.CAROUSEL_RESIZE_DEBOUNCE_MS), { passive: true });
-
-  /* Inicializa */
-  buildDots();
-  requestAnimationFrame(() => requestAnimationFrame(render));
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   16. MODAL DINÂMICO DE PROJETOS
-   — Layout duas colunas: mídia (esquerda) + texto + botões (direita).
-   — Acessibilidade: focus trap, Escape, aria-hidden em body scroll.
-   — Mídia: suporte a vídeo local, YouTube embed e imagem fallback.
-   ══════════════════════════════════════════════════════════════════════ */
-function initProjectModal() {
-  const {
-    projectModal: backdrop,
-    pmodalClose:  closeBtn,
-    pmodalCat,
-    pmodalTitle,
-    pmodalTags,
-    pmodalMedia,
-    pmodalDesc,
-    pmodalDetails,
-    pmodalDeploy,
-    pmodalGithub,
-  } = DOM;
-
-  if (!backdrop) return;
-
-  /* Elemento focado antes de abrir o modal (restaurar ao fechar) */
-  let lastFocusedElement = null;
-
-  /**
-   * Injeta o conteúdo de mídia na coluna esquerda do modal.
-   * Prioridade: vídeo MP4 / YouTube → imagem do card → placeholder.
-   * @param {HTMLElement} card  — card do projeto
-   * @param {string}      video — URL do vídeo ou ""
-   * @param {string}      title — título do projeto
-   */
-  function buildMediaContent(card, video, title) {
-    pmodalMedia.innerHTML = "";
-
-    if (video && video !== "#") {
-      /* YouTube */
-      if (video.includes("youtube.com") || video.includes("youtu.be")) {
-        const embedUrl = video
-          .replace("watch?v=", "embed/")
-          .replace("youtu.be/", "www.youtube.com/embed/");
-        const iframe = document.createElement("iframe");
-        iframe.src         = `${embedUrl}?autoplay=1&mute=1&loop=1&rel=0`;
-        iframe.allow       = "autoplay; fullscreen";
-        iframe.title       = title;
-        iframe.style.cssText = "width:100%;height:100%;border:none;display:block;";
-        pmodalMedia.appendChild(iframe);
-        return;
+        for (let j = i + 1; j < mParticles.length; j++) {
+          let p2 = mParticles[j];
+          let d = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (d < 110) {
+            let a = (1 - d / 110) * 0.25;
+            mctx.beginPath();
+            mctx.moveTo(p.x, p.y);
+            mctx.lineTo(p2.x, p2.y);
+            mctx.strokeStyle = isDark ? `rgba(155, 130, 245, ${a})` : `rgba(124, 92, 240, ${a})`;
+            mctx.lineWidth = 1;
+            mctx.stroke();
+          }
+        }
       }
 
-      /* Vídeo local */
-      const vid = document.createElement("video");
-      vid.src         = video;
-      vid.autoplay    = true;
-      vid.muted       = true;
-      vid.loop        = true;
-      vid.controls    = true;
-      vid.playsInline = true;
-      vid.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
-      pmodalMedia.appendChild(vid);
-      return;
+      modalAnimationId = requestAnimationFrame(animateModalParticles);
     }
 
-    /* Fallback: imagem de capa do card */
-    const cardImg = card.querySelector(".project-img-wrap img");
-    if (cardImg && cardImg.src) {
-      const img = document.createElement("img");
-      img.src          = cardImg.src;
-      img.alt          = title;
-      img.style.cssText = "width:100%;height:100%;object-fit:cover;display:block;";
-      pmodalMedia.appendChild(img);
-      return;
-    }
-
-    /* Placeholder genérico */
-    pmodalMedia.innerHTML = `
-      <div class="pmodal-media-placeholder">
-        <i class="ri-video-line" aria-hidden="true"></i>
-        <span>Prévia em breve</span>
-      </div>`;
+    animateModalParticles();
   }
 
-  /**
-   * Abre o modal com os dados do card selecionado.
-   * @param {HTMLElement} card — card do projeto clicado
-   */
-  function openModal(card) {
-    const title   = card.dataset.title   || "Projeto";
-    const cat     = card.dataset.cat     || "";
-    const desc    = card.dataset.desc    || "";
-    const tags    = card.dataset.tags    || "";
-    const video   = card.dataset.video   || "";
-    const deploy  = card.dataset.deploy  || "";
-    const github  = card.dataset.github  || "";
-    const details = card.dataset.details || "";
 
-    /* Preenche cabeçalho */
-    if (pmodalCat)   pmodalCat.textContent   = cat;
+  /* ===================================================================
+     04.2. FOOTER CANVAS (ONDAS SUTIS & PARTÍCULAS NO FUNDO PRETO)
+  =================================================================== */
+  const footerCanvas = document.getElementById('footerCanvas');
+  if (footerCanvas) {
+    const fctx = footerCanvas.getContext('2d');
+    let fWidth = (footerCanvas.width = footerCanvas.parentElement.offsetWidth || window.innerWidth);
+    let fHeight = (footerCanvas.height = footerCanvas.parentElement.offsetHeight || 400);
+
+    window.addEventListener('resize', () => {
+      if (footerCanvas.parentElement) {
+        fWidth = footerCanvas.width = footerCanvas.parentElement.offsetWidth || window.innerWidth;
+        fHeight = footerCanvas.height = footerCanvas.parentElement.offsetHeight || 400;
+      }
+    });
+
+    let waveStep = 0;
+    const fPoints = 35;
+
+    function animateFooterCanvas() {
+      fctx.clearRect(0, 0, fWidth, fHeight);
+      waveStep += 0.02;
+
+      fctx.beginPath();
+      for (let i = 0; i <= fPoints; i++) {
+        const x = (fWidth / fPoints) * i;
+        const y = fHeight * 0.55 + Math.sin(waveStep + i * 0.25) * 26 + Math.cos(waveStep * 0.6 + i * 0.15) * 14;
+        if (i === 0) fctx.moveTo(x, y);
+        else fctx.lineTo(x, y);
+      }
+      fctx.strokeStyle = 'rgba(155, 130, 245, 0.22)';
+      fctx.lineWidth = 2;
+      fctx.stroke();
+
+      // Segunda onda defasada
+      fctx.beginPath();
+      for (let i = 0; i <= fPoints; i++) {
+        const x = (fWidth / fPoints) * i;
+        const y = fHeight * 0.62 + Math.cos(waveStep * 0.8 + i * 0.3) * 22;
+        if (i === 0) fctx.moveTo(x, y);
+        else fctx.lineTo(x, y);
+      }
+      fctx.strokeStyle = 'rgba(124, 92, 240, 0.16)';
+      fctx.lineWidth = 1.5;
+      fctx.stroke();
+
+      requestAnimationFrame(animateFooterCanvas);
+    }
+
+    animateFooterCanvas();
+  }
+
+
+  /* ===================================================================
+     05. SPEED DIAL FAB (MENU FLUTUANTE MULTIFUNÇÕES)
+  =================================================================== */
+  const fabContainer = document.getElementById('floatingFabContainer');
+  const fabMainBtn = document.getElementById('fabMainBtn');
+  const fabScrollTop = document.getElementById('fabScrollTop');
+
+  if (fabContainer && fabMainBtn) {
+    fabMainBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = fabContainer.classList.toggle('open');
+      fabMainBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!fabContainer.contains(e.target)) {
+        fabContainer.classList.remove('open');
+        fabMainBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    if (fabScrollTop) {
+      fabScrollTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        fabContainer.classList.remove('open');
+        fabMainBtn.setAttribute('aria-expanded', 'false');
+      });
+    }
+  }
+
+
+  /* ===================================================================
+     06. CUSTOM CURSOR
+  =================================================================== */
+  const cursorDot = document.getElementById('cursorDot');
+  const cursorOutline = document.getElementById('cursorOutline');
+
+  if (cursorDot && cursorOutline && window.matchMedia('(hover: hover)').matches) {
+    let mouseX = 0, mouseY = 0;
+    let outlineX = 0, outlineY = 0;
+
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      cursorDot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
+    });
+
+    function animateCursor() {
+      outlineX += (mouseX - outlineX) * 0.15;
+      outlineY += (mouseY - outlineY) * 0.15;
+      cursorOutline.style.transform = `translate(${outlineX}px, ${outlineY}px) translate(-50%, -50%)`;
+      requestAnimationFrame(animateCursor);
+    }
+    animateCursor();
+
+    const hoverElements = 'a, button, input, textarea, .tech-card, .project-card, .skill-card, .edu-degree-card, .course-card, .fab-main-btn, .fab-item';
+    document.querySelectorAll(hoverElements).forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        cursorOutline.style.width = '52px';
+        cursorOutline.style.height = '52px';
+        cursorOutline.style.borderColor = 'rgba(124, 92, 240, 0.85)';
+      });
+      el.addEventListener('mouseleave', () => {
+        cursorOutline.style.width = '36px';
+        cursorOutline.style.height = '36px';
+        cursorOutline.style.borderColor = 'rgba(155, 130, 245, 0.55)';
+      });
+    });
+  }
+
+
+  /* ===================================================================
+     07. TYPING EFFECT (HERO)
+  =================================================================== */
+  const typingElement = document.getElementById('typingName');
+  if (typingElement) {
+    // ✏️ [EDITE AQUI: TÍTULOS E CARGOS DO EFEITO DE DIGITAÇÃO NO HERO]
+    const roles = [
+      "Levy Andrade",
+      "Software Engineer",
+      "Full Stack Developer",
+      "Co-Founder @ Zyntek",
+      "Web Architecture & UI/UX"
+    ];
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typeSpeed = 100;
+    const deleteSpeed = 50;
+    const pauseDelay = 2200;
+
+    function typeLoop() {
+      const currentRole = roles[roleIndex];
+      if (isDeleting) {
+        typingElement.textContent = currentRole.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingElement.textContent = currentRole.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? deleteSpeed : typeSpeed;
+
+      if (!isDeleting && charIndex === currentRole.length) {
+        speed = pauseDelay;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        speed = 400;
+      }
+
+      setTimeout(typeLoop, speed);
+    }
+
+    typeLoop();
+  }
+
+
+  /* ===================================================================
+     08. TERMINAL LINUX INTERATIVO
+  =================================================================== */
+  const termInput = document.getElementById('termInput');
+  const termHistory = document.getElementById('termHistory');
+  const terminalBody = document.getElementById('terminalBody');
+
+  if (termInput && termHistory && terminalBody) {
+    const cmdHistory = [];
+    let historyIndex = -1;
+
+    // ✏️ [EDITE AQUI: RESPOSTAS DOS COMANDOS DO TERMINAL INTERATIVO]
+    const commands = {
+      help: () => `Comandos disponíveis:\n  <span class="t-hl">whoami</span>       - Informações sobre Levy Andrade\n  <span class="t-hl">stack</span>        - Exibe stack de tecnologias (JSON)\n  <span class="t-hl">education</span>    - Cursos e certificações\n  <span class="t-hl">skills</span>       - Competências técnicas\n  <span class="t-hl">projects</span>     - Lista principais projetos\n  <span class="t-hl">zyntek</span>       - Estúdio de desenvolvimento Zyntek\n  <span class="t-hl">contact</span>      - Links para contato e WhatsApp\n  <span class="t-hl">social</span>       - Redes sociais e GitHub\n  <span class="t-hl">status</span>       - Status profissional atual\n  <span class="t-hl">theme</span>        - Alterna tema claro/escuro\n  <span class="t-hl">clear</span>        - Limpa o terminal`,
+      
+      whoami: () => `levy_andrade\nSoftware Engineer & Co-Founder @ Zyntek\nEspecialista em Java, Spring Boot, React, TypeScript e Engenharia de Software.`,
+      
+      stack: () => `{\n  "languages": ["Java", "JavaScript", "TypeScript", "C#", "Python", "HTML5", "CSS3"],\n  "frontend":  ["React", "Tailwind CSS", "Vite"],\n  "backend":   ["Spring Boot", "Node.js", "APIs REST", "JWT / Spring Security"],\n  "database":  ["MySQL", "Modelagem de Dados"],\n  "cloud":     ["AWS", "Microsoft Azure", "Google Cloud", "Docker"],\n  "tools":     ["Git", "GitHub", "Postman", "Figma"]\n}`,
+      
+      education: () => `Graduações:\n• Análise e Desenvolvimento de Sistemas — UNIPAR (2023–2026)\n• Engenharia de Software (Planejada para 2027)\n\nCertificações:\n• AWS Certified AI Practitioner (AIF-C01)\n• GCP Associate Cloud Engineer\n• Java SE 11 Developer — 1Z0-819 OCP (Parte 1)\n• Formação Java e Spring Boot`,
+      
+      skills: () => `Back-end: Java, Spring Boot, Node.js, REST APIs, MySQL, JWT\nFront-end: React, TypeScript, JavaScript, Tailwind CSS, Vite\nCloud: AWS, Azure, GCP, Docker\nDesign: UI/UX, Design Systems, Figma`,
+      
+      projects: () => `Destaques do Portfólio:\n1. Zyntek Connect (Plataforma Institucional & SaaS)\n2. R.A.S Premium (Landing Page de Alta Conversão)\n3. Pokémon Battle Arena (Web Game React + Spring Boot)\n4. Zynk Finance Dashboard (SaaS Platform)\n5. Portfólio Lorraini Paris (Branding & Design)\n6. Garagem 7 (Landing Page Automotiva)\n\nRole até a seção #projetos para interagir com a vitrine completa!`,
+      
+      zyntek: () => `Zyntek Digital Experience\nEstúdio de desenvolvimento de software de alta performance.\nSite: https://zyntekconnect.com.br/`,
+      
+      // ✏️ [EDITE AQUI: SEUS DADOS DE CONTATO NO TERMINAL]
+      contact: () => `WhatsApp: +55 (44) 98427-1446\nE-mail: levyandrade2109@gmail.com\nLinkedIn: https://www.linkedin.com/in/levy-andrade/`,
+      
+      social: () => `GitHub:   https://github.com/Levy-Andrade\nLinkedIn: https://www.linkedin.com/in/levy-andrade/\nInstagram: https://www.instagram.com/levy.andrade.393`,
+      
+      status: () => `✓ Status: Em constante evolução. Aberto a projetos e novas parcerias.`,
+      
+      theme: () => {
+        toggleTheme();
+        return `Tema alterado com sucesso para: ${document.documentElement.getAttribute('data-theme')}`;
+      },
+      
+      date: () => new Date().toLocaleString(),
+      sudo: () => `Acesso concedido. Você é o administrador do seu próprio futuro.`,
+      repo: () => `Repositório oficial: https://github.com/Levy-Andrade`
+    };
+
+    termInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const rawCmd = termInput.value.trim();
+        const cmd = rawCmd.toLowerCase();
+
+        if (rawCmd !== '') {
+          cmdHistory.push(rawCmd);
+          historyIndex = cmdHistory.length;
+        }
+
+        const cmdLine = document.createElement('div');
+        cmdLine.className = 't-line';
+        cmdLine.innerHTML = `<span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span><span class="t-dir">~</span><span class="t-dollar">$</span><span class="t-cmd">${rawCmd}</span>`;
+        termHistory.appendChild(cmdLine);
+
+        if (cmd === 'clear' || cmd === 'cls') {
+          termHistory.innerHTML = '';
+        } else if (commands[cmd]) {
+          const out = document.createElement('div');
+          out.className = 't-output';
+          out.innerHTML = commands[cmd]().replace(/\n/g, '<br>');
+          termHistory.appendChild(out);
+        } else if (rawCmd.startsWith('echo ')) {
+          const out = document.createElement('div');
+          out.className = 't-output';
+          out.textContent = rawCmd.substring(5);
+          termHistory.appendChild(out);
+        } else if (rawCmd.startsWith('cat ')) {
+          const file = rawCmd.substring(4).trim();
+          const out = document.createElement('div');
+          out.className = 't-output';
+          if (file === 'stack.json') out.innerHTML = commands.stack().replace(/\n/g, '<br>');
+          else if (file === 'education.json') out.innerHTML = commands.education().replace(/\n/g, '<br>');
+          else out.innerHTML = `<span class="t-error">cat: ${file}: Arquivo não encontrado</span>`;
+          termHistory.appendChild(out);
+        } else if (rawCmd !== '') {
+          const out = document.createElement('div');
+          out.className = 't-output t-error';
+          out.innerHTML = `Comando não reconhecido: '${rawCmd}'. Digite <span class="t-hl">help</span> para lista de comandos.`;
+          termHistory.appendChild(out);
+        }
+
+        termInput.value = '';
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+      } else if (e.key === 'ArrowUp') {
+        if (historyIndex > 0) {
+          historyIndex--;
+          termInput.value = cmdHistory[historyIndex];
+        }
+      } else if (e.key === 'ArrowDown') {
+        if (historyIndex < cmdHistory.length - 1) {
+          historyIndex++;
+          termInput.value = cmdHistory[historyIndex];
+        } else {
+          historyIndex = cmdHistory.length;
+          termInput.value = '';
+        }
+      }
+    });
+
+    terminalBody.addEventListener('click', () => {
+      termInput.focus();
+    });
+  }
+
+
+  /* ===================================================================
+     09. FILTRO DINÂMICO E PRÉVIA EM VÍDEO NO HOVER DE PROJETOS
+  =================================================================== */
+  const projectsFilterContainer = document.getElementById('projectsFilter');
+  const projectCards = document.querySelectorAll('.project-card');
+
+  if (projectsFilterContainer && projectCards.length > 0) {
+    const categories = ['Todos'];
+    projectCards.forEach(card => {
+      const cat = card.getAttribute('data-cat');
+      if (cat && !categories.includes(cat)) {
+        categories.push(cat);
+      }
+    });
+
+    categories.forEach(cat => {
+      const btn = document.createElement('button');
+      btn.className = `filter-btn ${cat === 'Todos' ? 'active' : ''}`;
+      btn.textContent = cat;
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', cat === 'Todos' ? 'true' : 'false');
+
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.filter-btn').forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-selected', 'false');
+        });
+        btn.classList.add('active');
+        btn.setAttribute('aria-selected', 'true');
+
+        projectCards.forEach(card => {
+          const cardCat = card.getAttribute('data-cat');
+          if (cat === 'Todos' || cardCat === cat) {
+            card.style.display = 'flex';
+            setTimeout(() => {
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            }, 50);
+          } else {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+              card.style.display = 'none';
+            }, 250);
+          }
+        });
+      });
+
+      projectsFilterContainer.appendChild(btn);
+    });
+  }
+
+  // Prévia em vídeo automática no Hover de cada card de projeto
+  projectCards.forEach(card => {
+    const videoSrc = card.getAttribute('data-video');
+    const imgWrap = card.querySelector('.project-img-wrap');
+
+    if (videoSrc && imgWrap) {
+      let previewVideo = null;
+
+      card.addEventListener('mouseenter', () => {
+        if (!previewVideo) {
+          previewVideo = document.createElement('video');
+          previewVideo.className = 'project-hover-video';
+          previewVideo.src = videoSrc;
+          previewVideo.muted = true;
+          previewVideo.loop = true;
+          previewVideo.playsInline = true;
+          previewVideo.setAttribute('aria-hidden', 'true');
+          imgWrap.appendChild(previewVideo);
+        }
+
+        card.classList.add('video-active');
+        previewVideo.play().catch(() => {});
+      });
+
+      card.addEventListener('mouseleave', () => {
+        card.classList.remove('video-active');
+        if (previewVideo) {
+          previewVideo.pause();
+        }
+      });
+    }
+  });
+
+
+  /* ===================================================================
+     10. MODAL DE PROJETOS (LAYOUT VERTICAL: VÍDEO GRANDE + 3 BOTÕES)
+  =================================================================== */
+  const projectModal = document.getElementById('projectModal');
+  const pmodalClose = document.getElementById('pmodalClose');
+  const pmodalCat = document.getElementById('pmodalCat');
+  const pmodalTitle = document.getElementById('pmodalTitle');
+  const pmodalTags = document.getElementById('pmodalTags');
+  const pmodalMedia = document.getElementById('pmodalMedia');
+  const pmodalDesc = document.getElementById('pmodalDesc');
+  const pmodalDetails = document.getElementById('pmodalDetails');
+  const pmodalDeploy = document.getElementById('pmodalDeploy');
+  const pmodalGithub = document.getElementById('pmodalGithub');
+  const pmodalContact = document.getElementById('pmodalContact');
+
+  function openProjectModal(card) {
+    if (!projectModal) return;
+
+    const title = card.getAttribute('data-title') || '';
+    const cat = card.getAttribute('data-cat') || '';
+    const desc = card.getAttribute('data-desc') || '';
+    const tags = (card.getAttribute('data-tags') || '').split(',');
+    const video = card.getAttribute('data-video') || '';
+    const image = card.getAttribute('data-image') || '';
+    const deploy = card.getAttribute('data-deploy') || '#';
+    const github = card.getAttribute('data-github') || '#';
+    const details = card.getAttribute('data-details') || '';
+
+    if (pmodalCat) pmodalCat.textContent = cat;
     if (pmodalTitle) pmodalTitle.textContent = title;
-    if (pmodalDesc)  pmodalDesc.textContent  = desc;
+    if (pmodalDesc) pmodalDesc.textContent = desc;
+    if (pmodalDetails) pmodalDetails.textContent = details ? `Arquitetura: ${details}` : '';
 
-    /* Tags de tecnologia */
     if (pmodalTags) {
-      pmodalTags.innerHTML = tags.split(",")
-        .filter(Boolean)
-        .map((t) => `<span>${t.trim()}</span>`)
-        .join("");
+      pmodalTags.innerHTML = '';
+      tags.forEach(t => {
+        if (t.trim()) {
+          const span = document.createElement('span');
+          span.textContent = t.trim();
+          pmodalTags.appendChild(span);
+        }
+      });
     }
 
-    /* Detalhes técnicos (coluna direita) */
-    if (pmodalDetails) {
-      pmodalDetails.textContent   = details;
-      pmodalDetails.style.display = details ? "block" : "none";
-    }
-
-    /* Mídia (coluna esquerda) */
-    buildMediaContent(card, video, title);
-
-    /* Botão Deploy: exibe apenas se tiver link real */
-    if (pmodalDeploy) {
-      const hasDeploy = deploy && deploy !== "#";
-      pmodalDeploy.href          = hasDeploy ? deploy : "#";
-      pmodalDeploy.style.display = hasDeploy ? "" : "none";
-    }
-
-    /* Botão GitHub: exibe apenas se tiver link real */
-    if (pmodalGithub) {
-      const hasGithub = github && github !== "#";
-      pmodalGithub.href          = hasGithub ? github : "#";
-      pmodalGithub.style.display = hasGithub ? "" : "none";
-    }
-
-    /* Acessibilidade */
-    lastFocusedElement = document.activeElement;
-    backdrop.removeAttribute("hidden");
-    backdrop.setAttribute("aria-modal", "true");
-    backdrop.setAttribute("role", "dialog");
-
-    requestAnimationFrame(() => backdrop.classList.add("pmodal-open"));
-
-    document.body.style.overflow = "hidden";
-    if (closeBtn) closeBtn.focus();
-  }
-
-  /** Fecha o modal e restaura o estado da página. */
-  function closeModal() {
-    backdrop.classList.remove("pmodal-open");
-    setTimeout(() => {
-      backdrop.setAttribute("hidden", "");
-      if (pmodalMedia) pmodalMedia.innerHTML = "";
-      if (pmodalTags)  pmodalTags.innerHTML  = "";
-      document.body.style.overflow = "";
-      if (lastFocusedElement) lastFocusedElement.focus();
-    }, 350);
-  }
-
-  /* Delegação de clique nos botões "Ver Projeto" */
-  document.addEventListener("click", (e) => {
-    const trigger = e.target.closest(".btn-open-modal");
-    if (!trigger) return;
-    const card = trigger.closest(".project-card");
-    if (card) openModal(card);
-  });
-
-  /* Fechar pelo botão X */
-  if (closeBtn) closeBtn.addEventListener("click", closeModal);
-
-  /* Fechar clicando no backdrop */
-  backdrop.addEventListener("click", (e) => {
-    if (e.target === backdrop) closeModal();
-  });
-
-  /* Fechar com Escape */
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && !backdrop.hasAttribute("hidden")) closeModal();
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   17. FORMULÁRIO DE ORÇAMENTO (Zyntek)
-   — Valida nome, telefone e descrição do projeto.
-   — Envia mensagem formatada via WhatsApp da Zyntek.
-   — Limpa erros inline conforme o usuário digita.
-   ══════════════════════════════════════════════════════════════════════ */
-function initBudgetForm() {
-  const { budgetForm: form } = DOM;
-  if (!form) return;
-
-  /**
-   * Exibe uma mensagem de erro inline em um campo.
-   * @param {string} fieldId — id do input
-   * @param {string} errorId — id do elemento de erro
-   * @param {string} message — texto do erro
-   */
-  function showFieldError(fieldId, errorId, message) {
-    const field = document.getElementById(fieldId);
-    const error = document.getElementById(errorId);
-    if (field) field.classList.add("invalid");
-    if (error) error.textContent = message;
-  }
-
-  /**
-   * Remove a mensagem de erro inline de um campo.
-   * @param {string} fieldId — id do input
-   * @param {string} errorId — id do elemento de erro
-   */
-  function clearFieldError(fieldId, errorId) {
-    const field = document.getElementById(fieldId);
-    const error = document.getElementById(errorId);
-    if (field) field.classList.remove("invalid");
-    if (error) error.textContent = "";
-  }
-
-  /* Mapa de campos → ids de erro */
-  const errorMap = {
-    inputName:    "errorName",
-    inputPhone:   "errorPhone",
-    inputMessage: "errorMessage",
-  };
-
-  /* Limpa erros ao digitar */
-  Object.keys(errorMap).forEach((id) => {
-    const el = document.getElementById(id);
-    if (el) el.addEventListener("input", () => clearFieldError(id, errorMap[id]));
-  });
-
-  /* Submissão do formulário */
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const nome     = document.getElementById("inputName")?.value.trim()    || "";
-    const empresa  = document.getElementById("inputCompany")?.value.trim() || "";
-    const telefone = document.getElementById("inputPhone")?.value.trim()   || "";
-    const projeto  = document.getElementById("inputMessage")?.value.trim() || "";
-
-    let isValid = true;
-
-    if (!nome || nome.length < 2) {
-      showFieldError("inputName", "errorName", "Por favor, informe seu nome completo.");
-      isValid = false;
-    } else {
-      clearFieldError("inputName", "errorName");
-    }
-
-    if (!telefone || telefone.replace(/\D/g, "").length < 10) {
-      showFieldError("inputPhone", "errorPhone", "Informe um WhatsApp válido com DDD.");
-      isValid = false;
-    } else {
-      clearFieldError("inputPhone", "errorPhone");
-    }
-
-    if (!projeto || projeto.length < 10) {
-      showFieldError("inputMessage", "errorMessage", "Descreva seu projeto em pelo menos 10 caracteres.");
-      isValid = false;
-    } else {
-      clearFieldError("inputMessage", "errorMessage");
-    }
-
-    if (!isValid) return;
-
-    /* Monta mensagem formatada para o WhatsApp da Zyntek */
-    const mensagem = [
-      "◤━━━━━━━━━━━━━━━━━◥",
-      "         Z Y N T E K",
-      "◣━━━━━━━━━━━━━━━━━◢",
-      "",
-      `Cliente: ${nome}`,
-      `Empresa: ${empresa || "Não informado"}`,
-      `Contato: ${telefone}`,
-      "",
-      "━━━━━━━━━━━━━━━━━━━",
-      "",
-      "DESCRIÇÃO DO PROJETO",
-      "",
-      `"${projeto}"`,
-      "",
-      "━━━━━━━━━━━━━━━━━━━",
-      "",
-      "Tenho interesse em desenvolver este projeto com a Zyntek e gostaria de receber uma análise estratégica.",
-      "",
-      "Aguardo o contato da equipe.",
-      "Obrigado.",
-    ].join("\n");
-
-    window.open(
-      `https://wa.me/554488317870?text=${encodeURIComponent(mensagem)}`,
-      "_blank",
-      "noopener,noreferrer"
-    );
-
-    form.reset();
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   18. EFEITO 3D NAS SKILL CARDS
-   — Aplica rotação perspectiva 3D conforme a posição do mouse
-     sobre o card.
-   — Apenas em dispositivos com hover real.
-   ══════════════════════════════════════════════════════════════════════ */
-function initSkillCards() {
-  if (!Utils.hasHover()) return;
-
-  document.querySelectorAll(".skill-card, .tech-card").forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      const rect    = card.getBoundingClientRect();
-      const x       = e.clientX - rect.left;
-      const y       = e.clientY - rect.top;
-      const rotateY = (x - rect.width  / 2) / 18;
-      const rotateX = -(y - rect.height / 2) / 18;
-      card.style.transition = "transform .08s linear";
-      card.style.transform  = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px) scale(1.02)`;
-    }, { passive: true });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transition = "transform .45s cubic-bezier(.22,1,.36,1)";
-      card.style.transform  = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
-    });
-  });
-
-  /* Cards de projeto: tilt 3D mais sutil (a área é maior e tem texto)
-     + spotlight que acompanha o cursor via variáveis CSS --mx/--my. */
-  document.querySelectorAll(".project-card").forEach((card) => {
-    card.addEventListener("mousemove", (e) => {
-      const rect    = card.getBoundingClientRect();
-      const x       = e.clientX - rect.left;
-      const y       = e.clientY - rect.top;
-      const rotateY = (x - rect.width  / 2) / 26;
-      const rotateX = -(y - rect.height / 2) / 26;
-      card.style.setProperty("--mx", `${(x / rect.width)  * 100}%`);
-      card.style.setProperty("--my", `${(y / rect.height) * 100}%`);
-      card.style.transition = "transform .08s linear";
-      card.style.transform  = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px) scale(1.015)`;
-    }, { passive: true });
-
-    card.addEventListener("mouseleave", () => {
-      card.style.transition = "transform .5s cubic-bezier(.22,1,.36,1)";
-      card.style.transform  = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale(1)";
-      card.style.setProperty("--mx", "50%");
-      card.style.setProperty("--my", "50%");
-    });
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   18.1 FILTRO DE PROJETOS + CONTADOR + SELO NUMERADO
-   — Gera dinamicamente os botões de categoria a partir de data-cat,
-     permite filtrar a vitrine e numera cada card (identidade de "case").
-   ══════════════════════════════════════════════════════════════════════ */
-function initProjectsFilter() {
-  const stage  = document.getElementById("projectsStage");
-  const filter = document.getElementById("projectsFilter");
-  if (!stage) return;
-
-  const cards = Array.from(stage.querySelectorAll(".project-card"));
-  if (!cards.length) return;
-
-  /* Selo numerado (01, 02, 03...) em cada card */
-  cards.forEach((card, i) => {
-    const imgWrap = card.querySelector(".project-img-wrap");
-    if (imgWrap && !imgWrap.querySelector(".project-idx")) {
-      const idx = document.createElement("span");
-      idx.className = "project-idx";
-      idx.textContent = String(i + 1).padStart(2, "0");
-      imgWrap.appendChild(idx);
-    }
-  });
-
-  if (!filter) return;
-
-  const allLabel = document.documentElement.lang === "en" ? "All" : "Todos";
-
-  /* Categorias únicas, na ordem em que aparecem */
-  const cats = [];
-  cards.forEach((card) => {
-    const cat = card.dataset.cat;
-    if (cat && !cats.includes(cat)) cats.push(cat);
-  });
-
-  function countFor(cat) {
-    return cat === "*" ? cards.length : cards.filter((c) => c.dataset.cat === cat).length;
-  }
-
-  function buildButtons() {
-    filter.innerHTML = "";
-    const entries = [{ cat: "*", label: allLabel }, ...cats.map((c) => ({ cat: c, label: c }))];
-    entries.forEach(({ cat, label }) => {
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "projects-filter-btn" + (cat === "*" ? " is-active" : "");
-      btn.dataset.filter = cat;
-      btn.setAttribute("role", "tab");
-      btn.setAttribute("aria-selected", cat === "*" ? "true" : "false");
-      btn.innerHTML = `${label} <span class="projects-filter-count">${countFor(cat)}</span>`;
-      btn.addEventListener("click", () => applyFilter(cat));
-      filter.appendChild(btn);
-    });
-  }
-
-  function applyFilter(cat) {
-    filter.querySelectorAll(".projects-filter-btn").forEach((btn) => {
-      const active = btn.dataset.filter === cat;
-      btn.classList.toggle("is-active", active);
-      btn.setAttribute("aria-selected", active ? "true" : "false");
-    });
-    cards.forEach((card) => {
-      const show = cat === "*" || card.dataset.cat === cat;
-      card.classList.toggle("is-filtered-out", !show);
-    });
-  }
-
-  buildButtons();
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   19. RIPPLE EFFECT NOS BOTÕES
-   — Cria um efeito de onda ao clicar em botões primários, secundários
-     e de projeto.
-   ══════════════════════════════════════════════════════════════════════ */
-function initRippleEffect() {
-  Utils.injectStyle("ripple-anim", `
-    @keyframes ripple-anim { to { transform: scale(2.5); opacity: 0; } }
-  `);
-
-  document.querySelectorAll(".btn-primary, .btn-secondary, .btn-project").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      const size   = Math.max(this.clientWidth, this.clientHeight);
-      const rect   = this.getBoundingClientRect();
-      const ripple = document.createElement("span");
-
-      ripple.style.cssText = `
-        position: absolute; pointer-events: none; border-radius: 50%;
-        width: ${size}px; height: ${size}px;
-        left: ${e.clientX - rect.left - size / 2}px;
-        top:  ${e.clientY - rect.top  - size / 2}px;
-        background: rgba(255,255,255,.2);
-        transform: scale(0);
-        animation: ripple-anim .6s ease-out forwards;
-      `;
-
-      if (window.getComputedStyle(this).position === "static") {
-        this.style.position = "relative";
+    if (pmodalMedia) {
+      if (video) {
+        pmodalMedia.innerHTML = `<video src="${video}" autoplay muted loop playsinline controls style="width:100%; border-radius:14px;"></video>`;
+      } else if (image) {
+        pmodalMedia.innerHTML = `<img src="${image}" alt="${title}" style="width:100%; border-radius:14px;">`;
+      } else {
+        pmodalMedia.innerHTML = `<div style="height:260px; display:flex; align-items:center; justify-content:center; background:#14141c; border-radius:14px; font-size:3.5rem; color:var(--primary-light);"><i class="ri-code-box-line"></i></div>`;
       }
-      this.style.overflow = "hidden";
-      this.appendChild(ripple);
-      setTimeout(() => ripple.remove(), 700);
-    });
-  });
-}
+    }
 
+    if (pmodalDeploy) {
+      pmodalDeploy.href = deploy;
+      pmodalDeploy.style.display = deploy && deploy !== '#' ? 'inline-flex' : 'none';
+    }
 
-/* ══════════════════════════════════════════════════════════════════════
-   20. BOTÃO DOWNLOAD CURRÍCULO
-   — Feedback visual de "Baixando..." durante 1 segundo.
-   — Exibe "Download iniciado" por 1,8 segundos antes de restaurar.
-   ══════════════════════════════════════════════════════════════════════ */
-function initDownloadCV() {
-  const { downloadCvBtn: btn } = DOM;
-  if (!btn) return;
+    if (pmodalGithub) {
+      pmodalGithub.href = github;
+      pmodalGithub.style.display = github && github !== '#' ? 'inline-flex' : 'none';
+    }
 
-  btn.addEventListener("click", function () {
-    /* Previne cliques duplicados durante o estado de loading */
-    if (this.classList.contains("loading")) return;
+    if (pmodalContact) {
+      const msg = encodeURIComponent(`Olá Levy! Vi o projeto "${title}" no seu portfólio e gostaria de conversar sobre uma solução similar.`);
+      pmodalContact.href = `https://wa.me/5544984271446?text=${msg}`;
+    }
 
-    const textEl   = this.querySelector(".download-text");
-    const origText = textEl ? textEl.innerHTML : "";
-
-    this.classList.add("loading");
-    if (textEl) textEl.innerHTML = "Baixando...";
-
+    projectModal.hidden = false;
     setTimeout(() => {
-      this.classList.remove("loading");
-      this.classList.add("success");
-      if (textEl) textEl.innerHTML = "Download iniciado";
-
-      setTimeout(() => {
-        this.classList.remove("success");
-        if (textEl) textEl.innerHTML = origText;
-      }, 1800);
-    }, 1000);
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   20.5 TERMINAL INTERATIVO (Seção Sobre)
-   — Visitante digita comandos reais; respostas aparecem no histórico.
-   ══════════════════════════════════════════════════════════════════════ */
-function initTerminal() {
-  const body = document.getElementById("terminalBody");
-  const history = document.getElementById("termHistory");
-  const input = document.getElementById("termInput");
-  if (!body || !history || !input) return;
-
-  const scrollBottom = () => { body.scrollTop = body.scrollHeight; };
-
-  const printLine = (cmd) => {
-    const line = document.createElement("div");
-    line.className = "t-line";
-    line.innerHTML =
-      '<span class="t-prompt">levy@zyntek</span><span class="t-sep">:</span>' +
-      '<span class="t-dir">~</span><span class="t-dollar">$</span>' +
-      '<span class="t-cmd"></span>';
-    line.querySelector(".t-cmd").textContent = cmd;
-    history.appendChild(line);
-  };
-
-  const printOutput = (html, extraClass) => {
-    const out = document.createElement("div");
-    out.className = "t-output" + (extraClass ? " " + extraClass : "");
-    out.innerHTML = html;
-    history.appendChild(out);
-  };
-
-  const printBreak = () => history.appendChild(document.createElement("br"));
-
-  const goTo = (selector) => {
-    const el = document.querySelector(selector);
-    if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const COMMANDS = {
-    help() {
-      printOutput(
-        "Comandos disponíveis: <span class=\"t-hl\">whoami</span>, " +
-        "<span class=\"t-hl\">about</span>, <span class=\"t-hl\">skills</span> " +
-        "(ou <span class=\"t-hl\">cat stack.json</span>), " +
-        "<span class=\"t-hl\">education</span> (ou <span class=\"t-hl\">cat education.json</span>), " +
-        "<span class=\"t-hl\">stats</span>, " +
-        "<span class=\"t-hl\">projects</span>, <span class=\"t-hl\">contact</span>, " +
-        "<span class=\"t-hl\">cv</span>, <span class=\"t-hl\">github</span>, " +
-        "<span class=\"t-hl\">linkedin</span>, <span class=\"t-hl\">sudo hire-me</span>, " +
-        "<span class=\"t-hl\">clear</span>."
-      );
-    },
-    whoami() {
-      printOutput("levy_andrade");
-      printOutput("Software Engineer &amp; Co-Founder @ Zyntek");
-      printOutput("Full Stack Developer · UI/UX Designer");
-    },
-    about() {
-      printOutput(
-        "Desenvolvedor Full Stack focado em Java, Spring Boot, React e JavaScript. " +
-        "Co-fundador da Zyntek, unindo engenharia e design para entregar produtos reais. " +
-        "Estudante de Análise e Desenvolvimento de Sistemas (UNIPAR), com certificações AWS e GCP."
-      );
-    },
-    skills() {
-      const pre = document.createElement("pre");
-      pre.className = "t-json";
-      pre.innerHTML =
-        '{\n  <span class="tj-key">"languages"</span>: [<span class="tj-str">"Java"</span>, <span class="tj-str">"JavaScript"</span>, <span class="tj-str">"TypeScript"</span>, <span class="tj-str">"C#"</span>, <span class="tj-str">"Python"</span>, <span class="tj-str">"HTML5"</span>, <span class="tj-str">"CSS3"</span>],\n' +
-        '  <span class="tj-key">"frontend"</span>:  [<span class="tj-str">"React"</span>, <span class="tj-str">"Tailwind CSS"</span>, <span class="tj-str">"Vite"</span>],\n' +
-        '  <span class="tj-key">"backend"</span>:   [<span class="tj-str">"Spring Boot"</span>, <span class="tj-str">"Node.js"</span>, <span class="tj-str">"APIs REST"</span>, <span class="tj-str">"JWT / Spring Security"</span>],\n' +
-        '  <span class="tj-key">"database"</span>:  [<span class="tj-str">"MySQL"</span>, <span class="tj-str">"Modelagem de Dados"</span>],\n' +
-        '  <span class="tj-key">"cloud"</span>:     [<span class="tj-str">"AWS"</span>, <span class="tj-str">"Microsoft Azure"</span>, <span class="tj-str">"Google Cloud"</span>, <span class="tj-str">"Docker"</span>],\n' +
-        '  <span class="tj-key">"tools"</span>:     [<span class="tj-str">"Git"</span>, <span class="tj-str">"GitHub"</span>, <span class="tj-str">"Postman"</span>, <span class="tj-str">"Figma"</span>],\n' +
-        '  <span class="tj-key">"agile"</span>:     [<span class="tj-str">"Scrum"</span>]\n}';
-      history.appendChild(pre);
-    },
-    education() {
-      const pre = document.createElement("pre");
-      pre.className = "t-json";
-      pre.innerHTML =
-        '{\n  <span class="tj-key">"graduacao"</span>: <span class="tj-str">"Análise e Desenvolvimento de Sistemas — UNIPAR (2023–2026)"</span>,\n' +
-        '  <span class="tj-key">"proxima"</span>:   <span class="tj-str">"Engenharia de Software (planejada, 2027)"</span>,\n' +
-        '  <span class="tj-key">"certificacoes"</span>: [<span class="tj-str">"AWS Certified AI Practitioner"</span>, <span class="tj-str">"GCP Associate Cloud Engineer"</span>, <span class="tj-str">"Java SE 11 OCP (Parte 1)"</span>],\n' +
-        '  <span class="tj-key">"em_andamento"</span>: [<span class="tj-str">"Java e Spring Boot — Formação Completa"</span>, <span class="tj-str">"Inglês do Zero ao Avançado"</span>]\n}';
-      history.appendChild(pre);
-    },
-    stats() {
-      const total = document.querySelectorAll("#projectsStage .project-card").length || 18;
-      printOutput(
-        `${total} projetos entregues · 7+ stacks utilizadas · 100% responsivo · 2 produtos próprios (Zyntek).`
-      );
-    },
-    ls() {
-      printOutput("about  skills  education  stats  projects  contact  cv  github  linkedin");
-    },
-    projects() {
-      printOutput("Abrindo a vitrine de projetos...");
-      goTo("#projetos");
-    },
-    contact() {
-      printOutput("Redirecionando para a seção de contato...");
-      goTo("#contatos");
-    },
-    cv() {
-      printOutput("Baixando currículo em PDF...");
-      const link = document.getElementById("downloadCV");
-      if (link) link.click();
-    },
-    github() {
-      printOutput("Abrindo GitHub em nova aba...");
-      window.open("https://github.com/Levy-Andrade", "_blank", "noopener");
-    },
-    linkedin() {
-      printOutput("Abrindo LinkedIn em nova aba...");
-      window.open("https://www.linkedin.com/in/levy-andrade/", "_blank", "noopener");
-    },
-    clear() {
-      history.innerHTML = "";
-    },
-    "sudo hire-me"() {
-      printOutput("[sudo] senha para levy: ••••••••••", "t-online");
-      printOutput("✓ Acesso concedido. Ótima escolha — vamos conversar!", "t-online");
-      goTo("#contatos");
-    },
-  };
-  COMMANDS["ajuda"] = COMMANDS.help;
-  COMMANDS["contato"] = COMMANDS.contact;
-  COMMANDS["projetos"] = COMMANDS.projects;
-  COMMANDS["curriculo"] = COMMANDS.cv;
-  COMMANDS["currículo"] = COMMANDS.cv;
-  COMMANDS["formacao"] = COMMANDS.education;
-  COMMANDS["formação"] = COMMANDS.education;
-  COMMANDS["cat stack.json"] = COMMANDS.skills;
-  COMMANDS["cat education.json"] = COMMANDS.education;
-
-  const escapeHTML = (str) =>
-    str.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-
-  const runCommand = (raw) => {
-    const cmd = raw.trim();
-    if (!cmd) return;
-    printLine(cmd);
-    const key = cmd.toLowerCase();
-    if (COMMANDS[key]) {
-      COMMANDS[key]();
-    } else {
-      printOutput(`comando não encontrado: ${escapeHTML(cmd)} — digite <span class="t-hl">help</span>`, "t-error");
-    }
-    printBreak();
-    scrollBottom();
-  };
-
-  input.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      runCommand(input.value);
-      input.value = "";
-    }
-  });
-
-  body.addEventListener("click", () => input.focus());
-  scrollBottom();
-}
-
-/* ══════════════════════════════════════════════════════════════════════
-   21. PARALLAX NA SEÇÃO DE CONTATO
-   — Desloca suavemente o background-position conforme o scroll.
-   — Apenas em dispositivos com hover real e sem prefers-reduced-motion.
-   ══════════════════════════════════════════════════════════════════════ */
-function initContactParallax() {
-  const section = DOM.contactSection;
-  if (!section) return;
-  if (!Utils.hasHover()) return;
-  if (Utils.prefersReducedMotion()) return;
-
-  let rafScheduled = false;
-
-  function applyParallax() {
-    const rect  = section.getBoundingClientRect();
-    const viewH = window.innerHeight;
-
-    /* Progresso de 0 (seção acima) a 1 (seção abaixo da tela) */
-    const progress = (viewH - rect.top) / (viewH + rect.height);
-    const clamped  = Math.max(0, Math.min(1, progress));
-
-    /* Deslocamento máximo: ±30px */
-    const offsetY  = (clamped - 0.5) * 60;
-
-    section.style.backgroundPositionY = `calc(50% + ${offsetY}px)`;
-    rafScheduled = false;
+      projectModal.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      initModalCanvas();
+    }, 10);
   }
 
-  window.addEventListener("scroll", () => {
-    if (!rafScheduled) {
-      rafScheduled = true;
-      requestAnimationFrame(applyParallax);
-    }
-  }, { passive: true });
+  function closeProjectModal() {
+    if (!projectModal) return;
+    projectModal.classList.remove('open');
+    document.body.style.overflow = '';
+    if (modalAnimationId) cancelAnimationFrame(modalAnimationId);
+    setTimeout(() => {
+      projectModal.hidden = true;
+      if (pmodalMedia) pmodalMedia.innerHTML = '';
+    }, 300);
+  }
 
-  /* Estado inicial */
-  applyParallax();
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   22. EVENT LISTENERS GLOBAIS
-   — Registra listeners que não pertencem a nenhum módulo específico.
-   ══════════════════════════════════════════════════════════════════════ */
-function initGlobalListeners() {
-  /* Fecha o dropdown de idioma ao pressionar Escape */
-  const { langBtn, langDropdown } = DOM;
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && langDropdown && langDropdown.classList.contains("open")) {
-      langDropdown.classList.remove("open");
-      if (langBtn) langBtn.setAttribute("aria-expanded", "false");
-    }
-  });
-}
-
-
-/* ══════════════════════════════════════════════════════════════════════
-   23. INICIALIZAÇÃO
-   — initPreloader e initTheme executados imediatamente (antes do DOM
-     estar pronto) para evitar FOUC (Flash of Unstyled Content).
-   — Demais módulos aguardam o DOMContentLoaded.
-   ══════════════════════════════════════════════════════════════════════ */
-(function bootstrap() {
-
-  /* ── Executados antes do DOM completo (evitam FOUC) ─── */
-  initPreloader();
-  initTheme();
-
-  /* ── Executados após DOM completo ─────────────────────── */
-  document.addEventListener("DOMContentLoaded", () => {
-    initCursor();
-    initParticles();
-    initNetworkBackground();
-    initHeader();
-    initSmoothScroll();
-    initMobileMenu();
-    initI18n();
-    initTyping();
-    initCyberFrame();
-    initReveal();
-    initTerminal();
-    /* Carrossel removido: projetos agora exibidos em vitrine (grid) completa */
-    initProjectModal();
-    initProjectsFilter();
-    initBudgetForm();
-    initSkillCards();
-    initRippleEffect();
-    initDownloadCV();
-    initContactParallax();
-    initGlobalListeners();
-
-    /* Marca o documento como carregado (para animações CSS) */
-    document.body.classList.add("loaded");
+  document.querySelectorAll('.btn-open-modal').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const card = btn.closest('.project-card');
+      if (card) openProjectModal(card);
+    });
   });
 
-})();
+  // Também abre modal ao clicar no próprio card
+  projectCards.forEach(card => {
+    card.addEventListener('click', (e) => {
+      if (!e.target.closest('.btn-project') && !e.target.closest('a')) {
+        openProjectModal(card);
+      }
+    });
+  });
+
+  if (pmodalClose) pmodalClose.addEventListener('click', closeProjectModal);
+
+  if (projectModal) {
+    projectModal.addEventListener('click', (e) => {
+      if (e.target === projectModal) closeProjectModal();
+    });
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && projectModal && projectModal.classList.contains('open')) {
+      closeProjectModal();
+    }
+  });
+
+
+  /* ===================================================================
+     11. FORMULÁRIO DE ORÇAMENTO COM MÁSCARA & WHATSAPP
+  =================================================================== */
+  const budgetForm = document.getElementById('budgetForm');
+  const inputPhone = document.getElementById('inputPhone');
+
+  if (inputPhone) {
+    inputPhone.addEventListener('input', (e) => {
+      let val = e.target.value.replace(/\D/g, '');
+      if (val.length > 11) val = val.slice(0, 11);
+
+      if (val.length > 6) {
+        val = `(${val.slice(0, 2)}) ${val.slice(2, 7)}-${val.slice(7)}`;
+      } else if (val.length > 2) {
+        val = `(${val.slice(0, 2)}) ${val.slice(2)}`;
+      } else if (val.length > 0) {
+        val = `(${val}`;
+      }
+      e.target.value = val;
+    });
+  }
+
+  if (budgetForm) {
+    budgetForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById('inputName')?.value.trim() || '';
+      const company = document.getElementById('inputCompany')?.value.trim() || '';
+      const phone = document.getElementById('inputPhone')?.value.trim() || '';
+      const message = document.getElementById('inputMessage')?.value.trim() || '';
+
+      const errName = document.getElementById('errorName');
+      const errPhone = document.getElementById('errorPhone');
+      const errMessage = document.getElementById('errorMessage');
+
+      let hasError = false;
+
+      if (errName) errName.textContent = '';
+      if (errPhone) errPhone.textContent = '';
+      if (errMessage) errMessage.textContent = '';
+
+      if (!name) {
+        if (errName) errName.textContent = 'Por favor, informe seu nome completo.';
+        hasError = true;
+      }
+
+      if (!phone || phone.length < 14) {
+        if (errPhone) errPhone.textContent = 'Por favor, informe um telefone/WhatsApp válido.';
+        hasError = true;
+      }
+
+      if (!message) {
+        if (errMessage) errMessage.textContent = 'Por favor, descreva brevemente a ideia do projeto.';
+        hasError = true;
+      }
+
+      if (hasError) return;
+
+      const formattedMsg = `*Novo Contato via Portfólio*\n\n*Nome:* ${name}\n*Empresa:* ${company || 'Não informada'}\n*WhatsApp:* ${phone}\n\n*Mensagem / Ideia:*\n${message}`;
+      const waUrl = `https://wa.me/5544984271446?text=${encodeURIComponent(formattedMsg)}`;
+
+      window.open(waUrl, '_blank');
+      budgetForm.reset();
+    });
+  }
+
+
+  /* ===================================================================
+     12. HEADER SCROLL, SCROLL SPY & TIMELINE PROGRESS
+  =================================================================== */
+  const header = document.getElementById('header');
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.desktop-nav .nav-link, .mobile-nav .mobile-link');
+  const timelineRailFill = document.querySelector('.edu-rail-fill');
+  const timelineElement = document.querySelector('.edu-timeline');
+  const timelineNodes = document.querySelectorAll('.edu-node');
+  const timelineCards = document.querySelectorAll('.edu-degree-card, .course-card');
+
+  window.addEventListener('scroll', () => {
+    const scrollY = window.pageYOffset;
+
+    if (header) {
+      if (scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    }
+
+    // Scroll Spy
+    let currentSectionId = '';
+    sections.forEach(sec => {
+      const top = sec.offsetTop - 120;
+      const height = sec.offsetHeight;
+      if (scrollY >= top && scrollY < top + height) {
+        currentSectionId = sec.getAttribute('id');
+      }
+    });
+
+    navLinks.forEach(link => {
+      link.classList.remove('active');
+      if (link.getAttribute('href') === `#${currentSectionId}`) {
+        link.classList.add('active');
+      }
+    });
+
+    // Animação Dinâmica da Timeline
+    if (timelineElement && timelineRailFill) {
+      const rect = timelineElement.getBoundingClientRect();
+      const windowHeight = window.innerHeight;
+      
+      if (rect.top < windowHeight * 0.75 && rect.bottom > 0) {
+        const totalHeight = rect.height;
+        const currentScrolled = (windowHeight * 0.75) - rect.top;
+        const progress = Math.min(Math.max((currentScrolled / totalHeight) * 100, 0), 100);
+        timelineRailFill.style.height = `${progress}%`;
+
+        timelineNodes.forEach(node => {
+          const nodeRect = node.getBoundingClientRect();
+          if (nodeRect.top < windowHeight * 0.7) {
+            node.classList.add('active');
+          } else {
+            node.classList.remove('active');
+          }
+        });
+
+        timelineCards.forEach(card => {
+          const cardRect = card.getBoundingClientRect();
+          if (cardRect.top < windowHeight * 0.72) {
+            card.classList.add('active');
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      }
+    }
+  });
+
+
+  /* ===================================================================
+     13. INTERSECTION OBSERVER (REVEAL ANIMATIONS)
+  =================================================================== */
+  const revealElements = document.querySelectorAll('[data-reveal]');
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  revealElements.forEach(el => revealObserver.observe(el));
+
+
+  /* ===================================================================
+     14. SPOTLIGHT & 3D TILT EFFECT EM CARDS (SKILLS & PROJETOS)
+  =================================================================== */
+  const interactiveCards = document.querySelectorAll('.tech-card, .skill-card, .project-card, .cyber-frame');
+
+  interactiveCards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      
+      card.style.setProperty('--mouse-x', `${x}px`);
+      card.style.setProperty('--mouse-y', `${y}px`);
+
+      if (card.classList.contains('cyber-frame')) {
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
+        const rotateX = ((y - centerY) / centerY) * -6;
+        const rotateY = ((x - centerX) / centerX) * 6;
+        card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+      }
+    });
+
+    card.addEventListener('mouseleave', () => {
+      if (card.classList.contains('cyber-frame')) {
+        card.style.transform = '';
+      }
+    });
+  });
+
+
+  /* ===================================================================
+     15. MENU MOBILE DRAWER
+  =================================================================== */
+  const menuBtn = document.getElementById('mobileMenuBtn');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mobileMenuClose = document.getElementById('mobileMenuClose');
+  const backdrop = document.getElementById('mobileMenuBackdrop');
+  const mobileLinks = document.querySelectorAll('.mobile-link, .mobile-cta');
+
+  function openMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.classList.add('open');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+    if (backdrop) backdrop.classList.add('open');
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'true');
+    document.body.classList.add('mobile-menu-active');
+  }
+
+  function closeMobileMenu() {
+    if (!mobileMenu) return;
+    mobileMenu.classList.remove('open');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+    if (backdrop) backdrop.classList.remove('open');
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('mobile-menu-active');
+  }
+
+  if (menuBtn) menuBtn.addEventListener('click', openMobileMenu);
+  if (mobileMenuClose) mobileMenuClose.addEventListener('click', closeMobileMenu);
+  if (backdrop) backdrop.addEventListener('click', closeMobileMenu);
+
+  mobileLinks.forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+
+});
